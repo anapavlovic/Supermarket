@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Supermarket</string>
+    <string name="prijava">PRIJAVA</string>
+    <string name="reg">REGISTRACIJA</string>
 </resources>
