@@ -26,7 +26,7 @@ public class CustomEditTextFont extends EditText {
 
     public void init(Context context) {
 
-        Typeface t = Typeface.createFromAsset(context.getAssets(), " ");
+        Typeface t = Typeface.createFromAsset(context.getAssets(), "AvenirLTStd-Book.otf");
         setTypeface(t);
     }
 }

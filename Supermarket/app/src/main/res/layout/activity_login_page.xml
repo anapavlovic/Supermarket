@@ -7,9 +7,11 @@
     android:scaleType="centerCrop">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="220dp"
         android:layout_margin="10dp"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:id="@+id/reglayout"
+        android:visibility="gone">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,14 +25,28 @@
             android:id="@+id/addPhoto"
             android:src="@drawable/add"
             android:layout_alignParentRight="true"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@null"
+            android:src="@drawable/personicon"/>
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:id="@+id/userPhoto"
+            android:layout_centerInParent="true"/>
+
     </RelativeLayout>
 <RelativeLayout
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/relativeRoundimage">
     <ImageView
         android:id="@+id/overlay"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="220dp"
         android:scaleType="centerCrop"
         android:src="@drawable/overlay"
         android:visibility="gone"/>
@@ -42,11 +58,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@drawable/logo_white" />
+        android:background="@drawable/logo_white"
+       />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/overlay"
+        android:layout_below="@+id/relativeRoundimage"
         android:layout_marginTop="-49dp"
         android:orientation="vertical"
         android:id="@+id/linearAnim"
@@ -59,6 +76,7 @@
             android:layout_height="wrap_content"
             android:elevation="6dp"
             android:minHeight="?attr/actionBarSize"
+            app:tabIndicatorColor="@color/yellow"
             app:tabTextColor="@color/text_color"
             app:tabSelectedTextColor="@color/text_color"
            />

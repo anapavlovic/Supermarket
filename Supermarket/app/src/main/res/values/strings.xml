@@ -4,4 +4,8 @@
     <string name="reg">REGISTRACIJA</string>
     <string name="Nastavi">NASTAVI</string>
     <string name="pass_forgot">Zaboravljena lozinka?</string>
+    <string name="dialog_title">Izaberite fotografiju</string>
+    <string name="dialog_positive">Kamera</string>
+    <string name="dialog_negative">Galerija</string>
+    <string name="proceed">Popunite sva polja</string>
 </resources>

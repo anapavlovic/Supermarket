@@ -28,7 +28,7 @@ public class CustomTextViewFont extends TextView {
     {
         try
         {
-            Typeface myFont = Typeface.createFromAsset(context.getAssets(), " ");
+            Typeface myFont = Typeface.createFromAsset(context.getAssets(), "AvenirLTStd-Book.otf");
 
             setTypeface(myFont);
         }
