@@ -2,4 +2,6 @@
     <string name="app_name">Supermarket</string>
     <string name="prijava">PRIJAVA</string>
     <string name="reg">REGISTRACIJA</string>
+    <string name="Nastavi">NASTAVI</string>
+    <string name="pass_forgot">Zaboravljena lozinka?</string>
 </resources>

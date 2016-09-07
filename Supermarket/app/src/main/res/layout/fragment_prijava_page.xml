@@ -1,38 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+ >
+
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/usernameimg"
-        android:background="@drawable/username"
-        android:layout_margin="10dp"/>
-  <TextView
-      android:layout_width="wrap_content"
-      android:layout_toRightOf="@+id/usernameimg"
-      android:layout_height="wrap_content"
-      android:id="@+id/tvPrijava"
-      android:textSize="@dimen/text_size"
-      android:text="Korisnicko ime"
-      android:layout_margin="10dp"
-      android:textColor="@color/text_color"/>
-    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/passimg"
-        android:background="@drawable/password"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/usernameimg"/>
-    <TextView
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/username" />
+
+    <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+        android:id="@+id/tvPrijava"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginTop="30dp"
         android:layout_toRightOf="@+id/usernameimg"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvPass"
-        android:textSize="@dimen/text_size"
+        android:background="@null"
+        android:hint="Korisnicko ime"
+        android:textColorHint="@color/text_color"
         android:textColor="@color/text_color"
-        android:text="Lozinka"
-        android:layout_margin="10dp"
-        android:layout_below="@+id/tvPrijava"/>
+        android:textSize="@dimen/text_size" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/tvPrijava"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginRight="@dimen/margin_prijava"
+        android:background="@color/underlineopacity"
+
+        />
+
+    <ImageView
+        android:id="@+id/passimg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/usernameimg"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/password" />
+
+    <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+        android:id="@+id/tvPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvPrijava"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginTop="30dp"
+        android:layout_toRightOf="@+id/usernameimg"
+        android:textColorHint="@color/text_color"
+        android:background="@null"
+        android:hint="Lozinka"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_size"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/tvPass"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginRight="@dimen/margin_prijava"
+        android:background="@color/underlineopacity"
+
+        />
+
+    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+        android:id="@+id/tvpassforgot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin_prijava"
+        android:text="@string/pass_forgot"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_size" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/proceedButt"
+        android:layout_height="55dp"
+        android:layout_above="@+id/tvpassforgot"
+        android:layout_marginBottom="@dimen/margin_prijava"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginRight="@dimen/margin_prijava"
+        android:background="@color/yellow"
+        android:text="@string/Nastavi"
+        android:textColor="@color/text_color_black"/>
 
 </RelativeLayout>

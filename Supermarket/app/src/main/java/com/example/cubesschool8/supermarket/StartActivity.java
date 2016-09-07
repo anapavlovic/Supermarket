@@ -21,7 +21,7 @@ private ImageView mLogo;
             @Override
             public void run() {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(500);
                     Intent i = new Intent(getApplicationContext(), LogInActivity.class);
                     startActivity(i);
                     finish();
