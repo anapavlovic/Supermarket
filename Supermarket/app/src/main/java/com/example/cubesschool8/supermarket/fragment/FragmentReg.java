@@ -1,16 +1,20 @@
 package com.example.cubesschool8.supermarket.fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.cubesschool8.supermarket.MainActivity;
 import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.adapter.SpinnerAdapter;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
@@ -25,11 +29,13 @@ public class FragmentReg extends android.support.v4.app.Fragment {
     private Spinner citySpinner, daySpinner, monthSpinner, yearSpinner;
     private CheckBox mCheckBox;
     private RadioButton mFemale, mMale;
+    private RadioGroup mRadioGroup;
     private SpinnerAdapter mAdapterCity, mAdapterDay, mAdapterMonth, mAdapterYear;
     private ArrayList<String> list = new ArrayList<>();
     private ArrayList<String> listDay = new ArrayList<>();
     private ArrayList<String> listMonth = new ArrayList<>();
     private ArrayList<String> listYear = new ArrayList<>();
+    private Button mRegButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,11 +46,80 @@ public class FragmentReg extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        addLists();
+        inicComp();
+        addListener();
+
+
+    }
+
+
+    private void inicComp() {
+        mName = (CustomEditTextFont) getView().findViewById(R.id.eTname);
+        mSurname = (CustomEditTextFont) getView().findViewById(R.id.etSurname);
+        mEmail = (CustomEditTextFont) getView().findViewById(R.id.etEmail);
+        mPass = (CustomEditTextFont) getView().findViewById(R.id.etPass);
+        mPassRetype = (CustomEditTextFont) getView().findViewById(R.id.etPassRetype);
+        mMobile = (CustomEditTextFont) getView().findViewById(R.id.etMobile);
+        mPhone = (CustomEditTextFont) getView().findViewById(R.id.etPhone);
+        mFax = (CustomEditTextFont) getView().findViewById(R.id.etFax);
+        mStreet = (CustomEditTextFont) getView().findViewById(R.id.etStreet);
+        mNumber = (CustomEditTextFont) getView().findViewById(R.id.etNumber);
+        mApparment = (CustomEditTextFont) getView().findViewById(R.id.etAppartment);
+        mFloor = (CustomEditTextFont) getView().findViewById(R.id.etFloor);
+        mEntrance = (CustomEditTextFont) getView().findViewById(R.id.etEntrance);
+        mPostalCode = (CustomEditTextFont) getView().findViewById(R.id.etPostalcode);
+        mRadioGroup = (RadioGroup) getView().findViewById(R.id.radioGroup);
+
+        citySpinner = (Spinner) getView().findViewById(R.id.spinnerCity);
+        daySpinner = (Spinner) getView().findViewById(R.id.spinnerDay);
+        monthSpinner = (Spinner) getView().findViewById(R.id.spinnerMonth);
+        yearSpinner = (Spinner) getView().findViewById(R.id.spinnerYear);
+
+        mCheckBox = (CheckBox) getView().findViewById(R.id.checkboxNewsLetter);
+
+        mFemale = (RadioButton) getView().findViewById(R.id.radioFemale);
+        mMale = (RadioButton) getView().findViewById(R.id.radioMale);
+
+        mAdapterCity = new SpinnerAdapter(getActivity(), R.layout.spinner_adapter, list);
+        citySpinner.setAdapter(mAdapterCity);
+
+        mAdapterDay = new SpinnerAdapter(getActivity(), R.layout.spinner_adapter, listDay);
+        daySpinner.setAdapter(mAdapterDay);
+
+        mAdapterMonth = new SpinnerAdapter(getActivity(), R.layout.spinner_adapter, listMonth);
+        monthSpinner.setAdapter(mAdapterMonth);
+
+        mAdapterYear = new SpinnerAdapter(getActivity(), R.layout.spinner_adapter, listYear);
+        yearSpinner.setAdapter(mAdapterYear);
+        mRegButton = (Button) getView().findViewById(R.id.regButt);
+    }
+
+    private void addListener() {
+
+        mRegButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (daySpinner.getSelectedItem().toString().equalsIgnoreCase("31") && (monthSpinner.getSelectedItem().toString().equalsIgnoreCase("02") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("04") ||
+                        monthSpinner.getSelectedItem().toString().equalsIgnoreCase("06") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("09") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("11"))) {
+                    Toast.makeText(getActivity(), "Izabrani mesec nema taj broj dana.", Toast.LENGTH_SHORT).show();
+                } else if (daySpinner.getSelectedItem().toString().equalsIgnoreCase("30") && monthSpinner.getSelectedItem().toString().equalsIgnoreCase("02")) {
+                    Toast.makeText(getActivity(), "Izabrani mesec nema taj broj dana.", Toast.LENGTH_SHORT).show();
+                } else if (!mEmail.getText().toString().trim().matches("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
+                    mEmail.setError("Invalid Email Address");
+                } else {
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                }
+            }
+        });
+    }
+
+    private void addLists() {
         list.add("Izaberite grad:");
         list.add("Beograd");
         list.add("Novi Sad");
         list.add("Valjevo");
-
         listDay.add("01");
         listDay.add("02");
         listDay.add("03");
@@ -121,51 +196,5 @@ public class FragmentReg extends android.support.v4.app.Fragment {
         listYear.add("1970");
         listYear.add("1969");
         listYear.add("1968");
-        inicComp();
-
-        if (daySpinner.getSelectedItem().toString().equalsIgnoreCase("31") && (monthSpinner.getSelectedItem().toString().equalsIgnoreCase("02") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("04") ||
-                monthSpinner.getSelectedItem().toString().equalsIgnoreCase("06") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("09") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("11"))) {
-            Toast.makeText(getActivity(), "Izabrani mesec nema taj broj dana.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    private void inicComp() {
-        mName = (CustomEditTextFont) getView().findViewById(R.id.eTname);
-        mSurname = (CustomEditTextFont) getView().findViewById(R.id.etSurname);
-        mEmail = (CustomEditTextFont) getView().findViewById(R.id.etEmail);
-        mPass = (CustomEditTextFont) getView().findViewById(R.id.etPass);
-        mPassRetype = (CustomEditTextFont) getView().findViewById(R.id.etPassRetype);
-        mMobile = (CustomEditTextFont) getView().findViewById(R.id.etMobile);
-        mPhone = (CustomEditTextFont) getView().findViewById(R.id.etPhone);
-        mFax = (CustomEditTextFont) getView().findViewById(R.id.etFax);
-        mStreet = (CustomEditTextFont) getView().findViewById(R.id.etStreet);
-        mNumber = (CustomEditTextFont) getView().findViewById(R.id.etNumber);
-        mApparment = (CustomEditTextFont) getView().findViewById(R.id.etAppartment);
-        mFloor = (CustomEditTextFont) getView().findViewById(R.id.etFloor);
-        mEntrance = (CustomEditTextFont) getView().findViewById(R.id.etEntrance);
-        mPostalCode = (CustomEditTextFont) getView().findViewById(R.id.etPostalcode);
-
-        citySpinner = (Spinner) getView().findViewById(R.id.spinnerCity);
-        daySpinner = (Spinner) getView().findViewById(R.id.spinnerDay);
-        monthSpinner = (Spinner) getView().findViewById(R.id.spinnerMonth);
-        yearSpinner = (Spinner) getView().findViewById(R.id.spinnerYear);
-
-        mCheckBox = (CheckBox) getView().findViewById(R.id.checkboxNewsLetter);
-
-        mFemale = (RadioButton) getView().findViewById(R.id.radioFemale);
-        mMale = (RadioButton) getView().findViewById(R.id.radioMale);
-
-        mAdapterCity = new SpinnerAdapter(getActivity(), R.layout.spinner_adapter, list);
-        citySpinner.setAdapter(mAdapterCity);
-
-        mAdapterDay = new SpinnerAdapter(getActivity(), R.layout.spinner_adapter, listDay);
-        daySpinner.setAdapter(mAdapterDay);
-
-        mAdapterMonth = new SpinnerAdapter(getActivity(), R.layout.spinner_adapter, listMonth);
-        monthSpinner.setAdapter(mAdapterMonth);
-
-        mAdapterYear = new SpinnerAdapter(getActivity(), R.layout.spinner_adapter, listYear);
-        yearSpinner.setAdapter(mAdapterYear);
     }
 }

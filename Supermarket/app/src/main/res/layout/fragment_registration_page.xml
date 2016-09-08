@@ -24,7 +24,7 @@
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/eTname"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
@@ -35,7 +35,8 @@
                 android:hint="Ime"
                 android:textColor="@color/text_color"
                 android:textColorHint="@color/text_color"
-                android:textSize="@dimen/text_size" />
+                android:textSize="@dimen/text_size"
+                android:inputType="text"/>
 
             <View
                 android:layout_width="match_parent"
@@ -66,7 +67,7 @@
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etSurname"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
@@ -77,7 +78,8 @@
                 android:hint="Prezime"
                 android:textColor="@color/text_color"
                 android:textColorHint="@color/text_color"
-                android:textSize="@dimen/text_size" />
+                android:textSize="@dimen/text_size"
+                android:inputType="text"/>
 
             <View
                 android:layout_width="match_parent"
@@ -108,7 +110,7 @@
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etEmail"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
@@ -120,7 +122,8 @@
                 android:inputType="textWebEmailAddress"
                 android:textColor="@color/text_color"
                 android:textColorHint="@color/text_color"
-                android:textSize="@dimen/text_size" />
+                android:textSize="@dimen/text_size"
+                />
 
             <View
                 android:layout_width="match_parent"
@@ -151,7 +154,7 @@
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etPass"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
@@ -194,7 +197,7 @@
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etPassRetype"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
@@ -205,6 +208,7 @@
                 android:hint="password retype"
                 android:textColor="@color/text_color"
                 android:textColorHint="@color/text_color"
+                android:inputType="textWebPassword"
                 android:textSize="@dimen/text_size" />
 
             <View
@@ -236,7 +240,7 @@
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etMobile"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
@@ -279,7 +283,7 @@
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etPhone"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
@@ -322,7 +326,7 @@
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etFax"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
@@ -365,7 +369,7 @@
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etStreet"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
@@ -407,7 +411,7 @@
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etNumber"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
@@ -450,7 +454,7 @@
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etAppartment"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
@@ -492,7 +496,7 @@
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etFloor"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
@@ -535,7 +539,7 @@
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etEntrance"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
@@ -579,7 +583,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_top_relative"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="@dimen/margin_top_relative"
                 android:layout_toRightOf="@+id/cityimg"></Spinner>
         </RelativeLayout>
@@ -598,11 +602,11 @@
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="@dimen/margin_prijava"
-                android:background="@drawable/username" />
+                android:background="@drawable/city" />
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etPostalcode"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
@@ -665,14 +669,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_top_relative"
                 android:layout_toRightOf="@+id/spinnerDay"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="@dimen/margin_top_relative"></Spinner>
             <Spinner
                 android:id="@+id/spinnerYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_top_relative"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/spinnerMonth"
                 android:layout_marginTop="@dimen/margin_top_relative"></Spinner>
         </RelativeLayout>
@@ -692,51 +696,32 @@
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
 
-        <LinearLayout
-            android:id="@+id/linearFemale"
+        <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvPol"
             android:layout_marginLeft="15dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <RadioButton
                 android:id="@+id/radioFemale"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
-                android:id="@+id/tvFemale"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="zenski"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/text_size" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearMale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/linearFemale"
-            android:layout_marginLeft="15dp"
-            android:orientation="horizontal">
+                android:text="zenski"/>
 
             <RadioButton
                 android:id="@+id/radioMale"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
-                android:id="@+id/tvMale"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="muski"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/text_size" />
-        </LinearLayout>
+                android:text="muski"/>
+        </RadioGroup>
+
+
+
+
+
+
 
 
 
@@ -746,7 +731,7 @@
             android:layout_height="55dp"
            android:layout_margin="@dimen/margin_prijava"
             android:background="@color/yellow"
-            android:layout_below="@+id/linearMale"
+            android:layout_below="@+id/radioGroup"
             android:text="@string/registration"
             android:textColor="@color/text_color_black"/>
 
