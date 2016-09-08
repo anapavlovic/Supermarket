@@ -3,13 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+   
+
 
  >
-
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/relativetop">
     <ImageView
         android:id="@+id/usernameimg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="@dimen/margin_prijava"
         android:layout_marginTop="30dp"
@@ -23,11 +29,13 @@
         android:layout_marginLeft="@dimen/margin_prijava"
         android:layout_marginTop="30dp"
         android:layout_toRightOf="@+id/usernameimg"
+        android:layout_centerVertical="true"
         android:background="@null"
         android:hint="Korisnicko ime"
         android:textColorHint="@color/text_color"
         android:textColor="@color/text_color"
-        android:textSize="@dimen/text_size" />
+        android:textSize="@dimen/text_size"
+      />
 
     <View
         android:layout_width="match_parent"
@@ -38,12 +46,17 @@
         android:background="@color/underlineopacity"
 
         />
+</RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativetop">
     <ImageView
         android:id="@+id/passimg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/usernameimg"
+        android:layout_centerVertical="true"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="@dimen/margin_prijava"
         android:layout_marginTop="30dp"
@@ -53,11 +66,11 @@
         android:id="@+id/tvPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvPrijava"
+        android:layout_centerVertical="true"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="@dimen/margin_prijava"
         android:layout_marginTop="30dp"
-        android:layout_toRightOf="@+id/usernameimg"
+        android:layout_toRightOf="@+id/passimg"
         android:textColorHint="@color/text_color"
         android:background="@null"
         android:hint="Lozinka"
@@ -74,7 +87,7 @@
         android:background="@color/underlineopacity"
 
         />
-
+</RelativeLayout>
     <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
         android:id="@+id/tvpassforgot"
         android:layout_width="wrap_content"

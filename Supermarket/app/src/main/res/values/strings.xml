@@ -8,4 +8,6 @@
     <string name="dialog_positive">Kamera</string>
     <string name="dialog_negative">Galerija</string>
     <string name="proceed">Popunite sva polja</string>
+    <string name="uslovikoriscenja">Uslovi Korišćenja</string>
+    <string name="registration">Registruj se</string>
 </resources>

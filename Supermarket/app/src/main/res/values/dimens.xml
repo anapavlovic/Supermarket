@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="text_size">16dp</dimen>
     <dimen name="margin_prijava">20dp</dimen>
+    <dimen name="margin_top_relative">15dp</dimen>
+    <dimen name="margin_top_et">15dp</dimen>
 </resources>
