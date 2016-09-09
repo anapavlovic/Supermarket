@@ -3,6 +3,7 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#feea00</color>
+    <color name="colorControlActivated">#feea00</color>
     <color name="yellow">#feea00</color>
     <color name="text_color">#ffffff</color>
     <color name="text_color_black">#000000</color>

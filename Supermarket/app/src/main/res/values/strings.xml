@@ -10,4 +10,6 @@
     <string name="proceed">Popunite sva polja</string>
     <string name="uslovikoriscenja">Uslovi Korišćenja</string>
     <string name="registration">Registruj se</string>
+    <string name="pravno_lice">Pravno lice</string>
+    <string name="newsletter">Da li zelite da primate novosti?</string>
 </resources>

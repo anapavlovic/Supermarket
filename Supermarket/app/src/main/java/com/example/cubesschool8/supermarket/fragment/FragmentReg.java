@@ -9,9 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.cubesschool8.supermarket.MainActivity;
@@ -25,7 +28,7 @@ import java.util.ArrayList;
  * Created by cubesschool8 on 9/7/16.
  */
 public class FragmentReg extends android.support.v4.app.Fragment {
-    private CustomEditTextFont mName, mSurname, mEmail, mPass, mPassRetype, mMobile, mPhone, mFax, mStreet, mNumber, mApparment, mFloor, mEntrance, mPostalCode;
+    private CustomEditTextFont mName, mSurname, mEmail, mPass, mPassRetype, mMobile, mPhone, mFax, mStreet, mNumber, mApparment, mFloor, mEntrance, mPostalCode, mCompanyName, mCompanyPib;
     private Spinner citySpinner, daySpinner, monthSpinner, yearSpinner;
     private CheckBox mCheckBox;
     private RadioButton mFemale, mMale;
@@ -36,6 +39,8 @@ public class FragmentReg extends android.support.v4.app.Fragment {
     private ArrayList<String> listMonth = new ArrayList<>();
     private ArrayList<String> listYear = new ArrayList<>();
     private Button mRegButton;
+    private Switch mSwitch;
+    private RelativeLayout mRelativeCompany;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +55,17 @@ public class FragmentReg extends android.support.v4.app.Fragment {
         addLists();
         inicComp();
         addListener();
+
+        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (mSwitch.isChecked()) {
+                    mRelativeCompany.setVisibility(View.VISIBLE);
+                }else{
+                    mRelativeCompany.setVisibility(View.GONE);
+                }
+            }
+        });
 
 
     }
@@ -94,6 +110,10 @@ public class FragmentReg extends android.support.v4.app.Fragment {
         mAdapterYear = new SpinnerAdapter(getActivity(), R.layout.spinner_adapter, listYear);
         yearSpinner.setAdapter(mAdapterYear);
         mRegButton = (Button) getView().findViewById(R.id.regButt);
+        mSwitch = (Switch) getView().findViewById(R.id.dSwitch);
+        mRelativeCompany = (RelativeLayout) getView().findViewById(R.id.relativeCompany);
+        mCompanyName = (CustomEditTextFont) getView().findViewById(R.id.etCompanyName);
+        mCompanyPib = (CustomEditTextFont) getView().findViewById(R.id.etCompanyPib);
     }
 
     private void addListener() {

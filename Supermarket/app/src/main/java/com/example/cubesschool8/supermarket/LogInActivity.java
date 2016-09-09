@@ -53,6 +53,7 @@ public class LogInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
+       // overridePendingTransition(R.anim.fade_in_pending_transition, 0);
 
         inicComp();
         addListener();
