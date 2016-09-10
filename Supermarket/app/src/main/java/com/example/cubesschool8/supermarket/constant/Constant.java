@@ -13,4 +13,8 @@ public class Constant {
     public static String CITY_URL = BASE_URL + "phone-helper-places";
     public static String RESERVATION_URL = BASE_URL + "phone-helper-reservation";
     public static String CATEGORY_URL = BASE_URL + "phone-categories";
+
+
+    public static String USERNAME = "phone";
+    public static String PASSWORD = "VRf68vuFNAXWXjTg@!";
 }

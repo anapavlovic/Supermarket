@@ -24,12 +24,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.cubesschool8.supermarket.adapter.PagerAdapter;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
+import com.example.cubesschool8.supermarket.data.DataContainer;
 
 /**
  * Created by cubesschool8 on 9/7/16.
@@ -45,6 +47,8 @@ public class LogInActivity extends AppCompatActivity {
     private Button mProceedButton;
     private CustomTextViewFont mPassforgot;
     private Dialog dialog;
+    private ViewPager viewPager;
+    private PagerAdapter adapter;
 
     private Animation animation, animationViewPager, animfadeIn, fadeOutAnim, fadeInLogo;
 
@@ -53,11 +57,11 @@ public class LogInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
-       // overridePendingTransition(R.anim.fade_in_pending_transition, 0);
+        // overridePendingTransition(R.anim.fade_in_pending_transition, 0);
 
         inicComp();
         addListener();
-
+        Toast.makeText(getApplicationContext(), "Token" + DataContainer.TOKEN, Toast.LENGTH_LONG).show();
         animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.up_from_bottom);
         animation.setFillAfter(true);
         mLogo.setAnimation(animation);
@@ -97,8 +101,8 @@ public class LogInActivity extends AppCompatActivity {
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final PagerAdapter adapter = new PagerAdapter
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
