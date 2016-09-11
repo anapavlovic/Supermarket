@@ -5,17 +5,22 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -26,12 +31,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.cubesschool8.supermarket.adapter.PagerAdapter;
+import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataContainer;
+import com.example.cubesschool8.supermarket.data.Results;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by cubesschool8 on 9/7/16.
@@ -49,6 +66,7 @@ public class LogInActivity extends AppCompatActivity {
     private Dialog dialog;
     private ViewPager viewPager;
     private PagerAdapter adapter;
+    private TabLayout tabLayout;
 
     private Animation animation, animationViewPager, animfadeIn, fadeOutAnim, fadeInLogo;
 
@@ -61,16 +79,16 @@ public class LogInActivity extends AppCompatActivity {
 
         inicComp();
         addListener();
-        Toast.makeText(getApplicationContext(), "Token" + DataContainer.TOKEN, Toast.LENGTH_LONG).show();
+        setLogoAnimation();
+        setViewPagerAnimation();
+        setViewPager();
+
+    }
+
+    private void setLogoAnimation() {
         animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.up_from_bottom);
         animation.setFillAfter(true);
         mLogo.setAnimation(animation);
-
-        animfadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
-        mOverlayImg.setVisibility(View.VISIBLE);
-        animfadeIn.setFillAfter(true);
-        mOverlayImg.setAnimation(animfadeIn);
-
 
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -94,14 +112,22 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
 
+    }
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+    private void setViewPagerAnimation() {
+        animfadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        mOverlayImg.setVisibility(View.VISIBLE);
+        animfadeIn.setFillAfter(true);
+        mOverlayImg.setAnimation(animfadeIn);
+    }
+
+    private void setViewPager() {
         tabLayout.addTab(tabLayout.newTab().setText("Prijava"));
         tabLayout.addTab(tabLayout.newTab().setText("Registracija"));
-
+        setTabLayoutTypeface();
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        viewPager = (ViewPager) findViewById(R.id.pager);
+
         adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
@@ -137,6 +163,24 @@ public class LogInActivity extends AppCompatActivity {
         });
 
     }
+
+    private void setTabLayoutTypeface() {
+        Typeface t = Typeface.createFromAsset(getApplicationContext().getAssets(), "AvenirLTStd-Book.otf");
+        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
+        int tabsCount = vg.getChildCount();
+        for (int j = 0; j < tabsCount; j++) {
+            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
+            int tabChildsCount = vgTab.getChildCount();
+            for (int i = 0; i < tabChildsCount; i++) {
+                View tabViewChild = vgTab.getChildAt(i);
+                if (tabViewChild instanceof TextView) {
+                    ((TextView) tabViewChild).setTypeface(t);
+                }
+            }
+        }
+    }
+
+
 
     private void addListener() {
         mBack.setOnClickListener(new View.OnClickListener() {
@@ -183,6 +227,8 @@ public class LogInActivity extends AppCompatActivity {
         mBack = (ImageView) findViewById(R.id.back);
         mAddPhoto = (ImageView) findViewById(R.id.addPhoto);
         mUserPhoto = (ImageView) findViewById(R.id.userPhoto);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        viewPager = (ViewPager) findViewById(R.id.pager);
 
     }
 
@@ -220,4 +266,5 @@ public class LogInActivity extends AppCompatActivity {
 
         }
     }
+
 }

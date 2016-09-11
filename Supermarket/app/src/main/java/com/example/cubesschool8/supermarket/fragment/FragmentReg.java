@@ -1,9 +1,10 @@
 package com.example.cubesschool8.supermarket.fragment;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,32 +15,46 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.cubesschool8.supermarket.MainActivity;
+import com.example.cubesschool8.supermarket.MySingletonVolley;
 import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.adapter.SpinnerAdapter;
+import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
+import com.example.cubesschool8.supermarket.data.DataContainer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cubesschool8 on 9/7/16.
  */
 public class FragmentReg extends android.support.v4.app.Fragment {
-    private CustomEditTextFont mName, mSurname, mEmail, mPass, mPassRetype, mMobile, mPhone, mFax, mStreet, mNumber, mApparment, mFloor, mEntrance, mPostalCode, mCompanyName, mCompanyPib;
+
+    private static String TAG = "jsonResponse";
+
+    private CustomEditTextFont mName, mSurname, mEmail, mPass, mPassRetype, mMobile, mPhone, mFax, mStreet, mNumber, mApartment, mFloor, mEntrance, mPostalCode, mCompanyName, mCompanyPib;
     private Spinner citySpinner, daySpinner, monthSpinner, yearSpinner;
     private CheckBox mCheckBox;
     private RadioButton mFemale, mMale;
     private RadioGroup mRadioGroup;
     private SpinnerAdapter mAdapterCity, mAdapterDay, mAdapterMonth, mAdapterYear;
-    private ArrayList<String> list = new ArrayList<>();
-    private ArrayList<String> listDay = new ArrayList<>();
-    private ArrayList<String> listMonth = new ArrayList<>();
-    private ArrayList<String> listYear = new ArrayList<>();
+    private List<String> list;
+    private List<String> listDay;
+    private List<String> listMonth;
+    private List<String> listYear;
     private Button mRegButton;
-    private Switch mSwitch;
+    private SwitchCompat mSwitch;
     private RelativeLayout mRelativeCompany;
 
     @Override
@@ -52,7 +67,7 @@ public class FragmentReg extends android.support.v4.app.Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        addLists();
+
         inicComp();
         addListener();
 
@@ -61,7 +76,7 @@ public class FragmentReg extends android.support.v4.app.Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (mSwitch.isChecked()) {
                     mRelativeCompany.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     mRelativeCompany.setVisibility(View.GONE);
                 }
             }
@@ -82,11 +97,16 @@ public class FragmentReg extends android.support.v4.app.Fragment {
         mFax = (CustomEditTextFont) getView().findViewById(R.id.etFax);
         mStreet = (CustomEditTextFont) getView().findViewById(R.id.etStreet);
         mNumber = (CustomEditTextFont) getView().findViewById(R.id.etNumber);
-        mApparment = (CustomEditTextFont) getView().findViewById(R.id.etAppartment);
+        mApartment = (CustomEditTextFont) getView().findViewById(R.id.etApartment);
         mFloor = (CustomEditTextFont) getView().findViewById(R.id.etFloor);
         mEntrance = (CustomEditTextFont) getView().findViewById(R.id.etEntrance);
         mPostalCode = (CustomEditTextFont) getView().findViewById(R.id.etPostalcode);
         mRadioGroup = (RadioGroup) getView().findViewById(R.id.radioGroup);
+
+        list = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.cityArray)));
+        listDay = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.dayArray)));
+        listMonth = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.monthArray)));
+        listYear = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.yearArray)));
 
         citySpinner = (Spinner) getView().findViewById(R.id.spinnerCity);
         daySpinner = (Spinner) getView().findViewById(R.id.spinnerDay);
@@ -109,8 +129,9 @@ public class FragmentReg extends android.support.v4.app.Fragment {
 
         mAdapterYear = new SpinnerAdapter(getActivity(), R.layout.spinner_adapter, listYear);
         yearSpinner.setAdapter(mAdapterYear);
+
         mRegButton = (Button) getView().findViewById(R.id.regButt);
-        mSwitch = (Switch) getView().findViewById(R.id.dSwitch);
+        mSwitch = (SwitchCompat) getView().findViewById(R.id.dSwitch);
         mRelativeCompany = (RelativeLayout) getView().findViewById(R.id.relativeCompany);
         mCompanyName = (CustomEditTextFont) getView().findViewById(R.id.etCompanyName);
         mCompanyPib = (CustomEditTextFont) getView().findViewById(R.id.etCompanyPib);
@@ -123,98 +144,93 @@ public class FragmentReg extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 if (daySpinner.getSelectedItem().toString().equalsIgnoreCase("31") && (monthSpinner.getSelectedItem().toString().equalsIgnoreCase("02") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("04") ||
                         monthSpinner.getSelectedItem().toString().equalsIgnoreCase("06") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("09") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("11"))) {
-                    Toast.makeText(getActivity(), "Izabrani mesec nema taj broj dana.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.days_months, Toast.LENGTH_SHORT).show();
                 } else if (daySpinner.getSelectedItem().toString().equalsIgnoreCase("30") && monthSpinner.getSelectedItem().toString().equalsIgnoreCase("02")) {
-                    Toast.makeText(getActivity(), "Izabrani mesec nema taj broj dana.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.days_months, Toast.LENGTH_SHORT).show();
+                } else if (mName.getText().toString().equalsIgnoreCase(" ") || mSurname.getText().toString().equalsIgnoreCase("") || mMobile.getText().toString().equalsIgnoreCase("")
+                        || mPhone.getText().toString().equalsIgnoreCase("") || mFax.getText().toString().equalsIgnoreCase("") || mStreet.getText().toString().equalsIgnoreCase("") ||
+                        mNumber.getText().toString().equalsIgnoreCase("") || mApartment.getText().toString().equalsIgnoreCase("") || mFloor.getText().toString().equalsIgnoreCase("") || mEntrance.getText().toString().equalsIgnoreCase("") ||
+                        citySpinner.getSelectedItem().toString().equalsIgnoreCase("Izaberite grad:") || mPass.getText().toString().equalsIgnoreCase("") || mPassRetype.getText().toString().equalsIgnoreCase("")) {
+                    Toast.makeText(getActivity(), R.string.required_fields, Toast.LENGTH_SHORT).show();
                 } else if (!mEmail.getText().toString().trim().matches("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
                     mEmail.setError("Invalid Email Address");
                 } else {
+                    sendSignUpdata(Constant.SIGNUP_URL);
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 }
             }
         });
     }
 
-    private void addLists() {
-        list.add("Izaberite grad:");
-        list.add("Beograd");
-        list.add("Novi Sad");
-        list.add("Valjevo");
-        listDay.add("01");
-        listDay.add("02");
-        listDay.add("03");
-        listDay.add("04");
-        listDay.add("05");
-        listDay.add("06");
-        listDay.add("07");
-        listDay.add("08");
-        listDay.add("09");
-        listDay.add("10");
-        listDay.add("11");
-        listDay.add("12");
-        listDay.add("13");
-        listDay.add("14");
-        listDay.add("15");
-        listDay.add("16");
-        listDay.add("17");
-        listDay.add("18");
-        listDay.add("19");
-        listDay.add("20");
-        listDay.add("21");
-        listDay.add("22");
-        listDay.add("23");
-        listDay.add("24");
-        listDay.add("25");
-        listDay.add("26");
-        listDay.add("27");
-        listDay.add("28");
-        listDay.add("29");
-        listDay.add("30");
-        listDay.add("31");
+    public void sendSignUpdata(String signUpUrl) {
+        RequestQueue queue = MySingletonVolley.getInstance(getActivity()).getRequestQueue();
 
-        listMonth.add("01");
-        listMonth.add("02");
-        listMonth.add("03");
-        listMonth.add("04");
-        listMonth.add("05");
-        listMonth.add("06");
-        listMonth.add("07");
-        listMonth.add("08");
-        listMonth.add("09");
-        listMonth.add("10");
-        listMonth.add("11");
-        listMonth.add("12");
+        String url = signUpUrl;
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
 
-        listYear.add("1998");
-        listYear.add("1997");
-        listYear.add("1996");
-        listYear.add("1995");
-        listYear.add("1994");
-        listYear.add("1993");
-        listYear.add("1992");
-        listYear.add("1991");
-        listYear.add("1990");
-        listYear.add("1989");
-        listYear.add("1988");
-        listYear.add("1987");
-        listYear.add("1986");
-        listYear.add("1985");
-        listYear.add("1984");
-        listYear.add("1983");
-        listYear.add("1982");
-        listYear.add("1981");
-        listYear.add("1980");
-        listYear.add("1979");
-        listYear.add("1978");
-        listYear.add("1977");
-        listYear.add("1976");
-        listYear.add("1975");
-        listYear.add("1974");
-        listYear.add("1973");
-        listYear.add("1972");
-        listYear.add("1971");
-        listYear.add("1970");
-        listYear.add("1969");
-        listYear.add("1968");
+                        Log.d(TAG, response.toString());
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                error.printStackTrace();
+            }
+
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                if (mRelativeCompany.getVisibility() == View.VISIBLE) {
+                    params.put("user_type", "company");
+                    params.put("company_name", mCompanyName.getText().toString());
+                    params.put("pib", mCompanyPib.getText().toString());
+                } else {
+                    params.put("user_type", "buyer");
+                    params.put("company_name", "");
+                    params.put("pib", "");
+                }
+
+                params.put("first_name", mName.getText().toString());
+                params.put("last_name", mSurname.getText().toString());
+                params.put("email", mEmail.getText().toString());
+                params.put("password", mPass.getText().toString());
+                params.put("password_retype", mPassRetype.getText().toString());
+
+                params.put("cell_phone", mMobile.getText().toString());
+                params.put("phone", mPhone.getText().toString());
+                params.put("fax", mFax.getText().toString());
+
+                params.put("street", mStreet.getText().toString());
+                params.put("number", mNumber.getText().toString());
+                params.put("appartement", mApartment.getText().toString());
+                params.put("floor", mFloor.getText().toString());
+                params.put("entrance", mEntrance.getText().toString());
+
+                params.put("city", (String) citySpinner.getSelectedItem());
+                params.put("postal_code", mPostalCode.getText().toString());
+
+                params.put("newsletter", mCheckBox.isChecked() ? "1" : "0");
+
+                params.put("day", (String) daySpinner.getSelectedItem());
+                params.put("month", (String) monthSpinner.getSelectedItem());
+                params.put("year", (String) yearSpinner.getSelectedItem());
+
+                params.put("gender", mMale.isChecked() ? "1" : "2");
+
+                params.put("token", DataContainer.TOKEN);
+                return params;
+            }
+        };
+
+        MySingletonVolley.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
+
 }
+
+

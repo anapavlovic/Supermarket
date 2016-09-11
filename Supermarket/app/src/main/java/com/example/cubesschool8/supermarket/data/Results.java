@@ -2,6 +2,7 @@ package com.example.cubesschool8.supermarket.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,12 +10,44 @@ import java.util.List;
  */
 public class Results {
 
-    @SerializedName("results")
-    private List< String> resultsList;
+    @SerializedName("token")
+    private String resultsToken;
+
+    private List<Cities> resultCity;
+    private List<Townships> resultTownShip;
 
 
-    public List<String> getToken() {
+    public String getResultsToken() {
+        return resultsToken;
+    }
 
-        return resultsList;
+    public List<Cities> getResultCity() {
+        return resultCity;
+    }
+
+    public List<Townships> getResultTownShip() {
+        return resultTownShip;
+    }
+
+
+
+
+    public class Cities {
+        @SerializedName("city")
+        private String city;
+
+        @SerializedName("postal_code")
+        private String postalCode;
+
+    }
+
+
+    public class Townships {
+        @SerializedName("name")
+        private String name;
+
+        @SerializedName("estates")
+        private ArrayList<String> estates;
+
     }
 }

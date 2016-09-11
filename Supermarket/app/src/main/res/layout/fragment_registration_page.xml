@@ -442,7 +442,7 @@
 
 
                 <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
-                    android:id="@+id/etAppartment"
+                    android:id="@+id/etApartment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -458,7 +458,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_below="@+id/etAppartment"
+                    android:layout_below="@+id/etApartment"
                     android:layout_marginLeft="@dimen/margin_prijava"
                     android:layout_marginRight="@dimen/margin_prijava"
                     android:background="@color/underlineopacity"
@@ -756,7 +756,7 @@
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/text_size" />
 
-            <Switch
+            <android.support.v7.widget.SwitchCompat
                 android:id="@+id/dSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -771,7 +771,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/relativeSwitch"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etCompanyName"
