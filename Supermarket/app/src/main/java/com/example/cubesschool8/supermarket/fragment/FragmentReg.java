@@ -23,7 +23,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.cubesschool8.supermarket.MainActivity;
-import com.example.cubesschool8.supermarket.MySingletonVolley;
 import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.adapter.SpinnerAdapter;
 import com.example.cubesschool8.supermarket.constant.Constant;
@@ -155,14 +154,14 @@ public class FragmentReg extends android.support.v4.app.Fragment {
                 } else if (!mEmail.getText().toString().trim().matches("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
                     mEmail.setError("Invalid Email Address");
                 } else {
-                    sendSignUpdata(Constant.SIGNUP_URL);
+                   // sendSignUpdata(Constant.SIGNUP_URL);
                     startActivity(new Intent(getActivity(), MainActivity.class));
                 }
             }
         });
     }
 
-    public void sendSignUpdata(String signUpUrl) {
+  /*  public void sendSignUpdata(String signUpUrl) {
         RequestQueue queue = MySingletonVolley.getInstance(getActivity()).getRequestQueue();
 
         String url = signUpUrl;
@@ -229,7 +228,7 @@ public class FragmentReg extends android.support.v4.app.Fragment {
         };
 
         MySingletonVolley.getInstance(getActivity()).addToRequestQueue(stringRequest);
-    }
+    }*/
 
 }
 

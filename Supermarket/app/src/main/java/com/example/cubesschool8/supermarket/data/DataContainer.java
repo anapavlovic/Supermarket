@@ -11,7 +11,7 @@ public class DataContainer {
 
     public static String TOKEN;
 
-    public static ArrayList<Results.Cities> mainCitysList= new ArrayList<>();
-    public static ArrayList<Results.Townships> mainTownshipList= new ArrayList<>();
+    public static ArrayList<DataCategory> categories;
+    public  static ArrayList<DataCity> cities;
 
 }

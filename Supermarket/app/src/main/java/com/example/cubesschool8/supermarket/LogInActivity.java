@@ -1,6 +1,5 @@
 package com.example.cubesschool8.supermarket;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,47 +7,27 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatTextView;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.cubesschool8.supermarket.adapter.PagerAdapter;
-import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
-import com.example.cubesschool8.supermarket.data.DataContainer;
-import com.example.cubesschool8.supermarket.data.Results;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by cubesschool8 on 9/7/16.
@@ -84,6 +63,8 @@ public class LogInActivity extends AppCompatActivity {
         setViewPager();
 
     }
+
+   
 
     private void setLogoAnimation() {
         animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.up_from_bottom);
