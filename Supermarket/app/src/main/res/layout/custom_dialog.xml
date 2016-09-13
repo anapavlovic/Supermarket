@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:id="@+id/view"
+        android:background="@color/underlineopacity"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="@dimen/margin_prijava"
+        android:layout_marginLeft="@dimen/margin_prijava"
+
+        />
+
+    <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+        android:id="@+id/customPassForgotDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginRight="@dimen/margin_prijava"
+        android:layout_marginTop="@dimen/margin_prijava"
+        android:background="@null"
+        android:layout_below="@+id/view"/>
+
+
+
+</RelativeLayout>

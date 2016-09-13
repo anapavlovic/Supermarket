@@ -1,7 +1,9 @@
 package com.example.cubesschool8.supermarket.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
@@ -22,11 +24,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.cubesschool8.supermarket.LogInActivity;
 import com.example.cubesschool8.supermarket.MainActivity;
 import com.example.cubesschool8.supermarket.R;
+import com.example.cubesschool8.supermarket.TermsOfUseActivity;
 import com.example.cubesschool8.supermarket.adapter.SpinnerAdapter;
 import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
+import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 
 import java.util.ArrayList;
@@ -43,6 +48,7 @@ public class FragmentReg extends android.support.v4.app.Fragment {
     private static String TAG = "jsonResponse";
 
     private CustomEditTextFont mName, mSurname, mEmail, mPass, mPassRetype, mMobile, mPhone, mFax, mStreet, mNumber, mApartment, mFloor, mEntrance, mPostalCode, mCompanyName, mCompanyPib;
+    private CustomTextViewFont mTermsOfUse;
     private Spinner citySpinner, daySpinner, monthSpinner, yearSpinner;
     private CheckBox mCheckBox;
     private RadioButton mFemale, mMale;
@@ -55,6 +61,9 @@ public class FragmentReg extends android.support.v4.app.Fragment {
     private Button mRegButton;
     private SwitchCompat mSwitch;
     private RelativeLayout mRelativeCompany;
+    private LogInActivity logInAcc;
+
+    private SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -101,6 +110,7 @@ public class FragmentReg extends android.support.v4.app.Fragment {
         mEntrance = (CustomEditTextFont) getView().findViewById(R.id.etEntrance);
         mPostalCode = (CustomEditTextFont) getView().findViewById(R.id.etPostalcode);
         mRadioGroup = (RadioGroup) getView().findViewById(R.id.radioGroup);
+        mTermsOfUse = (CustomTextViewFont) getView().findViewById(R.id.uslovikoriscenja);
 
         list = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.cityArray)));
         listDay = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.dayArray)));
@@ -134,6 +144,8 @@ public class FragmentReg extends android.support.v4.app.Fragment {
         mRelativeCompany = (RelativeLayout) getView().findViewById(R.id.relativeCompany);
         mCompanyName = (CustomEditTextFont) getView().findViewById(R.id.etCompanyName);
         mCompanyPib = (CustomEditTextFont) getView().findViewById(R.id.etCompanyPib);
+
+        logInAcc = new LogInActivity();
     }
 
     private void addListener() {
@@ -153,15 +165,30 @@ public class FragmentReg extends android.support.v4.app.Fragment {
                     Toast.makeText(getActivity(), R.string.required_fields, Toast.LENGTH_SHORT).show();
                 } else if (!mEmail.getText().toString().trim().matches("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
                     mEmail.setError("Invalid Email Address");
-                } else {
-                   // sendSignUpdata(Constant.SIGNUP_URL);
-                    startActivity(new Intent(getActivity(), MainActivity.class));
+                } else if (mPhone.getText().toString().length() < 5 || mMobile.getText().toString().length() < 5) {
+                    Toast.makeText(getActivity(), R.string.phone_length, Toast.LENGTH_SHORT).show();
+                } else if(mRadioGroup.getCheckedRadioButtonId()== -1){
+                    Toast.makeText(getActivity(), R.string.radiogroup_check, Toast.LENGTH_SHORT).show();
+                }else {
+                    //sendSignUpdata(Constant.SIGNUP_URL);
+                    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("user_registered", "user_registered").commit();
+
+                    logInAcc.viewPager.setCurrentItem(0);
                 }
+            }
+        });
+
+        mTermsOfUse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), TermsOfUseActivity.class));
             }
         });
     }
 
-  /*  public void sendSignUpdata(String signUpUrl) {
+  /* public void sendSignUpdata(String signUpUrl) {
         RequestQueue queue = MySingletonVolley.getInstance(getActivity()).getRequestQueue();
 
         String url = signUpUrl;

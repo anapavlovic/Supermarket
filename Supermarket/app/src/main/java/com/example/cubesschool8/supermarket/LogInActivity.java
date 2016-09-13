@@ -3,10 +3,12 @@ package com.example.cubesschool8.supermarket;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -43,9 +45,11 @@ public class LogInActivity extends AppCompatActivity {
     private Button mProceedButton;
     private CustomTextViewFont mPassforgot;
     private Dialog dialog;
-    private ViewPager viewPager;
+    public static ViewPager viewPager;
     private PagerAdapter adapter;
     private TabLayout tabLayout;
+
+    private SharedPreferences sharedPreferences;
 
     private Animation animation, animationViewPager, animfadeIn, fadeOutAnim, fadeInLogo;
 
@@ -62,10 +66,19 @@ public class LogInActivity extends AppCompatActivity {
         setViewPagerAnimation();
         setViewPager();
 
+
+
     }
 
-   
-
+public void checkifUserisRegistered(){
+    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+    String s = sharedPreferences.getString("user_registered", "");
+    if (s == "") {
+        viewPager.setCurrentItem(1);
+    } else {
+        viewPager.setCurrentItem(0);
+    }
+}
     private void setLogoAnimation() {
         animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.up_from_bottom);
         animation.setFillAfter(true);
@@ -108,11 +121,11 @@ public class LogInActivity extends AppCompatActivity {
         setTabLayoutTypeface();
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-
         adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        checkifUserisRegistered();
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -145,6 +158,7 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
+
     private void setTabLayoutTypeface() {
         Typeface t = Typeface.createFromAsset(getApplicationContext().getAssets(), "AvenirLTStd-Book.otf");
         ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
@@ -160,7 +174,6 @@ public class LogInActivity extends AppCompatActivity {
             }
         }
     }
-
 
 
     private void addListener() {
@@ -210,6 +223,7 @@ public class LogInActivity extends AppCompatActivity {
         mUserPhoto = (ImageView) findViewById(R.id.userPhoto);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         viewPager = (ViewPager) findViewById(R.id.pager);
+
 
     }
 

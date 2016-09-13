@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context="com.example.cubesschool8.supermarket.TermsOfUseActivity"
+    >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/backweb"
+        android:background="@drawable/back"
+        android:layout_margin="10dp"/>
+    <WebView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_below="@+id/backweb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/webTerms"
+       android:background="@drawable/bg">
+
+    </WebView>
+
+</RelativeLayout>

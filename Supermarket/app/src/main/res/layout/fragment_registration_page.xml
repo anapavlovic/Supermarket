@@ -835,7 +835,7 @@
             android:textColor="@color/text_color_black" />
 
         <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
-            android:id="@+id/tvpassforgot"
+            android:id="@+id/uslovikoriscenja"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/regButt"
