@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,26 +18,16 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.example.cubesschool8.supermarket.LogInActivity;
-import com.example.cubesschool8.supermarket.MainActivity;
+import com.example.cubesschool8.supermarket.activity.LogInActivity;
 import com.example.cubesschool8.supermarket.R;
-import com.example.cubesschool8.supermarket.TermsOfUseActivity;
+import com.example.cubesschool8.supermarket.activity.TermsOfUseActivity;
 import com.example.cubesschool8.supermarket.adapter.SpinnerAdapter;
-import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
-import com.example.cubesschool8.supermarket.data.DataContainer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by cubesschool8 on 9/7/16.

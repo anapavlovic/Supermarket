@@ -1,4 +1,4 @@
-package com.example.cubesschool8.supermarket;
+package com.example.cubesschool8.supermarket.activity;
 
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+
+import com.example.cubesschool8.supermarket.R;
 
 public class TermsOfUseActivity extends AppCompatActivity {
 

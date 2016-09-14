@@ -1,10 +1,7 @@
-package com.example.cubesschool8.supermarket;
+package com.example.cubesschool8.supermarket.activity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -12,8 +9,8 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.constant.Constant;
-import com.example.cubesschool8.supermarket.data.DataCategory;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.response.ResponseCategory;
 import com.example.cubesschool8.supermarket.data.response.ResponseCity;
@@ -22,11 +19,14 @@ import com.example.cubesschool8.supermarket.data.response.ResponseReservation;
 import com.example.cubesschool8.supermarket.data.response.ResponseToken;
 import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
+import com.example.cubesschool8.supermarket.tool.BusProvider;
+import com.example.cubesschool8.supermarket.tool.MessageObject;
+import com.squareup.otto.Subscribe;
 
 /**
  * Created by cubesschool8 on 9/7/16.
  */
-public class StartActivity extends Activity {
+public class StartActivity extends ActivityWithMessage {
     private GsonRequest<ResponseToken> mRequestToken;
     private GsonRequest<ResponseCategory> mRequestCategory;
     private GsonRequest<ResponseCity> mrequestCity;
@@ -54,6 +54,8 @@ public class StartActivity extends Activity {
 
         inicComp();
 
+
+
         mRequestToken = new GsonRequest<ResponseToken>(Constant.GET_TOKEN_URL + "/?username=" + Constant.USERNAME + "&password=" + Constant.PASSWORD, Request.Method.GET, ResponseToken.class, new Response.Listener<ResponseToken>() {
             @Override
             public void onResponse(ResponseToken response) {
@@ -71,7 +73,8 @@ public class StartActivity extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 errorCount++;
-                Toast.makeText(getApplicationContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
+
+                BusProvider.getInstance().post(new MessageObject());
 
             }
         });
@@ -152,12 +155,13 @@ public class StartActivity extends Activity {
 
     }
 
-    public void checkVolleyFinished() {
+
+    public  synchronized void checkVolleyFinished() {
         if (errorCount + successCount == 5) {
             startActivity(new Intent(getApplicationContext(), LogInActivity.class));
             finish();
         }else if (errorCount >0) {
-            Toast.makeText(getApplicationContext(), R.string.volley_error, Toast.LENGTH_SHORT).show();
+            successCount++;
         }
 
 
@@ -173,16 +177,12 @@ public class StartActivity extends Activity {
     public void inicComp() {
 
         mLogo = (ImageView) findViewById(R.id.logo);
-        relativeLayout = (RelativeLayout) findViewById(R.id.r);
+        relativeLayout = (RelativeLayout) findViewById(R.id.rootView);
     }
 
 
-    public void getReservationList() {
-    }
 
 
-    public void getHomeProductList() {
-    }
 
 
 }

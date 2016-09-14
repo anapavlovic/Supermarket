@@ -1,4 +1,4 @@
-package com.example.cubesschool8.supermarket;
+package com.example.cubesschool8.supermarket.activity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -14,7 +14,6 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -27,6 +26,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.adapter.PagerAdapter;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
@@ -34,7 +34,7 @@ import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 /**
  * Created by cubesschool8 on 9/7/16.
  */
-public class LogInActivity extends AppCompatActivity {
+public class LogInActivity extends ActivityWithMessage{
     private static final int CAMERA_REQUEST = 7;
     private static final int GALLERY_REQUEST = 9;
 

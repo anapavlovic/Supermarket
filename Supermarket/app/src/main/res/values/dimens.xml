@@ -6,4 +6,6 @@
     <dimen name="margin_prijava">20dp</dimen>
     <dimen name="margin_top_relative">15dp</dimen>
     <dimen name="margin_top_et">15dp</dimen>
+    <dimen name="error_height">100dp</dimen>
+    <dimen name="margin5">5dp</dimen>
 </resources>

@@ -1,7 +1,6 @@
 package com.example.cubesschool8.supermarket.fragment;
 
 import android.app.Dialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.cubesschool8.supermarket.MainActivity;
+import com.example.cubesschool8.supermarket.activity.MainActivity;
 import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
