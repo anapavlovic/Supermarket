@@ -30,6 +30,8 @@ import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.adapter.PagerAdapter;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
+import com.example.cubesschool8.supermarket.data.response.ResponseLogIn;
+import com.example.cubesschool8.supermarket.networking.GsonRequest;
 
 /**
  * Created by cubesschool8 on 9/7/16.
@@ -51,6 +53,7 @@ public class LogInActivity extends ActivityWithMessage {
 
     private SharedPreferences sharedPreferences;
 
+
     private Animation animation, animationViewPager, animfadeIn, fadeOutAnim, fadeInLogo;
 
 
@@ -68,6 +71,9 @@ public class LogInActivity extends ActivityWithMessage {
 
 
     }
+
+
+
 
     public void checkifUserisRegistered() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -126,7 +132,7 @@ public class LogInActivity extends ActivityWithMessage {
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        checkifUserisRegistered();
+       // checkifUserisRegistered();
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

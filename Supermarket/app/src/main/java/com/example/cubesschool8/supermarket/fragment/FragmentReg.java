@@ -210,11 +210,11 @@ public class FragmentReg extends android.support.v4.app.Fragment {
                 if (response.data.error != "") {
                     Toast.makeText(getContext(), response.data.error, Toast.LENGTH_SHORT).show();
                 } else {
-                    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                   /* sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("user_registered", "user_registered").commit();
 
-                    logInAcc.viewPager.setCurrentItem(0);
+                    logInAcc.viewPager.setCurrentItem(0);*/
                 }
             }
         }, new Response.ErrorListener() {
@@ -244,13 +244,13 @@ public class FragmentReg extends android.support.v4.app.Fragment {
                 params.put("password", mPass.getText().toString());
                 params.put("password_retype", mPassRetype.getText().toString());
 
-                params.put("call_phone", mMobile.getText().toString());
+                params.put("cell_phone", mMobile.getText().toString());
                 params.put("phone", mPhone.getText().toString());
                 params.put("fax", mFax.getText().toString());
 
                 params.put("street", mStreet.getText().toString());
                 params.put("number", mNumber.getText().toString());
-                params.put("appartment", mApartment.getText().toString());
+                params.put("appartement", mApartment.getText().toString());
                 params.put("floor", mFloor.getText().toString());
                 params.put("entrance", mEntrance.getText().toString());
 

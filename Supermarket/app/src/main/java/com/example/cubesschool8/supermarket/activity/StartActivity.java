@@ -1,7 +1,11 @@
 package com.example.cubesschool8.supermarket.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Base64;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -14,6 +18,7 @@ import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.response.ResponseCategory;
 import com.example.cubesschool8.supermarket.data.response.ResponseCity;
+import com.example.cubesschool8.supermarket.data.response.ResponseLogIn;
 import com.example.cubesschool8.supermarket.data.response.ResponseProducts;
 import com.example.cubesschool8.supermarket.data.response.ResponseReservation;
 import com.example.cubesschool8.supermarket.data.response.ResponseToken;
@@ -22,6 +27,19 @@ import com.example.cubesschool8.supermarket.networking.GsonRequest;
 import com.example.cubesschool8.supermarket.tool.BusProvider;
 import com.example.cubesschool8.supermarket.tool.MessageObject;
 import com.squareup.otto.Subscribe;
+
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
 
 /**
  * Created by cubesschool8 on 9/7/16.
@@ -40,6 +58,9 @@ public class StartActivity extends ActivityWithMessage {
     private String jsonResponse;
     private RelativeLayout relativeLayout;
     private int counter;
+    private SharedPreferences sharedPreferences;
+
+    private GsonRequest<ResponseLogIn> mRequestLogIn;
 
 
 
@@ -157,15 +178,54 @@ public class StartActivity extends ActivityWithMessage {
 
     public  synchronized void checkVolleyFinished() {
         if (counter == 4) {
-            startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+            checkifUserDataSaved();
             finish();
         }else  {
             counter++;
         }
 
 
-
     }
+
+    public void checkifUserDataSaved() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean s = sharedPreferences.getBoolean("checked", false);
+        String encryptmUsername = sharedPreferences.getString("username", "");
+        String encryptmPass = sharedPreferences.getString("password", "");
+
+        String username = decryptIt(encryptmUsername);
+        String password = decryptIt(encryptmPass);
+
+        if (s == true) {
+            mRequestLogIn = new GsonRequest<ResponseLogIn>(Constant.LOGIN_URL + "?token=" + DataContainer.TOKEN + "&email=" + username + "&password=" + password,
+                    Request.Method.GET, ResponseLogIn.class, new Response.Listener<ResponseLogIn>() {
+                @Override
+                public void onResponse(ResponseLogIn response) {
+                    Log.i("Response", response.toString());
+                    DataContainer.login = response.data.results;
+                    if (response.data.error != "") {
+                        Toast.makeText(getApplicationContext(), R.string.login_incorrect, Toast.LENGTH_SHORT).show();
+                    }  else {
+                        }
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.i("error", error.toString());
+
+                }
+            });
+
+            DataLoader.addRequest(getApplicationContext(), mRequestLogIn, REQUEST_TAG);
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        }else{
+            startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+        }
+    }
+
+
 
     @Override
     protected void onDestroy() {
@@ -180,6 +240,41 @@ public class StartActivity extends ActivityWithMessage {
     }
 
 
+
+
+    public static String decryptIt(String value) {
+        try {
+            DESKeySpec keySpec = new DESKeySpec(value.getBytes("UTF8"));
+            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+            SecretKey key = keyFactory.generateSecret(keySpec);
+
+            byte[] encrypedPwdBytes = Base64.decode(value, Base64.DEFAULT);
+            // cipher is not thread safe
+            Cipher cipher = Cipher.getInstance("DES");
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            byte[] decrypedValueBytes = (cipher.doFinal(encrypedPwdBytes));
+
+            String decrypedValue = new String(decrypedValueBytes);
+            Log.d("", "Decrypted: " + value + " -> " + decrypedValue);
+            return decrypedValue;
+
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
 
 
 

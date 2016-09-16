@@ -48,10 +48,13 @@
         />
 </RelativeLayout>
 
+
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/relativetop">
+        android:layout_below="@+id/relativetop"
+        android:id="@+id/relativeBottom">
     <ImageView
         android:id="@+id/passimg"
         android:layout_width="wrap_content"
@@ -88,6 +91,30 @@
 
         />
 </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeBottom">
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkboxSaveUserData"
+        android:layout_marginTop="@dimen/margin_prijava"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_centerVertical="true"/>
+      <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_toRightOf="@+id/checkboxSaveUserData"
+          android:text="Zelite da sacuvate podatke."
+          android:layout_centerVertical="true"
+          android:textSize="@dimen/text_size"
+          android:textColor="@color/text_color"
+          android:layout_marginLeft="@dimen/margin_prijava"/>
+
+
+    </RelativeLayout>
     <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
         android:id="@+id/tvpassforgot"
         android:layout_width="wrap_content"

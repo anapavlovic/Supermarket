@@ -16,7 +16,7 @@ public class DataContainer {
     public static  ArrayList<DataProducts> products;
     public static  ArrayList<DataReservation> reservations;
     public static ArrayList<DataSignUp> signup;
-    public static ArrayList<DataLogIn> login;
+    public static DataLogIn login;
     public static ArrayList<DataForgotPassword> forgotPassword;
 
 }

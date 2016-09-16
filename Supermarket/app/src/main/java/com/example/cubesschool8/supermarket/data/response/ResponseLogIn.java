@@ -14,7 +14,7 @@ public class ResponseLogIn {
     public class ResponseLogInPom {
         public String status;
         public String error;
-        public ArrayList<DataLogIn> results;
+        public DataLogIn results;
         public String token;
         public String login_token;
         public String incorrect_logins;

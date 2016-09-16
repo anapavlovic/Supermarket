@@ -17,5 +17,6 @@ public class ResponseSignUp {
         public String message;
         public String error;
         public ArrayList<DataSignUp> results;
+
     }
 }
