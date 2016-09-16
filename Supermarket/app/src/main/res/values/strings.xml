@@ -19,6 +19,7 @@
     <string name="phone_length">Proverite uneti broj telefona</string>
     <string name="radiogroup_check">Izaberite pol</string>
     <string name="volley_error">Servis nije dostupan. Pokusajte kasnije</string>
+    <string name="login_incorrect">Uneti podaci su neispravni</string>
 
 
     <string-array name="cityArray">

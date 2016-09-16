@@ -3,7 +3,7 @@
     android:shareInterpolator="@android:anim/accelerate_interpolator">
     <translate
         android:fromXDelta="0%" android:toXDelta="0%"
-        android:fromYDelta="0%p" android:toYDelta="20%p"
+        android:fromYDelta="-10%p" android:toYDelta="20%p"
         android:duration="1000"
 
         />

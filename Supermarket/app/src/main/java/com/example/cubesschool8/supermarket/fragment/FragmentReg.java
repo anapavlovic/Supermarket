@@ -2,10 +2,12 @@ package com.example.cubesschool8.supermarket.fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +20,28 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.cubesschool8.supermarket.activity.LogInActivity;
 import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.activity.TermsOfUseActivity;
 import com.example.cubesschool8.supermarket.adapter.SpinnerAdapter;
+import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
+import com.example.cubesschool8.supermarket.data.DataContainer;
+import com.example.cubesschool8.supermarket.data.response.ResponseSignUp;
+import com.example.cubesschool8.supermarket.networking.DataLoader;
+import com.example.cubesschool8.supermarket.networking.GsonRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cubesschool8 on 9/7/16.
@@ -51,8 +65,14 @@ public class FragmentReg extends android.support.v4.app.Fragment {
     private SwitchCompat mSwitch;
     private RelativeLayout mRelativeCompany;
     private LogInActivity logInAcc;
+    private String s;
 
     private SharedPreferences sharedPreferences;
+
+    private GsonRequest<ResponseSignUp> mRequestSignUp;
+    private Map<String, String> params;
+
+    private final String REQUEST_TAG = "Start_activity";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,7 +86,7 @@ public class FragmentReg extends android.support.v4.app.Fragment {
 
 
         inicComp();
-        addListener();
+
 
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -82,6 +102,11 @@ public class FragmentReg extends android.support.v4.app.Fragment {
 
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        addListener();
+    }
 
     private void inicComp() {
         mName = (CustomEditTextFont) getView().findViewById(R.id.eTname);
@@ -156,18 +181,15 @@ public class FragmentReg extends android.support.v4.app.Fragment {
                     mEmail.setError("Invalid Email Address");
                 } else if (mPhone.getText().toString().length() < 5 || mMobile.getText().toString().length() < 5) {
                     Toast.makeText(getActivity(), R.string.phone_length, Toast.LENGTH_SHORT).show();
-                } else if(mRadioGroup.getCheckedRadioButtonId()== -1){
+                } else if (mRadioGroup.getCheckedRadioButtonId() == -1) {
                     Toast.makeText(getActivity(), R.string.radiogroup_check, Toast.LENGTH_SHORT).show();
-                }else {
-                    //sendSignUpdata(Constant.SIGNUP_URL);
-                    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("user_registered", "user_registered").commit();
+                } else {
+                    signUpRequest();
 
-                    logInAcc.viewPager.setCurrentItem(0);
                 }
             }
         });
+
 
         mTermsOfUse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,29 +199,34 @@ public class FragmentReg extends android.support.v4.app.Fragment {
         });
     }
 
-  /* public void sendSignUpdata(String signUpUrl) {
-        RequestQueue queue = MySingletonVolley.getInstance(getActivity()).getRequestQueue();
 
-        String url = signUpUrl;
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+    private void signUpRequest() {
+        mRequestSignUp = new GsonRequest<ResponseSignUp>( Constant.SIGNUP_URL,Request.Method.POST, ResponseSignUp.class, new Response.Listener<ResponseSignUp>() {
+            @Override
+            public void onResponse(ResponseSignUp response) {
+                Log.i("Response", response.toString());
+                DataContainer.signup = response.data.results;
 
-                        Log.d(TAG, response.toString());
+                if (response.data.error != "") {
+                    Toast.makeText(getContext(), response.data.error, Toast.LENGTH_SHORT).show();
+                } else {
+                    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("user_registered", "user_registered").commit();
 
-                    }
-                }, new Response.ErrorListener() {
+                    logInAcc.viewPager.setCurrentItem(0);
+                }
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.i("error", error.toString());
 
-                error.printStackTrace();
             }
-
         }) {
             @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+            protected Map<String, String> getParams() throws AuthFailureError {
+                params = new HashMap<String, String>();
 
                 if (mRelativeCompany.getVisibility() == View.VISIBLE) {
                     params.put("user_type", "company");
@@ -217,13 +244,13 @@ public class FragmentReg extends android.support.v4.app.Fragment {
                 params.put("password", mPass.getText().toString());
                 params.put("password_retype", mPassRetype.getText().toString());
 
-                params.put("cell_phone", mMobile.getText().toString());
+                params.put("call_phone", mMobile.getText().toString());
                 params.put("phone", mPhone.getText().toString());
                 params.put("fax", mFax.getText().toString());
 
                 params.put("street", mStreet.getText().toString());
                 params.put("number", mNumber.getText().toString());
-                params.put("appartement", mApartment.getText().toString());
+                params.put("appartment", mApartment.getText().toString());
                 params.put("floor", mFloor.getText().toString());
                 params.put("entrance", mEntrance.getText().toString());
 
@@ -243,9 +270,18 @@ public class FragmentReg extends android.support.v4.app.Fragment {
             }
         };
 
-        MySingletonVolley.getInstance(getActivity()).addToRequestQueue(stringRequest);
-    }*/
+        DataLoader.addRequest(getActivity(), mRequestSignUp, REQUEST_TAG);
 
+
+
+    }
+
+
+    // Constant.SIGNUP_URL+"?first_name="+ mName.getText().toString()+"&last_name="+mSurname.getText().toString()+"&email="+mEmail.getText().toString()+"&password="+mPass.getText().toString()+
+    //  "&password_retype="+mPassRetype.getText().toString()+"&call_phone="+mMobile.getText().toString()+"&phone="+mPhone.getText().toString()+"&fax="+mFax.getText().toString()+
+    //         "&street="+mStreet.getText().toString()+"&number="+mNumber.getText().toString()+"&appartment="+mApartment.getText().toString()+"&floor="+mFloor.getText().toString()+
+    //         "&entrance="+mEntrance.getText().toString()+"&city="+citySpinner.getSelectedItem().toString()+"&postal_code="+mPostalCode.getText().toString()+"&newsletter=0"+"&day="+
+    //       daySpinner.getSelectedItem().toString()+"&month="+monthSpinner.getSelectedItem().toString()+"&year="+yearSpinner.getSelectedItem().toString()+"&gender=1"+"&user_type=buyer"+"&company_name="+"&pib="+"&token="+ DataContainer.TOKEN
 }
 
 

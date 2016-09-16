@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/error_height"
     android:orientation="vertical"
-    android:background="#c9000000"
+    android:background="#35000000"
     android:id="@+id/rootView"
-    android:visibility="gone">
+    android:visibility="visible"
+    android:layout_margin="10dp">
 
     <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
         android:id="@+id/errorPopup"

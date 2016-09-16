@@ -7,5 +7,7 @@
     <color name="text_color">#ffffff</color>
     <color name="text_color_black">#000000</color>
     <color name="underlineopacity">#19ffffff</color>
+    <color name="message_error">#990909</color>
+    <color name="message_success">#04be48</color>
 
 </resources>

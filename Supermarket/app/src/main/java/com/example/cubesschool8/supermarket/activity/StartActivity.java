@@ -39,9 +39,8 @@ public class StartActivity extends ActivityWithMessage {
     private ImageView mLogo;
     private String jsonResponse;
     private RelativeLayout relativeLayout;
+    private int counter;
 
-    private int successCount;
-    private int errorCount;
 
 
     @Override
@@ -59,7 +58,7 @@ public class StartActivity extends ActivityWithMessage {
         mRequestToken = new GsonRequest<ResponseToken>(Constant.GET_TOKEN_URL + "/?username=" + Constant.USERNAME + "&password=" + Constant.PASSWORD, Request.Method.GET, ResponseToken.class, new Response.Listener<ResponseToken>() {
             @Override
             public void onResponse(ResponseToken response) {
-                successCount++;
+                checkVolleyFinished();
                 DataContainer.TOKEN = response.data.results.token;
 
                 DataLoader.addRequest(getApplicationContext(), mRequestCategory, REQUEST_TAG);
@@ -72,8 +71,8 @@ public class StartActivity extends ActivityWithMessage {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                errorCount++;
 
+                checkVolleyFinished();
                 BusProvider.getInstance().post(new MessageObject());
 
             }
@@ -82,9 +81,9 @@ public class StartActivity extends ActivityWithMessage {
         mRequestCategory = new GsonRequest<ResponseCategory>(Constant.CATEGORY_URL + "?token=" + DataContainer.TOKEN, Request.Method.GET, ResponseCategory.class, new Response.Listener<ResponseCategory>() {
             @Override
             public void onResponse(ResponseCategory response) {
-                successCount++;
-                DataContainer.categories = response.data.results;
                 checkVolleyFinished();
+                DataContainer.categories = response.data.results;
+
                 // Toast.makeText(getApplicationContext(), DataContainer.categories.toString(), Toast.LENGTH_SHORT).show();
 
 
@@ -92,24 +91,24 @@ public class StartActivity extends ActivityWithMessage {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                errorCount++;
+
                 checkVolleyFinished();
-                Toast.makeText(getApplicationContext(), R.string.server_error, Toast.LENGTH_SHORT).show();
+
             }
         });
 
         mrequestCity = new GsonRequest<ResponseCity>(Constant.CITY_URL + "?token=" + DataContainer.TOKEN, Request.Method.GET, ResponseCity.class, new Response.Listener<ResponseCity>() {
             @Override
             public void onResponse(ResponseCity response) {
-                successCount++;
-                DataContainer.cities = response.data.results.townships;
                 checkVolleyFinished();
+                DataContainer.cities = response.data.results.townships;
+
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                errorCount++;
+
                 checkVolleyFinished();
             }
         });
@@ -117,7 +116,7 @@ public class StartActivity extends ActivityWithMessage {
         mRequestProducts = new GsonRequest<ResponseProducts>(Constant.PRODUCTS_URL + "?token=" + DataContainer.TOKEN, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
             @Override
             public void onResponse(ResponseProducts response) {
-                successCount++;
+
                 DataContainer.products = response.data.results;
                 checkVolleyFinished();
 
@@ -126,7 +125,7 @@ public class StartActivity extends ActivityWithMessage {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                errorCount++;
+
                 checkVolleyFinished();
             }
         });
@@ -134,16 +133,16 @@ public class StartActivity extends ActivityWithMessage {
         mRequestReservation = new GsonRequest<ResponseReservation>(Constant.RESERVATION_URL + "?token=" + DataContainer.TOKEN, Request.Method.GET, ResponseReservation.class, new Response.Listener<ResponseReservation>() {
             @Override
             public void onResponse(ResponseReservation response) {
-                successCount++;
-                DataContainer.reservations = response.data.results;
-                checkVolleyFinished();
 
+                DataContainer.reservations = response.data.results;
+
+                checkVolleyFinished();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                errorCount++;
+
                 checkVolleyFinished();
 
             }
@@ -157,11 +156,11 @@ public class StartActivity extends ActivityWithMessage {
 
 
     public  synchronized void checkVolleyFinished() {
-        if (errorCount + successCount == 5) {
+        if (counter == 4) {
             startActivity(new Intent(getApplicationContext(), LogInActivity.class));
             finish();
-        }else if (errorCount >0) {
-            successCount++;
+        }else  {
+            counter++;
         }
 
 

@@ -1,6 +1,7 @@
 package com.example.cubesschool8.supermarket.activity;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -29,7 +30,7 @@ public class ActivityWithMessage extends AppCompatActivity {
     private LayoutInflater inflater;
     private Object busEventListener;
     private Animation errorAnim, errorAnimBack;
-
+    public static final int MESSAGE_ERROR = 0, MESSAGE_SUCCESS = 1, MESSAGE_INFO = 2;
     public ViewGroup mRootView;
 
     @Override
@@ -43,7 +44,6 @@ public class ActivityWithMessage extends AppCompatActivity {
             //sta ce da se desi kada stigne obavestenje
             @Subscribe
             public void onMesssageShow(MessageObject messageObject) {
-                //Toast.makeText(getApplicationContext(), messageObject.stringResource, Toast.LENGTH_SHORT).show();
 
                 if (mMessageView == null) {
                     mMessageView = inflater.inflate(R.layout.layout_error, mRootView, false);
@@ -51,36 +51,38 @@ public class ActivityWithMessage extends AppCompatActivity {
                 }
 
                 mTextView.setText(messageObject.stringResource);  /// chekirati tip poruke i setovati color texta, (u konstruktoru MessageObjekta da setujemo color)
+
+
+                switch (messageObject.type) {
+                    case MESSAGE_ERROR:
+                        mTextView.setTextColor(getResources().getColor(R.color.message_error));
+                        break;
+                    case MESSAGE_INFO:
+                        mTextView.setTextColor(getResources().getColor(R.color.colorAccent));
+                        break;
+                    case MESSAGE_SUCCESS:
+                        mTextView.setTextColor(getResources().getColor(R.color.message_success));
+                        break;
+                    default:
+                        break;
+
+                }
+
+
                 mRootView.addView(mMessageView);
                 errorAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.down_from_top);
-                mMessageView.setVisibility(View.VISIBLE);
                 mMessageView.setAnimation(errorAnim);
+                errorAnim.setFillAfter(true);
 
-                errorAnim.setAnimationListener(new Animation.AnimationListener() {
+                mRootView.postDelayed(new Runnable() {
                     @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        mRootView.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                errorAnim.setFillAfter(true);
-                            }
-                        }, new MessageObject().time);
+                    public void run() {
 
                         errorAnimBack = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.error_up);
                         mMessageView.setAnimation(errorAnimBack);
                         mMessageView.setVisibility(View.GONE);
                     }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
+                }, messageObject.time);
 
 
             }

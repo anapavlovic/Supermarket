@@ -20,8 +20,9 @@ public class MessageObject {
     public int time;
     public int type;
     public OnMessageClickListener listener;
-
-
+    public int colorRed;
+    public int colorGreen;
+    public int colorYellow;
 
 
     public interface OnMessageClickListener {
@@ -34,6 +35,10 @@ public class MessageObject {
         stringResource = R.string.server_error;
         type = MESSAGE_ERROR;
         listener = null;
+        colorRed = R.color.message_error;
+        colorGreen = R.color.message_success;
+        colorYellow = R.color.colorAccent;
+
 
     }
 
@@ -42,5 +47,8 @@ public class MessageObject {
         this.type = type;
         this.time = time;
         this.listener = listener;
+        colorRed = R.color.message_error;
+        colorGreen = R.color.message_success;
+        colorYellow = R.color.colorAccent;
     }
 }

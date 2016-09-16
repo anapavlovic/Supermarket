@@ -34,7 +34,7 @@ import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 /**
  * Created by cubesschool8 on 9/7/16.
  */
-public class LogInActivity extends ActivityWithMessage{
+public class LogInActivity extends ActivityWithMessage {
     private static final int CAMERA_REQUEST = 7;
     private static final int GALLERY_REQUEST = 9;
 
@@ -67,18 +67,18 @@ public class LogInActivity extends ActivityWithMessage{
         setViewPager();
 
 
-
     }
 
-public void checkifUserisRegistered(){
-    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-    String s = sharedPreferences.getString("user_registered", "");
-    if (s == "") {
-        viewPager.setCurrentItem(1);
-    } else {
-        viewPager.setCurrentItem(0);
+    public void checkifUserisRegistered() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String s = sharedPreferences.getString("user_registered", "");
+        if (s == "") {
+            viewPager.setCurrentItem(1);
+        } else {
+            viewPager.setCurrentItem(0);
+        }
     }
-}
+
     private void setLogoAnimation() {
         animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.up_from_bottom);
         animation.setFillAfter(true);
@@ -125,6 +125,7 @@ public void checkifUserisRegistered(){
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
         checkifUserisRegistered();
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -262,4 +263,12 @@ public void checkifUserisRegistered(){
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (viewPager.getCurrentItem() == 1) {
+            viewPager.setCurrentItem(0);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
