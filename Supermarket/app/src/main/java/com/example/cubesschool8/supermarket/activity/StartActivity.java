@@ -26,7 +26,6 @@ import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
 import com.example.cubesschool8.supermarket.tool.BusProvider;
 import com.example.cubesschool8.supermarket.tool.MessageObject;
-import com.squareup.otto.Subscribe;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -197,7 +196,7 @@ public class StartActivity extends ActivityWithMessage {
         String password = decryptIt(encryptmPass);
 
         if (s == true) {
-            mRequestLogIn = new GsonRequest<ResponseLogIn>(Constant.LOGIN_URL + "?token=" + DataContainer.TOKEN + "&email=" + username + "&password=" + password,
+            mRequestLogIn = new GsonRequest<ResponseLogIn>(Constant.LOGIN_URL + "?token=" + DataContainer.TOKEN + "&email=" + encryptmUsername + "&password=" + encryptmPass,
                     Request.Method.GET, ResponseLogIn.class, new Response.Listener<ResponseLogIn>() {
                 @Override
                 public void onResponse(ResponseLogIn response) {
@@ -207,19 +206,19 @@ public class StartActivity extends ActivityWithMessage {
                         Toast.makeText(getApplicationContext(), R.string.login_incorrect, Toast.LENGTH_SHORT).show();
                     }  else {
                         }
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
 
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.i("error", error.toString());
-
+                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
                 }
             });
 
             DataLoader.addRequest(getApplicationContext(), mRequestLogIn, REQUEST_TAG);
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
         }else{
             startActivity(new Intent(getApplicationContext(), LogInActivity.class));
         }
@@ -243,36 +242,7 @@ public class StartActivity extends ActivityWithMessage {
 
 
     public static String decryptIt(String value) {
-        try {
-            DESKeySpec keySpec = new DESKeySpec(value.getBytes("UTF8"));
-            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
-            SecretKey key = keyFactory.generateSecret(keySpec);
 
-            byte[] encrypedPwdBytes = Base64.decode(value, Base64.DEFAULT);
-            // cipher is not thread safe
-            Cipher cipher = Cipher.getInstance("DES");
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            byte[] decrypedValueBytes = (cipher.doFinal(encrypedPwdBytes));
-
-            String decrypedValue = new String(decrypedValueBytes);
-            Log.d("", "Decrypted: " + value + " -> " + decrypedValue);
-            return decrypedValue;
-
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        }
         return value;
     }
 

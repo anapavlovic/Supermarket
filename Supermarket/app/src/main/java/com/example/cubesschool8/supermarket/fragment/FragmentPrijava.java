@@ -4,12 +4,14 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
+
+
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.util.Base64;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,34 +23,30 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.example.cubesschool8.supermarket.activity.MainActivity;
+import com.example.cubesschool8.supermarket.activity.HomeActivity;
 import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataContainer;
-import com.example.cubesschool8.supermarket.data.DataLogIn;
 import com.example.cubesschool8.supermarket.data.response.ResponseForgotPassword;
 import com.example.cubesschool8.supermarket.data.response.ResponseLogIn;
 import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
-import com.example.cubesschool8.supermarket.tool.BusProvider;
-import com.example.cubesschool8.supermarket.tool.MessageObject;
-import com.google.gson.Gson;
 
-import java.io.UnsupportedEncodingException;
+
 import java.security.InvalidKeyException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
+
+
 
 /**
  * Created by cubesschool8 on 9/7/16.
@@ -106,19 +104,19 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                                 Toast.makeText(getContext(), R.string.login_incorrect, Toast.LENGTH_SHORT).show();
                             } else {
                                 if (mCheckSaveUserDAata.isChecked()) {
-                                    String md5Username = encryptIt(mUsername.getText().toString());
-                                    String md5Password= encryptIt(mPass.getText().toString());
+                                   // String md5Username = encryptIt(mUsername.getText().toString());
+                                  //  String md5Password= encryptIt(mPass.getText().toString());
                                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                                     SharedPreferences.Editor editor = prefs.edit();
                                     editor.putBoolean("checked", true);
-                                    editor.putString("username", md5Username);
-                                    editor.putString("password", md5Password);
+                                    editor.putString("username", mUsername.getText().toString());
+                                    editor.putString("password", mPass.getText().toString());
                                     editor.commit();
-                                    startActivity(new Intent(getActivity(), MainActivity.class));
+                                    startActivity(new Intent(getActivity(), HomeActivity.class));
 
 
                                 } else {
-                                    startActivity(new Intent(getActivity(), MainActivity.class));
+                                    startActivity(new Intent(getActivity(), HomeActivity.class));
                                 }
                             }
                         }
@@ -176,36 +174,8 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
     }
 
 
-    public static String encryptIt(String value) {
-        try {
-            DESKeySpec keySpec = new DESKeySpec(value.getBytes("UTF8"));
-            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
-            SecretKey key = keyFactory.generateSecret(keySpec);
+    public static String encryptIt(String value) throws NoSuchAlgorithmException {
 
-            byte[] clearText = value.getBytes("UTF8");
-            // Cipher is not thread safe
-            Cipher cipher = Cipher.getInstance("DES");
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-
-            String encrypedValue = Base64.encodeToString(cipher.doFinal(clearText), Base64.DEFAULT);
-            Log.d("", "Encrypted: " + value + " -> " + encrypedValue);
-            return encrypedValue;
-
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        }
         return value;
     };
 }

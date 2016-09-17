@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/error_height"
     android:orientation="vertical"
-    android:background="#35000000"
+    android:background="@color/transparent_error"
     android:id="@+id/rootView"
     android:visibility="visible"
     android:layout_margin="10dp">

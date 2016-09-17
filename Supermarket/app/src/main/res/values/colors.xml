@@ -9,5 +9,6 @@
     <color name="underlineopacity">#19ffffff</color>
     <color name="message_error">#990909</color>
     <color name="message_success">#04be48</color>
+    <color name="transparent_error">#35000000</color>
 
 </resources>

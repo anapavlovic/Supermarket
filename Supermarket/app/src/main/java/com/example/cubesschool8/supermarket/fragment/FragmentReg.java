@@ -2,6 +2,7 @@ package com.example.cubesschool8.supermarket.fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -63,9 +65,10 @@ public class FragmentReg extends android.support.v4.app.Fragment {
     private List<String> listYear;
     private Button mRegButton;
     private SwitchCompat mSwitch;
-    private RelativeLayout mRelativeCompany;
+    private RelativeLayout mRelativeCompany, mRelativeRegistrationLaout;
     private LogInActivity logInAcc;
     private String s;
+    private ProgressBar mProgressBar;
 
     private SharedPreferences sharedPreferences;
 
@@ -125,6 +128,7 @@ public class FragmentReg extends android.support.v4.app.Fragment {
         mPostalCode = (CustomEditTextFont) getView().findViewById(R.id.etPostalcode);
         mRadioGroup = (RadioGroup) getView().findViewById(R.id.radioGroup);
         mTermsOfUse = (CustomTextViewFont) getView().findViewById(R.id.uslovikoriscenja);
+        mRelativeRegistrationLaout = (RelativeLayout) getView().findViewById(R.id.relativeRegistrationLaout);
 
         list = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.cityArray)));
         listDay = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.dayArray)));
@@ -201,7 +205,9 @@ public class FragmentReg extends android.support.v4.app.Fragment {
 
 
     private void signUpRequest() {
-        mRequestSignUp = new GsonRequest<ResponseSignUp>( Constant.SIGNUP_URL,Request.Method.POST, ResponseSignUp.class, new Response.Listener<ResponseSignUp>() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRelativeRegistrationLaout.setBackgroundColor(getResources().getColor(R.color.transparent_error));
+        mRequestSignUp = new GsonRequest<ResponseSignUp>(Constant.SIGNUP_URL, Request.Method.POST, ResponseSignUp.class, new Response.Listener<ResponseSignUp>() {
             @Override
             public void onResponse(ResponseSignUp response) {
                 Log.i("Response", response.toString());
@@ -212,9 +218,11 @@ public class FragmentReg extends android.support.v4.app.Fragment {
                 } else {
                    /* sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("user_registered", "user_registered").commit();
+                    editor.putString("user_registered", "user_registered").commit();*/
 
-                    logInAcc.viewPager.setCurrentItem(0);*/
+                    logInAcc.viewPager.setCurrentItem(0);
+                    mProgressBar.setVisibility(View.GONE);
+                    mRelativeRegistrationLaout.setBackgroundColor(Color.TRANSPARENT);
                 }
             }
         }, new Response.ErrorListener() {
@@ -271,7 +279,6 @@ public class FragmentReg extends android.support.v4.app.Fragment {
         };
 
         DataLoader.addRequest(getActivity(), mRequestSignUp, REQUEST_TAG);
-
 
 
     }
