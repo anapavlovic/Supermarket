@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="5dp"
-  android:layout_margin="@dimen/margin_top_et">
+    android:layout_margin="@dimen/margin_top_et"
+    app:cardCornerRadius="5dp">
 
     <RelativeLayout
         android:id="@+id/relativeRecyclerAdapter"
         android:layout_width="138.5dp"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
         android:background="@color/text_color"
         android:paddingBottom="@dimen/margin5"
 
@@ -18,55 +18,61 @@
         <ImageView
             android:id="@+id/adapterImageView"
             android:layout_width="138.5dp"
-            android:layout_height="119dp" />
+            android:layout_height="119dp"
+            android:layout_above="@+id/lineViewAdapter" />
 
         <View
             android:id="@+id/lineViewAdapter"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/adapterImageView"
+            android:layout_above="@+id/r"
             android:background="#d6d9df"></View>
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/lineViewAdapter">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/linearTitlePrice"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/yellowBasket"
-        android:layout_alignParentLeft="true">
-        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
-            android:id="@+id/productTitleTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Product Title"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_12"
-            android:layout_marginTop="@dimen/margin5"
-            android:layout_marginLeft="@dimen/margin5"/>
 
-        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
-            android:id="@+id/productPriceTv"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/r"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/productTitleTv"
-            android:text="Price"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_12"
-            android:layout_marginLeft="@dimen/margin5"/>
-    </LinearLayout>
-        <ImageView
-            android:layout_width="23.5dp"
-            android:layout_height="23.5dp"
-            android:id="@+id/yellowBasket"
-            android:layout_centerVertical="true"
-            android:background="@drawable/yellowbasket"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/margin5"/>
-</RelativeLayout>
+            android:layout_alignParentBottom="true">
+
+            <LinearLayout
+                android:id="@+id/linearTitlePrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/yellowBasket"
+                android:orientation="vertical">
+
+                <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                    android:id="@+id/productTitleTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin5"
+                    android:layout_marginTop="@dimen/margin5"
+                    android:text="Product Title"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_12" />
+
+                <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                    android:id="@+id/productPriceTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/productTitleTv"
+                    android:layout_marginLeft="@dimen/margin5"
+                    android:text="Price"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_12" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/yellowBasket"
+                android:layout_width="23.5dp"
+                android:layout_height="23.5dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin5"
+                android:background="@drawable/yellowbasket" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>
