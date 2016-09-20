@@ -18,7 +18,7 @@ import com.example.cubesschool8.supermarket.data.DataContainer;
 
 public class HomeActivity extends ActivityWithMessage {
 
-    private ImageView mDrawerMenu, mSearch;
+    private ImageView mDrawerMenu, mSearch, mShoppingCart;
 
     private RecyclerAdapter mrecyclerAdapter;
     private RecyclerView recyclerView;
@@ -50,6 +50,13 @@ public class HomeActivity extends ActivityWithMessage {
             }
         });
 
+        mShoppingCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),BasketActivity.class));
+            }
+        });
+
 
 
 
@@ -63,5 +70,6 @@ public class HomeActivity extends ActivityWithMessage {
         mSearch = (ImageView) findViewById(R.id.search);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerListview = (ListView) findViewById(R.id.drawerList);
+        mShoppingCart = (ImageView) findViewById(R.id.shopingCart);
     }
 }

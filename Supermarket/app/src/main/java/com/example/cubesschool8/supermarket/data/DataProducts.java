@@ -10,7 +10,7 @@ public class DataProducts implements Cloneable {
     public String name;
     public String description;
 
-    public String store_id;
+    public String id;
     public String seo_name;
     public String image;
     public String first_price;
@@ -25,23 +25,14 @@ public class DataProducts implements Cloneable {
     public String thumb126;
     public String thumb330;
 
+    public int count;
 
 
     @Override
     public String toString() {
         return name + " " + description;
     }
-/*
-    @Override
-    public DataProducts clone() throws CloneNotSupportedException {
 
-        DataProducts pom = new DataProducts();
-
-        pom.name=this.name;
-
-        return pom;
-    }
- */
 
     @Override
     public Object clone() throws CloneNotSupportedException {

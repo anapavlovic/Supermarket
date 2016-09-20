@@ -18,6 +18,7 @@ public class DataContainer {
     public static ArrayList<DataSignUp> signup;
     public static DataLogIn login;
     public static ArrayList<DataForgotPassword> forgotPassword;
+    public static DataSingleProduct singleProductList;
 
     public static ArrayList<DataProducts> basketList = new ArrayList<>();
 

@@ -20,6 +20,8 @@ import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.DataProducts;
+import com.example.cubesschool8.supermarket.data.response.ResponseSingleProduct;
+import com.example.cubesschool8.supermarket.networking.GsonRequest;
 
 import java.util.ArrayList;
 
@@ -92,24 +94,34 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
 
         @Override
         public void onClick(View v) {
+
+
             if (v == productImage) {
                 Intent i = new Intent(v.getContext(), ProductItemActivity.class);
                 i.putExtra("position", getAdapterPosition());
                 mContex.startActivity(i);
-            } else if (v == yellowBasket) {
-                try {
 
+            } else if (v == yellowBasket) {
+
+                try {
                     DataProducts data = new DataProducts();
                     data = (DataProducts) mList.get(getAdapterPosition()).clone();
-                    DataContainer.basketList.add(data);
-                    Toast.makeText(mContex, data.toString(), Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(v.getContext(), BasketActivity.class);
-                    i.putExtra("position", getAdapterPosition());
-                    mContex.startActivity(i);
+
+                    if (mList.get(getAdapterPosition()).count>0) {
+                        mList.get(getAdapterPosition()).count++;
+                        data.count++;
+                        notifyDataSetChanged();
+
+                    }else{
+                        mList.get(getAdapterPosition()).count++;
+                        data.count++;
+                        DataContainer.basketList.add(data);
+                        notifyDataSetChanged();
+
+                    }
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
-
             }
         }
     }

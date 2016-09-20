@@ -31,4 +31,5 @@ public class DataLogIn {
     public String newsletter;
     public String photo;
     public ArrayList<String> wish_list;
+
 }

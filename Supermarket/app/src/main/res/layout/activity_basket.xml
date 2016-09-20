@@ -20,22 +20,21 @@
             android:layout_height="22dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/back"
             android:layout_marginLeft="@dimen/margin5"
+            android:background="@drawable/back"
 
             />
 
         <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:id="@+id/Basket"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:id="@+id/Basket"
-            android:textSize="@dimen/text_size"
-            android:textColor="@color/text_color"
-            android:text="Korpa"
             android:layout_marginLeft="@dimen/margin_prijava"
             android:layout_toRightOf="@+id/productBack"
-             />
+            android:text="Korpa"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size" />
 
     </RelativeLayout>
 
@@ -44,19 +43,84 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/relativeBar"
-        android:layout_margin="@dimen/margin5"
-        >
+        android:layout_margin="@dimen/margin5">
 
     </android.support.v7.widget.RecyclerView>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/totalSum"
+        android:id="@+id/relativeAddress"
+        >
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="podaci o adresi"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size"
+            android:id="@+id/addressData"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            />
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+            android:id="@+id/etAddressBasket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginTop="@dimen/margin10"
+            android:layout_marginBottom="@dimen/margin10"
+            android:layout_toRightOf="@+id/passimg"
+            android:layout_below="@+id/addressData"
+            android:textColorHint="@color/text_color"
+            android:background="@null"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size"
+            android:inputType="text"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/arrowBasket"
+            android:background="@drawable/right"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/etAddressBasket"
+            android:layout_marginRight="@dimen/margin_prijava"
+     />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/etAddressBasket"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:background="@color/underlineopacity"
+
+            />
+    </RelativeLayout>
+    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/totalSum"
+        android:text="total"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_size"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginRight="@dimen/margin_prijava"
+        android:layout_above="@+id/buyButton"
+        android:layout_marginTop="@dimen/margin10"/>
+
     <Button
+        android:id="@+id/buyButton"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-       android:layout_margin="@dimen/margin_prijava"
         android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/margin_prijava"
         android:background="@color/colorAccent"
         android:text="@string/kupi"
-        android:textColor="@color/text_color_black"/>
+        android:textColor="@color/text_color_black" />
 
 
 </RelativeLayout>

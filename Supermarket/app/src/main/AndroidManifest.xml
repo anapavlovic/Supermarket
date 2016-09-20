@@ -27,7 +27,10 @@
         <activity android:name=".activity.TermsOfUseActivity" />
         <activity android:name=".activity.ActivityWithMessage" />
         <activity android:name=".activity.ProductItemActivity" />
-        <activity android:name=".activity.BasketActivity"></activity>
+        <activity
+            android:name=".activity.BasketActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
     </application>
 
 </manifest>
