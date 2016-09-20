@@ -1,6 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-</LinearLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg">
+
+    <RelativeLayout
+        android:id="@+id/relativeBar"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/underlineopacity"
+        android:padding="@dimen/margin5"
+
+        >
+
+        <ImageView
+            android:id="@+id/productBack"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/back"
+            android:layout_marginLeft="@dimen/margin5"
+
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/product_logo"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_toRightOf="@+id/productBack"
+            android:background="@drawable/logo_white" />
+
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relativeBar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="279dp"
+        android:id="@+id/productImage"
+        android:scaleType="centerCrop"
+        android:layout_margin="@dimen/margin5"/>
+
+    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/productPrice"
+        android:layout_margin="@dimen/margin_prijava"
+        android:textSize="@dimen/margin_top_et"
+        android:textColor="@color/text_color_black"
+        android:text="djkhj"/>
+
+    <RelativeLayout
+        android:id="@+id/relativeProductNAme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_relative"
+        android:layout_below="@+id/productImage">
+
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:id="@+id/etProductname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginTop="@dimen/margin_top_et"
+            android:layout_toRightOf="@+id/nameimage"
+            android:background="@null"
+            android:text="naziv proizvoda"
+            android:inputType="text"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/etProductname"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:background="@color/underlineopacity"
+
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relativeProductSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_relative"
+        android:layout_below="@+id/relativeProductNAme">
+
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:id="@+id/etProductSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginTop="@dimen/margin_top_et"
+            android:layout_toRightOf="@+id/nameimage"
+            android:background="@null"
+            android:text="velicina"
+            android:inputType="text"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/etProductSize"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:background="@color/underlineopacity"
+
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeProductColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_relative"
+        android:layout_below="@+id/relativeProductSize">
+
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:id="@+id/etProductColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginTop="@dimen/margin_top_et"
+            android:layout_toRightOf="@+id/nameimage"
+            android:background="@null"
+            android:text="boja"
+            android:inputType="text"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/etProductColor"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:background="@color/underlineopacity"
+
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeProductMaterial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_relative"
+        android:layout_marginBottom="@dimen/margin_prijava"
+        android:layout_below="@+id/relativeProductColor">
+
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:id="@+id/etProductMaterial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginTop="@dimen/margin_top_et"
+            android:layout_toRightOf="@+id/nameimage"
+            android:background="@null"
+            android:text="materijal"
+            android:inputType="text"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/etProductMaterial"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:background="@color/underlineopacity"
+
+            />
+    </RelativeLayout>
+
+        <Button
+            android:id="@+id/AddProductButt"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_below="@+id/relativeProductMaterial"
+            android:layout_margin="@dimen/margin_prijava"
+            android:background="@color/yellow"
+            android:text="@string/add_product"
+            android:textColor="@color/text_color_black" />
+    </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
+

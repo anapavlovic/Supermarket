@@ -1,9 +1,11 @@
 package com.example.cubesschool8.supermarket.data;
 
+import java.io.Serializable;
+
 /**
  * Created by Ana on 9/12/2016.
  */
-public class DataProducts {
+public class DataProducts implements Cloneable {
 
     public String name;
     public String description;
@@ -28,5 +30,21 @@ public class DataProducts {
     @Override
     public String toString() {
         return name + " " + description;
+    }
+/*
+    @Override
+    public DataProducts clone() throws CloneNotSupportedException {
+
+        DataProducts pom = new DataProducts();
+
+        pom.name=this.name;
+
+        return pom;
+    }
+ */
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

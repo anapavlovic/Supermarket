@@ -1,16 +1,24 @@
 package com.example.cubesschool8.supermarket.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerViewAccessibilityDelegate;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.cubesschool8.supermarket.R;
+import com.example.cubesschool8.supermarket.activity.BasketActivity;
+import com.example.cubesschool8.supermarket.activity.ProductItemActivity;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
+import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.DataProducts;
 
 import java.util.ArrayList;
@@ -24,6 +32,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
     private int resource;
     private LayoutInflater inflater;
     private ArrayList<DataProducts> mList;
+
+
 
     public RecyclerAdapter(Context context, ArrayList<DataProducts> object) {
         this.mContex = context;
@@ -44,6 +54,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
         holder.productTitle.setText(mList.get(position).name);
         holder.productPrice.setText(mList.get(position).first_price);
         Glide.with(mContex).load(mList.get(position).thumb330).centerCrop().into(holder.productImage);
+
+
     }
 
     @Override
@@ -56,7 +68,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
     }
 
 
-    public class Holder extends RecyclerView.ViewHolder {
+    public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView productImage, yellowBasket;
         private CustomTextViewFont productTitle;
@@ -70,6 +82,36 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
             productPrice = (CustomTextViewFont) itemView.findViewById(R.id.productPriceTv);
             productTitle = (CustomTextViewFont) itemView.findViewById(R.id.productTitleTv);
             yellowBasket = (ImageView) itemView.findViewById(R.id.yellowBasket);
+
+            productImage.setOnClickListener(this);
+            yellowBasket.setOnClickListener(this);
+
+
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            if (v == productImage) {
+                Intent i = new Intent(v.getContext(), ProductItemActivity.class);
+                i.putExtra("position", getAdapterPosition());
+                mContex.startActivity(i);
+            } else if (v == yellowBasket) {
+                try {
+
+                    DataProducts data = new DataProducts();
+                    data = (DataProducts) mList.get(getAdapterPosition()).clone();
+                    DataContainer.basketList.add(data);
+                    Toast.makeText(mContex, data.toString(), Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(v.getContext(), BasketActivity.class);
+                    i.putExtra("position", getAdapterPosition());
+                    mContex.startActivity(i);
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+
+            }
         }
     }
 }
+

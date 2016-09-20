@@ -24,9 +24,10 @@
             android:name=".activity.LogInActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activity.TermsOfUseActivity"></activity>
-        <activity android:name=".activity.ActivityWithMessage"></activity>
-
+        <activity android:name=".activity.TermsOfUseActivity" />
+        <activity android:name=".activity.ActivityWithMessage" />
+        <activity android:name=".activity.ProductItemActivity" />
+        <activity android:name=".activity.BasketActivity"></activity>
     </application>
 
 </manifest>

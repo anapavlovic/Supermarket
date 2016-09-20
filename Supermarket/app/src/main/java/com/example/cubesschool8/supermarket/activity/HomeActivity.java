@@ -36,7 +36,7 @@ public class HomeActivity extends ActivityWithMessage {
 
         mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
-        mrecyclerAdapter = new RecyclerAdapter(getApplicationContext(), DataContainer.products);
+        mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.products);
         recyclerView.setAdapter(mrecyclerAdapter);
 
     }
@@ -50,17 +50,10 @@ public class HomeActivity extends ActivityWithMessage {
             }
         });
 
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Toast.makeText(getApplicationContext(), "BUUUU", Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onLongItemClick(View view, int position) {
 
-            }
-        }));
+
+
     }
 
     public void inicComp() {
