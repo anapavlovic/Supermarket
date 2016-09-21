@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/confProductImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="@dimen/margin10"
+        android:layout_marginLeft="@dimen/margin10"
+        android:layout_marginBottom="@dimen/margin10"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        />
+
+    <RelativeLayout
+        android:id="@+id/relativeDetailsBasket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/confProductImage"
+        android:layout_centerVertical="true"
+        android:layout_alignTop="@+id/confProductImage"
+        android:layout_alignBottom="@+id/confProductImage"
+        >
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:id="@+id/confProductName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin5"
+            android:text="name"
+            android:textColor="@color/white_transparent"
+            android:textSize="@dimen/text_size"
+            />
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:id="@+id/confProductPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin5"
+            android:text="price"
+            android:textColor="@color/white_transparent"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/text_size" />
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:id="@+id/confProductCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin5"
+            android:text="count"
+            android:textColor="@color/white_transparent"
+            android:textSize="@dimen/text_size"
+            android:layout_alignParentBottom="true"/>
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/confProductImage"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginRight="@dimen/margin_prijava"
+        android:background="@color/underlineopacity"
+
+
+        />
+
+</RelativeLayout>

@@ -113,6 +113,7 @@ public class StartActivity extends ActivityWithMessage {
             public void onErrorResponse(VolleyError error) {
 
                 checkVolleyFinished();
+                BusProvider.getInstance().post(new MessageObject());
 
             }
         });
@@ -130,6 +131,7 @@ public class StartActivity extends ActivityWithMessage {
             public void onErrorResponse(VolleyError error) {
 
                 checkVolleyFinished();
+                BusProvider.getInstance().post(new MessageObject());
             }
         });
 
@@ -147,6 +149,7 @@ public class StartActivity extends ActivityWithMessage {
             public void onErrorResponse(VolleyError error) {
 
                 checkVolleyFinished();
+                BusProvider.getInstance().post(new MessageObject());
             }
         });
 
@@ -164,6 +167,7 @@ public class StartActivity extends ActivityWithMessage {
             public void onErrorResponse(VolleyError error) {
 
                 checkVolleyFinished();
+                BusProvider.getInstance().post(new MessageObject());
 
             }
 
@@ -213,6 +217,7 @@ public class StartActivity extends ActivityWithMessage {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.i("error", error.toString());
+                    BusProvider.getInstance().post(new MessageObject());
                     startActivity(new Intent(getApplicationContext(), LogInActivity.class));
                 }
             });

@@ -32,10 +32,16 @@ import java.util.ArrayList;
  */
 public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.Holder> {
 
+
+    public interface OnItemCountChanged {
+        public void onItemcount();
+    }
+
     private Context context;
-    private int mResource;
     private ArrayList<DataProducts> list;
     private LayoutInflater inflater;
+    private OnItemCountChanged onItemCountChanged;
+
 
     public BasketAdapter(Context context, ArrayList<DataProducts> object) {
         this.context = context;
@@ -92,6 +98,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.Holder> {
                 if (list.get(getAdapterPosition()).count > 1) {
                     list.get(getAdapterPosition()).count--;
                     notifyDataSetChanged();
+                    onItemCountChanged.onItemcount();
                 } else if (list.get(getAdapterPosition()).count == 1) {
 
                     mDialog = new AlertDialog.Builder(context)
@@ -102,6 +109,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.Holder> {
                                     list.get(getAdapterPosition()).count = 0;
                                     DataContainer.basketList.remove(list.get(getAdapterPosition()));
                                     notifyDataSetChanged();
+                                    onItemCountChanged.onItemcount();
 
 
                                 }
@@ -117,7 +125,15 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.Holder> {
             } else if (v == mPlus) {
                 list.get(getAdapterPosition()).count++;
                 notifyDataSetChanged();
+                float f = Float.parseFloat(list.get(getAdapterPosition()).first_price);
+                f *= list.get(getAdapterPosition()).count;
+                onItemCountChanged.onItemcount();
             }
         }
+    }
+
+
+    public void setOnItemCountChanged(OnItemCountChanged monItemCountChanged) {
+        onItemCountChanged = monItemCountChanged;
     }
 }

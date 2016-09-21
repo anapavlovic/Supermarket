@@ -178,4 +178,10 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
 
         return value;
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        DataLoader.cancelRequest(getContext(), REQUEST_TAG);
+    }
 }

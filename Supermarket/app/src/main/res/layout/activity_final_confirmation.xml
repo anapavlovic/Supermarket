@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rootView"
-    tools:context="com.example.cubesschool8.supermarket.activity.BasketActivity">
+    tools:context="com.example.cubesschool8.supermarket.activity.FinalConfirmationActivity">
 
     <RelativeLayout
-        android:id="@+id/relativeBar"
+        android:id="@+id/relativeBarConf"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="@color/underlineopacity"
@@ -16,7 +16,7 @@
         >
 
         <ImageView
-            android:id="@+id/productBack"
+            android:id="@+id/addressBack"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_alignParentLeft="true"
@@ -32,61 +32,41 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_prijava"
-            android:layout_toRightOf="@+id/productBack"
-            android:text="@string/korpa"
+            android:layout_toRightOf="@+id/addressBack"
+            android:text="@string/konacnaPotvrda"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
 
     </RelativeLayout>
-
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerBasket"
+        android:id="@+id/recyclerViewConf"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/relativeBar"
-        android:layout_margin="@dimen/margin5">
-
-    </android.support.v7.widget.RecyclerView>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/totalSum"
-        android:id="@+id/relativeAddress"
+        android:layout_below="@+id/relativeBarConf"
+        android:layout_margin="@dimen/margin10"
         >
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginLeft="@dimen/margin_prijava"
-            android:layout_marginRight="@dimen/margin_prijava"
-            android:background="@color/underlineopacity"
-
-            />
-    </RelativeLayout>
-    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/totalSum"
-        android:text="total"
-        android:textColor="@color/text_color"
-        android:textSize="@dimen/text_size"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="@dimen/margin_prijava"
-        android:layout_marginRight="@dimen/margin_prijava"
-        android:layout_above="@+id/buyButton"
-        android:layout_marginTop="@dimen/margin10"/>
-
+    </android.support.v7.widget.RecyclerView>
     <Button
-        android:id="@+id/buyButton"
+        android:id="@+id/finalConfButton"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/margin_prijava"
-        android:background="@color/colorAccent"
+        android:background="@color/yellow"
         android:text="@string/kupi"
         android:textColor="@color/text_color_black" />
-
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relativeProgressConf"
+        android:visibility="gone"
+        android:background="@color/transparent_error">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:id="@+id/progressConf" />
+    </RelativeLayout>
 </RelativeLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Podaci o adresi:"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_size"
+        android:id="@+id/addressData"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginTop="@dimen/margin10"
+        />
+    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+        android:id="@+id/etAddressconf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginTop="@dimen/margin10"
+        android:layout_marginBottom="@dimen/margin10"
+        android:layout_toRightOf="@+id/passimg"
+        android:layout_below="@+id/addressData"
+        android:textColorHint="@color/text_color"
+        android:background="@null"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_size"
+        android:inputType="textMultiLine"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/etAddressconf"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginRight="@dimen/margin_prijava"
+        android:background="@color/underlineopacity"
+
+        />
+</RelativeLayout>

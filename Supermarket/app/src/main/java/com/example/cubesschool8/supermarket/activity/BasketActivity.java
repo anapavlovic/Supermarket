@@ -1,5 +1,6 @@
 package com.example.cubesschool8.supermarket.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,17 +16,19 @@ import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.DataLogIn;
 import com.example.cubesschool8.supermarket.data.DataSignUp;
+import com.example.cubesschool8.supermarket.tool.BusProvider;
+import com.example.cubesschool8.supermarket.tool.MessageObject;
 
-public class BasketActivity extends AppCompatActivity {
+public class BasketActivity extends ActivityWithMessage implements BasketAdapter.OnItemCountChanged {
 
     private ImageView mbackBasket;
     private BasketAdapter mAdapter;
     private RecyclerView mRecycler;
     private Button mBuyButton;
     private RecyclerView.LayoutManager mLayoutmanager;
-    private CustomEditTextFont mAddressEt;
     private CustomTextViewFont mTotalSum;
     private DataLogIn person = new DataLogIn();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,19 +41,9 @@ public class BasketActivity extends AppCompatActivity {
         mRecycler.setLayoutManager(mLayoutmanager);
 
         mAdapter = new BasketAdapter(this, DataContainer.basketList);
+        mAdapter.setOnItemCountChanged(this);
         mRecycler.setAdapter(mAdapter);
-
-
-
-        mAddressEt.setText(DataContainer.login.address);
-
-        float total = 0;
-        for (int i = 0; i < DataContainer.basketList.size(); i++) {
-            total = total + Float.parseFloat(DataContainer.basketList.get(i).first_price);
-            mTotalSum.setText(String.valueOf(total));
-
-        }
-
+        displaytotalPrice();
 
     }
 
@@ -59,7 +52,6 @@ public class BasketActivity extends AppCompatActivity {
         mbackBasket = (ImageView) findViewById(R.id.productBack);
         mRecycler = (RecyclerView) findViewById(R.id.recyclerBasket);
         mBuyButton = (Button) findViewById(R.id.buyButton);
-        mAddressEt = (CustomEditTextFont) findViewById(R.id.etAddressBasket);
         mTotalSum = (CustomTextViewFont) findViewById(R.id.totalSum);
 
 
@@ -72,5 +64,31 @@ public class BasketActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        mBuyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (DataContainer.basketList.isEmpty()) {
+                    BusProvider.getInstance().post(new MessageObject(R.string.praznakorpa, 3000, MessageObject.MESSAGE_INFO));
+                } else {
+                    startActivity(new Intent(getApplicationContext(), AddressChangeActivity.class));
+                }
+            }
+        });
+    }
+
+    public void displaytotalPrice() {
+        float total = 0;
+        for (int i = 0; i < DataContainer.basketList.size(); i++) {
+            total = total + Float.parseFloat(DataContainer.basketList.get(i).first_price);
+            mTotalSum.setText(String.valueOf(total));
+            mAdapter.notifyDataSetChanged();
+
+        }
+    }
+
+    @Override
+    public void onItemcount() {
+        displaytotalPrice();
     }
 }

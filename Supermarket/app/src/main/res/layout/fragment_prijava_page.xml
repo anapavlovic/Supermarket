@@ -108,7 +108,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_toRightOf="@+id/checkboxSaveUserData"
-          android:text="Zelite da sacuvate podatke."
+          android:text="@string/podaci"
           android:layout_centerVertical="true"
           android:textSize="@dimen/text_size"
           android:textColor="@color/text_color"

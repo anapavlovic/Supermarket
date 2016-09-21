@@ -81,12 +81,14 @@ public class ActivityWithMessage extends AppCompatActivity {
                         errorAnimBack = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.error_up);
                         mMessageView.setAnimation(errorAnimBack);
                         mMessageView.setVisibility(View.GONE);
+                        mRootView.removeView(mMessageView);
                     }
                 }, messageObject.time);
 
 
             }
         };
+
     }
 
     @Override

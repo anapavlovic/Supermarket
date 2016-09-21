@@ -140,6 +140,7 @@ public class FragmentReg extends android.support.v4.app.Fragment {
         monthSpinner = (Spinner) getView().findViewById(R.id.spinnerMonth);
         yearSpinner = (Spinner) getView().findViewById(R.id.spinnerYear);
 
+
         mCheckBox = (CheckBox) getView().findViewById(R.id.checkboxNewsLetter);
 
         mFemale = (RadioButton) getView().findViewById(R.id.radioFemale);
@@ -283,8 +284,13 @@ public class FragmentReg extends android.support.v4.app.Fragment {
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        DataLoader.cancelRequest(getContext(), REQUEST_TAG);
+    }
 
-    // Constant.SIGNUP_URL+"?first_name="+ mName.getText().toString()+"&last_name="+mSurname.getText().toString()+"&email="+mEmail.getText().toString()+"&password="+mPass.getText().toString()+
+// Constant.SIGNUP_URL+"?first_name="+ mName.getText().toString()+"&last_name="+mSurname.getText().toString()+"&email="+mEmail.getText().toString()+"&password="+mPass.getText().toString()+
     //  "&password_retype="+mPassRetype.getText().toString()+"&call_phone="+mMobile.getText().toString()+"&phone="+mPhone.getText().toString()+"&fax="+mFax.getText().toString()+
     //         "&street="+mStreet.getText().toString()+"&number="+mNumber.getText().toString()+"&appartment="+mApartment.getText().toString()+"&floor="+mFloor.getText().toString()+
     //         "&entrance="+mEntrance.getText().toString()+"&city="+citySpinner.getSelectedItem().toString()+"&postal_code="+mPostalCode.getText().toString()+"&newsletter=0"+"&day="+

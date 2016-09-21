@@ -97,4 +97,10 @@ public class ProductItemActivity extends Activity {
         });
         DataLoader.addRequest(getApplicationContext(), mRequestSingleProduct, REQUEST_TAG);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DataLoader.cancelRequest(getApplicationContext(), REQUEST_TAG);
+    }
 }

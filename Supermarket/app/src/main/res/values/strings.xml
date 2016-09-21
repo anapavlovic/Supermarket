@@ -11,17 +11,24 @@
     <string name="uslovikoriscenja">Uslovi Korišćenja</string>
     <string name="registration">Registruj se</string>
     <string name="pravno_lice">Pravno lice</string>
-    <string name="newsletter">Da li zelite da primate novosti?</string>
+    <string name="newsletter">Da li želite da primate novosti?</string>
+    <string name="podaci">Da li želite da sačuvate podatke?</string>
     <string name="days_months">Izabrani mesec nema taj broj dana.</string>
     <string name="invalid_emal">Invalid Email Address</string>
     <string name="required_fields">Niste popunili sva polja.</string>
-    <string name="server_error">Greska na serveru. Pokusajte kasnije.</string>
+    <string name="server_error">Greška na serveru. Pokušajte kasnije.</string>
     <string name="phone_length">Proverite uneti broj telefona</string>
     <string name="radiogroup_check">Izaberite pol</string>
-    <string name="volley_error">Servis nije dostupan. Pokusajte kasnije</string>
-    <string name="login_incorrect">Uneti podaci su neispravni</string>
+    <string name="volley_error">Servis nije dostupan. Pokušajte kasnije.</string>
+    <string name="login_incorrect">Uneti podaci su neispravni.</string>
     <string name="add_product">Dodaj u korpu</string>
     <string name="kupi">Kupi</string>
+    <string name="adresa">Potvrdite adresu za slanje proizvoda.</string>
+    <string name="korpa">Korpa</string>
+    <string name="potvrda">Potvrdi</string>
+    <string name="konacnaPotvrda">Konačna potvrda</string>
+    <string name="praznakorpa">Vaša korpa je prazna."</string>
+
 
 
     <string-array name="cityArray">

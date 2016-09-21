@@ -42,6 +42,16 @@ public class MessageObject {
 
     }
 
+    public MessageObject(int stringResource, int time, int type) {
+        this.stringResource = stringResource;
+        this.type = type;
+        this.time = time;
+        listener=null;
+        colorRed = R.color.message_error;
+        colorGreen = R.color.message_success;
+        colorYellow = R.color.colorAccent;
+    }
+
     public MessageObject(int stringResource, int time, int type, OnMessageClickListener listener) {
         this.stringResource = stringResource;
         this.type = type;
