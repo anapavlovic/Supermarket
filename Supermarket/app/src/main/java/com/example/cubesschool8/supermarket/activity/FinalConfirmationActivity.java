@@ -54,6 +54,7 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
                             try {
                                 Thread.sleep(2000);
                                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                DataContainer.basketList.clear();
                                 finish();
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
