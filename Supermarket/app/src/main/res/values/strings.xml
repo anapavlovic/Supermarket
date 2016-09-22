@@ -28,6 +28,8 @@
     <string name="potvrda">Potvrdi</string>
     <string name="konacnaPotvrda">Konačna potvrda</string>
     <string name="praznakorpa">Vaša korpa je prazna."</string>
+    <string name="dodato_korpa">Proizvod je uspešno dodat u korpu.</string>
+    <string name="proizvod_u_korpi">Proizvod se već nalazi u korpi.</string>
 
 
 

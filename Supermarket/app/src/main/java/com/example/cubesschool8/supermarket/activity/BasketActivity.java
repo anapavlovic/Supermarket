@@ -22,7 +22,7 @@ import com.example.cubesschool8.supermarket.tool.MessageObject;
 public class BasketActivity extends ActivityWithMessage implements BasketAdapter.OnItemCountChanged {
 
     private ImageView mbackBasket;
-    private BasketAdapter mAdapter;
+    public  BasketAdapter mAdapter;
     private RecyclerView mRecycler;
     private Button mBuyButton;
     private RecyclerView.LayoutManager mLayoutmanager;
@@ -78,9 +78,12 @@ public class BasketActivity extends ActivityWithMessage implements BasketAdapter
     }
 
     public void displaytotalPrice() {
-        float total = 0;
+        if(DataContainer.basketList.isEmpty()){
+           mTotalSum.setText("0.00");
+        }
+        double total = 0;
         for (int i = 0; i < DataContainer.basketList.size(); i++) {
-            total = total + Float.parseFloat(DataContainer.basketList.get(i).first_price);
+            total = total + (Double.parseDouble(DataContainer.basketList.get(i).first_price)*DataContainer.basketList.get(i).count);
             mTotalSum.setText(String.valueOf(total));
             mAdapter.notifyDataSetChanged();
 

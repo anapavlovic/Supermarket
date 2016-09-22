@@ -3,6 +3,7 @@ package com.example.cubesschool8.supermarket.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,18 +22,21 @@ import com.example.cubesschool8.supermarket.data.DataProducts;
 import com.example.cubesschool8.supermarket.data.response.ResponseSingleProduct;
 import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
+import com.example.cubesschool8.supermarket.tool.BusProvider;
+import com.example.cubesschool8.supermarket.tool.MessageObject;
 
 /**
  * Created by cubesschool8 on 9/19/16.
  */
-public class ProductItemActivity extends Activity {
+public class ProductItemActivity extends ActivityWithMessage {
     private final String REQUEST_TAG = "Start_activity";
     private ImageView mBack, mProductImage;
-    private CustomTextViewFont mProductName, mProductSize, mProductColor, mProductMaterial, mProductPrice;
+    private CustomTextViewFont mProductName, mProductSize, mProductColor, mProductMaterial, mProductPrice, mSupplier, mGender;
 
     private Button mAddProduct;
     private DataProducts data = new DataProducts();
     private GsonRequest<ResponseSingleProduct> mRequestSingleProduct;
+    private BasketActivity mBasketActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,8 @@ public class ProductItemActivity extends Activity {
         data = DataContainer.products.get(getIntent().getIntExtra("position", 0));
         mProductName.setText(data.name);
         mProductPrice.setText(data.first_price);
+        mProductSize.setText("Veličine: " + data.sizes);
+        mProductColor.setText("Boja: " + data.color);
         Glide.with(getApplicationContext()).load(data.thumb330).into(mProductImage);
     }
 
@@ -63,6 +69,9 @@ public class ProductItemActivity extends Activity {
         mProductMaterial = (CustomTextViewFont) findViewById(R.id.etProductMaterial);
         mProductPrice = (CustomTextViewFont) findViewById(R.id.productPrice);
         mAddProduct = (Button) findViewById(R.id.AddProductButt);
+        mSupplier = (CustomTextViewFont) findViewById(R.id.etProductBrand);
+        mGender = (CustomTextViewFont) findViewById(R.id.etProductGender);
+        mBasketActivity = new BasketActivity();
 
 
     }
@@ -71,23 +80,53 @@ public class ProductItemActivity extends Activity {
         mAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if (DataContainer.basketList.contains(data)) {
-                        data.count++;
+                DataProducts dataClone = new DataProducts();
+                try {
+                    dataClone = (DataProducts) data.clone();
+
+                    if (data.count > 0) {
+                        for (int i = 0; i < DataContainer.basketList.size(); i++) {
+                            if (data.id.equalsIgnoreCase(DataContainer.basketList.get(i).id)) {
+                                DataContainer.basketList.get(i).count++;
+                                data.count++;
+                            }
+                        }
+
                     } else {
-                        DataContainer.basketList.add(data);
+                        DataContainer.basketList.add(dataClone);
                         data.count++;
+                        dataClone.count++;
                     }
 
+
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                BusProvider.getInstance().post(new MessageObject(R.string.dodato_korpa, 3000, MessageObject.MESSAGE_SUCCESS));
+
+            }
+        });
+
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }
 
     public void singleProductDataRequest() {
-        mRequestSingleProduct = new GsonRequest<ResponseSingleProduct>(Constant.SINGLE_PRODUCT_URL + "?token=" + DataContainer.TOKEN + "&id" + data.id, Request.Method.GET, ResponseSingleProduct.class,
+        mRequestSingleProduct = new GsonRequest<ResponseSingleProduct>(Constant.SINGLE_PRODUCT_URL + "?token=" + DataContainer.TOKEN + "&id=" + data.id, Request.Method.GET, ResponseSingleProduct.class,
                 new Response.Listener<ResponseSingleProduct>() {
                     @Override
                     public void onResponse(ResponseSingleProduct response) {
                         DataContainer.singleProductList = response.data.results;
+                        mProductMaterial.setText("Materijal: " + DataContainer.singleProductList.material);
+                        mSupplier.setText("Brand: " + DataContainer.singleProductList.supplier);
+                        mGender.setText("Pol: " + DataContainer.singleProductList.gender);
+                        if (mProductSize == null) {
+                            mProductSize.setText("Veličine:" + DataContainer.singleProductList.sizes);
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -96,6 +135,7 @@ public class ProductItemActivity extends Activity {
             }
         });
         DataLoader.addRequest(getApplicationContext(), mRequestSingleProduct, REQUEST_TAG);
+
     }
 
     @Override

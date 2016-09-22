@@ -106,7 +106,14 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.Holder> {
                             .setPositiveButton("DA", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    list.get(getAdapterPosition()).count = 0;
+
+                                    for (int i = 0; i < DataContainer.products.size(); i++) {
+                                        if (DataContainer.products.get(i).id.equalsIgnoreCase(list.get(getAdapterPosition()).id)) {
+                                            DataContainer.products.get(i).count = 0;
+                                            list.get(getAdapterPosition()).count = 0;
+                                        }
+
+                                    }
                                     DataContainer.basketList.remove(list.get(getAdapterPosition()));
                                     notifyDataSetChanged();
                                     onItemCountChanged.onItemcount();
@@ -125,8 +132,6 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.Holder> {
             } else if (v == mPlus) {
                 list.get(getAdapterPosition()).count++;
                 notifyDataSetChanged();
-                float f = Float.parseFloat(list.get(getAdapterPosition()).first_price);
-                f *= list.get(getAdapterPosition()).count;
                 onItemCountChanged.onItemcount();
             }
         }

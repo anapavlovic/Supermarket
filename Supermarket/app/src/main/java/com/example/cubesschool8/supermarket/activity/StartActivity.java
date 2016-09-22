@@ -138,9 +138,9 @@ public class StartActivity extends ActivityWithMessage {
         mRequestProducts = new GsonRequest<ResponseProducts>(Constant.PRODUCTS_URL + "?token=" + DataContainer.TOKEN, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
             @Override
             public void onResponse(ResponseProducts response) {
-
-                DataContainer.products = response.data.results;
                 checkVolleyFinished();
+                DataContainer.products = response.data.results;
+
 
 
             }

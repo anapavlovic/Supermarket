@@ -22,6 +22,8 @@ import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.DataProducts;
 import com.example.cubesschool8.supermarket.data.response.ResponseSingleProduct;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
+import com.example.cubesschool8.supermarket.tool.BusProvider;
+import com.example.cubesschool8.supermarket.tool.MessageObject;
 
 import java.util.ArrayList;
 
@@ -34,7 +36,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
     private int resource;
     private LayoutInflater inflater;
     private ArrayList<DataProducts> mList;
-
 
 
     public RecyclerAdapter(Context context, ArrayList<DataProducts> object) {
@@ -84,7 +85,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
             productPrice = (CustomTextViewFont) itemView.findViewById(R.id.productPriceTv);
             productTitle = (CustomTextViewFont) itemView.findViewById(R.id.productTitleTv);
             yellowBasket = (ImageView) itemView.findViewById(R.id.yellowBasket);
-
             productImage.setOnClickListener(this);
             yellowBasket.setOnClickListener(this);
 
@@ -107,18 +107,26 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
                     DataProducts data = new DataProducts();
                     data = (DataProducts) mList.get(getAdapterPosition()).clone();
 
-                    if (mList.get(getAdapterPosition()).count>0) {
-                        mList.get(getAdapterPosition()).count++;
-                        data.count++;
-                        notifyDataSetChanged();
 
-                    }else{
+                    if (mList.get(getAdapterPosition()).count > 0) {
+                        for (int i = 0; i < DataContainer.basketList.size(); i++) {
+                            if (mList.get(getAdapterPosition()).id.equals(DataContainer.basketList.get(i).id)) {
+                                mList.get(getAdapterPosition()).count++;
+                                DataContainer.basketList.get(i).count++;
+                                notifyDataSetChanged();
+                                BusProvider.getInstance().post(new MessageObject(R.string.dodato_korpa, 3000, MessageObject.MESSAGE_SUCCESS));
+                            }
+                        }
+
+                    } else {
                         mList.get(getAdapterPosition()).count++;
                         data.count++;
                         DataContainer.basketList.add(data);
                         notifyDataSetChanged();
-
+                        BusProvider.getInstance().post(new MessageObject(R.string.dodato_korpa, 3000, MessageObject.MESSAGE_SUCCESS));
                     }
+
+
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }

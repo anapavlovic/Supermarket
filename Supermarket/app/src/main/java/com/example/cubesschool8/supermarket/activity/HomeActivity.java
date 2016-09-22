@@ -1,5 +1,6 @@
 package com.example.cubesschool8.supermarket.activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +16,10 @@ import android.widget.Toast;
 import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.adapter.RecyclerAdapter;
 import com.example.cubesschool8.supermarket.data.DataContainer;
+import com.example.cubesschool8.supermarket.tool.BusProvider;
+import com.example.cubesschool8.supermarket.tool.MessageObject;
 
-public class HomeActivity extends ActivityWithMessage {
+public class HomeActivity extends ActivityWithMessage{
 
     private ImageView mDrawerMenu, mSearch, mShoppingCart;
 
@@ -53,12 +56,9 @@ public class HomeActivity extends ActivityWithMessage {
         mShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),BasketActivity.class));
+                startActivity(new Intent(getApplicationContext(), BasketActivity.class));
             }
         });
-
-
-
 
 
     }
@@ -72,4 +72,7 @@ public class HomeActivity extends ActivityWithMessage {
         mDrawerListview = (ListView) findViewById(R.id.drawerList);
         mShoppingCart = (ImageView) findViewById(R.id.shopingCart);
     }
+
+
+
 }

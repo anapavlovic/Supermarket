@@ -50,7 +50,7 @@ public class ActivityWithMessage extends AppCompatActivity {
                     mTextView = (CustomTextViewFont) mMessageView.findViewById(R.id.errorPopup);
                 }
 
-                mTextView.setText(messageObject.stringResource);  /// chekirati tip poruke i setovati color texta, (u konstruktoru MessageObjekta da setujemo color)
+                mTextView.setText(messageObject.stringResource);  /// chekirati tip poruke i setovati color texta
 
 
                 switch (messageObject.type) {

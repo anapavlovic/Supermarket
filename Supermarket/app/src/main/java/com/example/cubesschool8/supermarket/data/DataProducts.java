@@ -20,6 +20,7 @@ public class DataProducts implements Cloneable {
     public String new_article;
     public String stock;
     public String brand;
+    public String color;
     public String store;
     public String thumb80;
     public String thumb126;

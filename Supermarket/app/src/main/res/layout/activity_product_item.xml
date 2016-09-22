@@ -3,7 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="@drawable/bg"
+    android:id="@id/rootView">
 
     <RelativeLayout
         android:id="@+id/relativeBar"
@@ -112,7 +113,7 @@
             android:layout_marginTop="@dimen/margin_top_et"
             android:layout_toRightOf="@+id/nameimage"
             android:background="@null"
-            android:text="velicina"
+            android:text="veličina"
             android:inputType="text"
             android:textColor="@color/text_color"
             android:textColorHint="@color/text_color"
@@ -169,7 +170,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_top_relative"
-        android:layout_marginBottom="@dimen/margin_prijava"
         android:layout_below="@+id/relativeProductColor">
 
 
@@ -200,16 +200,118 @@
             />
     </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/relativeProductBrand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_relative"
+                android:layout_below="@+id/relativeProductMaterial">
+
+
+                <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                    android:id="@+id/etProductBrand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="@dimen/margin_prijava"
+                    android:layout_marginTop="@dimen/margin_top_et"
+                    android:layout_toRightOf="@+id/nameimage"
+                    android:background="@null"
+                    android:text="description"
+                    android:inputType="text"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/text_color"
+                    android:textSize="@dimen/text_size" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/etProductBrand"
+                    android:layout_marginLeft="@dimen/margin_prijava"
+                    android:layout_marginRight="@dimen/margin_prijava"
+                    android:background="@color/underlineopacity"
+
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/relativeProductGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_relative"
+                android:layout_below="@+id/relativeProductBrand">
+
+
+                <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                    android:id="@+id/etProductGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="@dimen/margin_prijava"
+                    android:layout_marginTop="@dimen/margin_top_et"
+                    android:layout_toRightOf="@+id/nameimage"
+                    android:background="@null"
+                    android:text="description"
+                    android:inputType="text"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/text_color"
+                    android:textSize="@dimen/text_size" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/etProductGender"
+                    android:layout_marginLeft="@dimen/margin_prijava"
+                    android:layout_marginRight="@dimen/margin_prijava"
+                    android:background="@color/underlineopacity"
+
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/relativeProductempty"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/margin_top_relative"
+                android:layout_below="@+id/relativeProductGender">
+
+
+                <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                    android:id="@+id/etProductempty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="@dimen/margin_prijava"
+                    android:layout_marginTop="@dimen/margin_top_et"
+                    android:layout_toRightOf="@+id/nameimage"
+                    android:background="@null"
+                    android:inputType="text"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/text_color"
+                    android:textSize="@dimen/text_size" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/etProductempty"
+                    android:layout_marginLeft="@dimen/margin_prijava"
+                    android:layout_marginRight="@dimen/margin_prijava"
+                    android:background="@color/underlineopacity"
+
+                    />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
         <Button
             android:id="@+id/AddProductButt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_below="@+id/relativeProductMaterial"
+          android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/margin_prijava"
             android:background="@color/yellow"
             android:text="@string/add_product"
             android:textColor="@color/text_color_black" />
-    </RelativeLayout>
-    </ScrollView>
+
 </RelativeLayout>
 
