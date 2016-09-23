@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.cubesschool8.supermarket.activity.AddressChangeActivity"
-    android:id="@+id/rootView">
+    tools:context="com.example.cubesschool8.supermarket.activity.AddressChangeActivity">
 
     <RelativeLayout
         android:id="@+id/relativeBarAddress"
@@ -223,44 +223,39 @@
     </LinearLayout>
 
 
+
     <RelativeLayout
         android:id="@+id/relativeCityAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/relativeAppartmentAddress">
+        android:layout_below="@+id/relativeAppartmentAddress"
+        >
 
         <ImageView
-            android:id="@+id/cityimgAddress"
+            android:id="@+id/cityimg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="@dimen/margin_prijava"
-            android:layout_alignBottom="@+id/l"
             android:background="@drawable/city" />
 
         <LinearLayout
             android:id="@+id/l"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/cityimgAddress"
+            android:layout_toRightOf="@id/cityimg"
             android:orientation="horizontal">
 
-            <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+            <Spinner
                 android:id="@+id/etCityAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="@dimen/margin_prijava"
-                android:layout_marginTop="25dp"
-                android:layout_toRightOf="@+id/spinnerCity"
-                android:layout_weight="2"
-                android:background="@null"
-                android:hint="grad"
-                android:textColor="@color/text_color"
-                android:textColorHint="@color/text_color"
-                android:textSize="@dimen/text_size" />
-
+                android:layout_marginBottom="@dimen/margin_top_relative"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="@dimen/margin_top_relative"
+                android:layout_toRightOf="@+id/cityimg"
+                android:layout_weight="1"></Spinner>
 
             <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                 android:id="@+id/etPostalcodeAddress"
@@ -289,6 +284,35 @@
 
             />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativePayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeCityAddress">
+
+
+        <Spinner
+            android:id="@+id/paymentSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="@dimen/margin_top_relative"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/margin_top_relative"></Spinner>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/relativePayment"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginRight="@dimen/margin_prijava"
+        android:background="@color/underlineopacity"
+
+        />
+
 
     <Button
         android:id="@+id/changeAddressButton"

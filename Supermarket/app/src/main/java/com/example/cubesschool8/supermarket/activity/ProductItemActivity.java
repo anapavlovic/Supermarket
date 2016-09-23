@@ -102,7 +102,12 @@ public class ProductItemActivity extends ActivityWithMessage {
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
-                BusProvider.getInstance().post(new MessageObject(R.string.dodato_korpa, 3000, MessageObject.MESSAGE_SUCCESS));
+
+                if (BusProvider.getInstance() == null) {
+                    BusProvider.getInstance().post(new MessageObject(R.string.dodato_korpa, 3000, MessageObject.MESSAGE_SUCCESS));
+                } else {
+                }
+
 
             }
         });

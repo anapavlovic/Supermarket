@@ -71,7 +71,9 @@ public class BasketActivity extends ActivityWithMessage implements BasketAdapter
                 if (DataContainer.basketList.isEmpty()) {
                     BusProvider.getInstance().post(new MessageObject(R.string.praznakorpa, 3000, MessageObject.MESSAGE_INFO));
                 } else {
-                    startActivity(new Intent(getApplicationContext(), AddressChangeActivity.class));
+                    Intent i = new Intent(getApplicationContext(), AddressChangeActivity.class);
+                    i.putExtra("total", mTotalSum.getText().toString());
+                    startActivity(i);
                 }
             }
         });

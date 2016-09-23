@@ -32,6 +32,15 @@
     <string name="proizvod_u_korpi">Proizvod se već nalazi u korpi.</string>
 
 
+    <string-array name="paymentOptions">
+        <item>Novac u gotovini</item>
+        <item>Cekovima</item>
+        <item>Platna kartica</item>
+        <item>Ziralno placanje</item>
+
+
+    </string-array>
+
 
     <string-array name="cityArray">
         <item>Izaberite grad:</item>

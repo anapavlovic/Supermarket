@@ -47,6 +47,19 @@
         >
 
     </android.support.v7.widget.RecyclerView>
+    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/totalSumConf"
+        android:text="total"
+        android:textColor="@color/text_color"
+        android:textSize="18dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginRight="@dimen/margin_prijava"
+        android:layout_above="@+id/finalConfButton"
+        android:layout_marginTop="@dimen/margin10"/>
     <Button
         android:id="@+id/finalConfButton"
         android:layout_width="match_parent"

@@ -36,13 +36,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
     private int resource;
     private LayoutInflater inflater;
     private ArrayList<DataProducts> mList;
+    public boolean mComponentEnabled;
 
 
     public RecyclerAdapter(Context context, ArrayList<DataProducts> object) {
         this.mContex = context;
         this.mList = object;
         inflater = LayoutInflater.from(mContex);
-
+        mComponentEnabled = true;
     }
 
     @Override
@@ -58,6 +59,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
         holder.productPrice.setText(mList.get(position).first_price);
         Glide.with(mContex).load(mList.get(position).thumb330).centerCrop().into(holder.productImage);
 
+        holder.yellowBasket.setEnabled(mComponentEnabled);
 
     }
 
@@ -108,13 +110,31 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
                     data = (DataProducts) mList.get(getAdapterPosition()).clone();
 
 
+                    //  int position = getAdapterPosition();
+
+
                     if (mList.get(getAdapterPosition()).count > 0) {
                         for (int i = 0; i < DataContainer.basketList.size(); i++) {
-                            if (mList.get(getAdapterPosition()).id.equals(DataContainer.basketList.get(i).id)) {
+                            if (mList.get(getAdapterPosition()).id.equalsIgnoreCase(DataContainer.basketList.get(i).id)) {
                                 mList.get(getAdapterPosition()).count++;
                                 DataContainer.basketList.get(i).count++;
-                                notifyDataSetChanged();
-                                BusProvider.getInstance().post(new MessageObject(R.string.dodato_korpa, 3000, MessageObject.MESSAGE_SUCCESS));
+                               
+                                    BusProvider.getInstance().post(new MessageObject(R.string.dodato_korpa, 3000, MessageObject.MESSAGE_SUCCESS));
+
+
+
+                                mComponentEnabled=false;
+
+                                itemView.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mComponentEnabled=true;
+                                        notifyDataSetChanged();
+                                    }
+                                }, 5000);
+
+                            } else {
+
                             }
                         }
 
@@ -122,12 +142,28 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
                         mList.get(getAdapterPosition()).count++;
                         data.count++;
                         DataContainer.basketList.add(data);
-                        notifyDataSetChanged();
+
                         BusProvider.getInstance().post(new MessageObject(R.string.dodato_korpa, 3000, MessageObject.MESSAGE_SUCCESS));
+
+
+                       mComponentEnabled=false;
+
+                        itemView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mComponentEnabled=true;
+                                notifyDataSetChanged();
+
+                            }
+                        }, 5000);
+
                     }
 
+                    notifyDataSetChanged();
 
                 } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                } catch (IllegalStateException e) {
                     e.printStackTrace();
                 }
             }

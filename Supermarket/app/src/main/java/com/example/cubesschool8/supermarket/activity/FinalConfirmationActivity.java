@@ -14,6 +14,8 @@ import android.widget.RelativeLayout;
 
 import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.adapter.FinalConfirmationAdapter;
+import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
+import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.tool.BusProvider;
@@ -26,6 +28,7 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
     private Button buy;
     private RelativeLayout relativeProgress;
     private ProgressBar progressBar;
+    private CustomTextViewFont mTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +36,16 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
         setContentView(R.layout.activity_final_confirmation);
         inicComp();
         addListener();
+
+        String total = getIntent().getStringExtra("total");
+
+        mTotal.setText("Ukupno " + total);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
         mAdapter = new FinalConfirmationAdapter(getApplicationContext(), DataContainer.basketList);
         recyclerView.setAdapter(mAdapter);
+
     }
 
     public void addListener() {
@@ -74,6 +82,7 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
         relativeProgress = (RelativeLayout) findViewById(R.id.relativeProgressConf);
         progressBar = (ProgressBar) findViewById(R.id.progressConf);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#feea00"), PorterDuff.Mode.SRC_IN);
+        mTotal = (CustomTextViewFont) findViewById(R.id.totalSumConf);
 
     }
 
