@@ -70,6 +70,7 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
                                     for (int j = 0; j < DataContainer.products.size(); j++) {
                                         if (DataContainer.products.get(i).id.equalsIgnoreCase(DataContainer.basketList.get(i).id)) {
                                             DataContainer.products.get(i).count = 0;
+                                        } else {
                                         }
 
                                     }
