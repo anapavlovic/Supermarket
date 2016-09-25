@@ -30,6 +30,7 @@ public class DataLogIn {
     public String gender;
     public String newsletter;
     public String photo;
+    public String user_type;
     public ArrayList<String> wish_list;
 
 }

@@ -73,6 +73,9 @@ public class HomeActivity extends ActivityWithMessage{
         mShoppingCart = (ImageView) findViewById(R.id.shopingCart);
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

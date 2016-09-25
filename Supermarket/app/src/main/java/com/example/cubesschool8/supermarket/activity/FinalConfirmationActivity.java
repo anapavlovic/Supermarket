@@ -17,9 +17,12 @@ import com.example.cubesschool8.supermarket.adapter.FinalConfirmationAdapter;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataContainer;
+import com.example.cubesschool8.supermarket.data.DataProducts;
 import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.tool.BusProvider;
 import com.example.cubesschool8.supermarket.tool.MessageObject;
+
+import java.util.ArrayList;
 
 public class FinalConfirmationActivity extends ActivityWithMessage {
     private RecyclerView recyclerView;
@@ -61,8 +64,19 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
                         public void run() {
                             try {
                                 Thread.sleep(2000);
-                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+
+                                for (int i = 0; i < DataContainer.basketList.size(); i++) {
+                                    DataContainer.basketList.get(i).count = 0;
+                                    for (int j = 0; j < DataContainer.products.size(); j++) {
+                                        if (DataContainer.products.get(i).id.equalsIgnoreCase(DataContainer.basketList.get(i).id)) {
+                                            DataContainer.products.get(i).count = 0;
+                                        }
+
+                                    }
+                                }
                                 DataContainer.basketList.clear();
+                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+
                                 finish();
                             } catch (InterruptedException e) {
                                 e.printStackTrace();

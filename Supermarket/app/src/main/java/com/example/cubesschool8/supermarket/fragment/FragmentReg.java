@@ -3,6 +3,7 @@ package com.example.cubesschool8.supermarket.fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -29,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.example.cubesschool8.supermarket.activity.LogInActivity;
 import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.activity.TermsOfUseActivity;
+import com.example.cubesschool8.supermarket.adapter.CitySpinnerAdapter;
 import com.example.cubesschool8.supermarket.adapter.SpinnerAdapter;
 import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
@@ -37,6 +39,8 @@ import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.response.ResponseSignUp;
 import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
+import com.example.cubesschool8.supermarket.tool.BusProvider;
+import com.example.cubesschool8.supermarket.tool.MessageObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +62,8 @@ public class FragmentReg extends android.support.v4.app.Fragment {
     private CheckBox mCheckBox;
     private RadioButton mFemale, mMale;
     private RadioGroup mRadioGroup;
-    private SpinnerAdapter mAdapterCity, mAdapterDay, mAdapterMonth, mAdapterYear;
+    private SpinnerAdapter mAdapterDay, mAdapterMonth, mAdapterYear;
+    private CitySpinnerAdapter mAdapterCity;
     private List<String> list;
     private List<String> listDay;
     private List<String> listMonth;
@@ -69,6 +74,7 @@ public class FragmentReg extends android.support.v4.app.Fragment {
     private LogInActivity logInAcc;
     private String s;
     private ProgressBar mProgressBar;
+
 
     private SharedPreferences sharedPreferences;
 
@@ -134,6 +140,8 @@ public class FragmentReg extends android.support.v4.app.Fragment {
         listDay = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.dayArray)));
         listMonth = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.monthArray)));
         listYear = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.yearArray)));
+        mProgressBar = (ProgressBar) getView().findViewById(R.id.progressSignUp);
+        mProgressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_IN);
 
         citySpinner = (Spinner) getView().findViewById(R.id.spinnerCity);
         daySpinner = (Spinner) getView().findViewById(R.id.spinnerDay);
@@ -146,7 +154,7 @@ public class FragmentReg extends android.support.v4.app.Fragment {
         mFemale = (RadioButton) getView().findViewById(R.id.radioFemale);
         mMale = (RadioButton) getView().findViewById(R.id.radioMale);
 
-        mAdapterCity = new SpinnerAdapter(getActivity(), R.layout.spinner_adapter, list);
+        mAdapterCity = new CitySpinnerAdapter(getActivity(), R.layout.spinner_adapter, DataContainer.cities);
         citySpinner.setAdapter(mAdapterCity);
 
         mAdapterDay = new SpinnerAdapter(getActivity(), R.layout.spinner_adapter, listDay);
@@ -174,20 +182,29 @@ public class FragmentReg extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 if (daySpinner.getSelectedItem().toString().equalsIgnoreCase("31") && (monthSpinner.getSelectedItem().toString().equalsIgnoreCase("02") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("04") ||
                         monthSpinner.getSelectedItem().toString().equalsIgnoreCase("06") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("09") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("11"))) {
-                    Toast.makeText(getActivity(), R.string.days_months, Toast.LENGTH_SHORT).show();
+                    BusProvider.getInstance().post(new MessageObject(R.string.days_months, 3000, MessageObject.MESSAGE_ERROR));
+
                 } else if (daySpinner.getSelectedItem().toString().equalsIgnoreCase("30") && monthSpinner.getSelectedItem().toString().equalsIgnoreCase("02")) {
-                    Toast.makeText(getActivity(), R.string.days_months, Toast.LENGTH_SHORT).show();
+                    BusProvider.getInstance().post(new MessageObject(R.string.days_months, 3000, MessageObject.MESSAGE_ERROR));
+
                 } else if (mName.getText().toString().equalsIgnoreCase(" ") || mSurname.getText().toString().equalsIgnoreCase("") || mMobile.getText().toString().equalsIgnoreCase("")
                         || mPhone.getText().toString().equalsIgnoreCase("") || mFax.getText().toString().equalsIgnoreCase("") || mStreet.getText().toString().equalsIgnoreCase("") ||
                         mNumber.getText().toString().equalsIgnoreCase("") || mApartment.getText().toString().equalsIgnoreCase("") || mFloor.getText().toString().equalsIgnoreCase("") || mEntrance.getText().toString().equalsIgnoreCase("") ||
                         citySpinner.getSelectedItem().toString().equalsIgnoreCase("Izaberite grad:") || mPass.getText().toString().equalsIgnoreCase("") || mPassRetype.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(getActivity(), R.string.required_fields, Toast.LENGTH_SHORT).show();
+                    BusProvider.getInstance().post(new MessageObject(R.string.required_fields, 3000, MessageObject.MESSAGE_ERROR));
+
                 } else if (!mEmail.getText().toString().trim().matches("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
                     mEmail.setError("Invalid Email Address");
                 } else if (mPhone.getText().toString().length() < 5 || mMobile.getText().toString().length() < 5) {
-                    Toast.makeText(getActivity(), R.string.phone_length, Toast.LENGTH_SHORT).show();
+                    BusProvider.getInstance().post(new MessageObject(R.string.phone_length, 3000, MessageObject.MESSAGE_ERROR));
+
                 } else if (mRadioGroup.getCheckedRadioButtonId() == -1) {
-                    Toast.makeText(getActivity(), R.string.radiogroup_check, Toast.LENGTH_SHORT).show();
+                    BusProvider.getInstance().post(new MessageObject(R.string.radiogroup_check, 3000, MessageObject.MESSAGE_ERROR));
+
+                } else if (!mPass.getText().toString().equalsIgnoreCase(mPassRetype.getText().toString())) {
+                    mPassRetype.setText("");
+                    BusProvider.getInstance().post(new MessageObject(R.string.pass_match, 3000, MessageObject.MESSAGE_ERROR));
+
                 } else {
                     signUpRequest();
 
@@ -206,8 +223,10 @@ public class FragmentReg extends android.support.v4.app.Fragment {
 
 
     private void signUpRequest() {
+        mRegButton.setText("");
         mProgressBar.setVisibility(View.VISIBLE);
-        mRelativeRegistrationLaout.setBackgroundColor(getResources().getColor(R.color.transparent_error));
+
+
         mRequestSignUp = new GsonRequest<ResponseSignUp>(Constant.SIGNUP_URL, Request.Method.POST, ResponseSignUp.class, new Response.Listener<ResponseSignUp>() {
             @Override
             public void onResponse(ResponseSignUp response) {
@@ -216,14 +235,16 @@ public class FragmentReg extends android.support.v4.app.Fragment {
 
                 if (response.data.error != "") {
                     Toast.makeText(getContext(), response.data.error, Toast.LENGTH_SHORT).show();
+                    mRegButton.setText(R.string.registration);
+                    mProgressBar.setVisibility(View.GONE);
                 } else {
                    /* sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("user_registered", "user_registered").commit();*/
-
-                    logInAcc.viewPager.setCurrentItem(0);
+                    mRegButton.setText(R.string.registration);
                     mProgressBar.setVisibility(View.GONE);
-                    mRelativeRegistrationLaout.setBackgroundColor(Color.TRANSPARENT);
+                    logInAcc.viewPager.setCurrentItem(0);
+
                 }
             }
         }, new Response.ErrorListener() {

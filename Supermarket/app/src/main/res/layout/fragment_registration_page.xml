@@ -411,7 +411,7 @@
 
                     android:background="@null"
                     android:hint="broj"
-                    android:inputType="number"
+                    android:inputType="text"
                     android:textColor="@color/text_color"
                     android:textColorHint="@color/text_color"
                     android:textSize="@dimen/text_size" />
@@ -824,23 +824,36 @@
 
 
         </RelativeLayout>
-
-
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/relativeCompany"
+    android:id="@+id/relativeButton">
         <Button
             android:id="@+id/regButt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_below="@+id/relativeCompany"
+
             android:layout_margin="@dimen/margin_prijava"
             android:background="@color/yellow"
             android:text="@string/registration"
             android:textColor="@color/text_color_black" />
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:indeterminate="true"
+            android:translationZ="2dp"
+            android:id="@+id/progressSignUp"
+            android:visibility="gone"/>
+</RelativeLayout>
         <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
             android:id="@+id/uslovikoriscenja"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/regButt"
+            android:layout_below="@+id/relativeButton"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/margin_prijava"
             android:text="@string/uslovikoriscenja"

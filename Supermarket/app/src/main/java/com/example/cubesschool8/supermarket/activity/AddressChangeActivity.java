@@ -1,16 +1,20 @@
 package com.example.cubesschool8.supermarket.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.example.cubesschool8.supermarket.R;
+import com.example.cubesschool8.supermarket.adapter.CitySpinnerAdapter;
 import com.example.cubesschool8.supermarket.adapter.SpinnerAdapter;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.data.DataContainer;
@@ -29,7 +33,8 @@ public class AddressChangeActivity extends ActivityWithMessage {
     private Spinner mPaymentSpinner, mCity;
     private List<String> paymentList;
     private List<String> cityList;
-    private SpinnerAdapter mAdapter, cityAdapter;
+    private SpinnerAdapter mAdapter;
+    private CitySpinnerAdapter cityAdapter;
     private String total;
 
 
@@ -55,7 +60,7 @@ public class AddressChangeActivity extends ActivityWithMessage {
             mPostalCode.setText(DataContainer.login.postal_code);
             mApartment.setText(DataContainer.login.apartment);
             mEntrance.setText(DataContainer.login.entrance);
-             mCity.setSelection(getSpinnerIndex(mCity, DataContainer.login.city));
+            mCity.setSelection(getSpinnerIndex(mCity, DataContainer.login.city));
         } else {
             mStreet.setText(DataContainer.addressChange.address);
             mNumber.setText(DataContainer.addressChange.street_number);
@@ -74,7 +79,6 @@ public class AddressChangeActivity extends ActivityWithMessage {
         for (int i = 0; i < spinner.getCount(); i++) {
             if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
                 index = i;
-                break;
             }
         }
         return index;
@@ -137,15 +141,29 @@ public class AddressChangeActivity extends ActivityWithMessage {
         mCity = (Spinner) findViewById(R.id.etCityAddress);
 
         cityList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.cityArray)));
-        cityAdapter= new SpinnerAdapter(getApplicationContext(), R.layout.spinner_adapter, cityList);
+        cityAdapter = new CitySpinnerAdapter(getApplicationContext(), R.layout.spinner_adapter, DataContainer.cities);
         mCity.setAdapter(cityAdapter);
 
         mPaymentSpinner = (Spinner) findViewById(R.id.paymentSpinner);
         paymentList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.paymentOptions)));
-        mAdapter = new SpinnerAdapter(getApplicationContext(), R.layout.spinner_adapter, paymentList);
+        mAdapter = new SpinnerAdapter(getApplicationContext(), R.layout.spinner_adapter, paymentList) {
+            @Override
+            public boolean isEnabled(int position) {
+                if (DataContainer.login.company_name == null) {
+                    if (position == 3) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+                return true;
+            }
+
+        };
         mPaymentSpinner.setAdapter(mAdapter);
 
 
-
     }
+
+
 }

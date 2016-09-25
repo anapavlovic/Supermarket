@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.cubesschool8.supermarket.activity.IntroActivity"
+    android:background="@drawable/bg">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/overlay">
+
+    </RelativeLayout>
+    
+    <android.support.v4.view.ViewPager
+        android:layout_width="400dp"
+        android:layout_height="340dp"
+       android:layout_above="@+id/introButton"
+        android:id="@+id/introViewPager"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginRight="@dimen/margin_prijava"
+
+     >
+
+    </android.support.v4.view.ViewPager>
+
+    <Button
+        android:id="@+id/introButton"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+     android:layout_above="@+id/pagerSLideindicator"
+        android:layout_margin="@dimen/margin_prijava"
+        android:background="@color/yellow"
+        android:text="zatvori"
+        android:textColor="@color/text_color_black" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pagerSLideindicator"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+       android:layout_marginBottom="30dp">
+
+        <ImageView
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:id="@+id/first"
+          />
+        <ImageView
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:id="@+id/second"
+            android:layout_marginLeft="@dimen/margin10"/>
+        <ImageView
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:id="@+id/third"
+            android:layout_marginLeft="@dimen/margin10"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

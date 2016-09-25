@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 
-
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 
@@ -33,6 +32,8 @@ import com.example.cubesschool8.supermarket.data.response.ResponseForgotPassword
 import com.example.cubesschool8.supermarket.data.response.ResponseLogIn;
 import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
+import com.example.cubesschool8.supermarket.tool.BusProvider;
+import com.example.cubesschool8.supermarket.tool.MessageObject;
 
 
 import java.security.InvalidKeyException;
@@ -45,7 +46,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-
 
 
 /**
@@ -92,7 +92,8 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 if (mUsername.getText().toString().equalsIgnoreCase("") || mPass.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(getActivity(), R.string.proceed, Toast.LENGTH_SHORT).show();
+                    BusProvider.getInstance().post(new MessageObject(R.string.proceed, 3000, MessageObject.MESSAGE_ERROR));
+
                 } else {
                     mRequestLogIn = new GsonRequest<ResponseLogIn>(Constant.LOGIN_URL + "?token=" + DataContainer.TOKEN + "&email=" + mUsername.getText().toString() + "&password=" + mPass.getText().toString(),
                             Request.Method.GET, ResponseLogIn.class, new Response.Listener<ResponseLogIn>() {
@@ -101,11 +102,12 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                             Log.i("Response", response.toString());
                             DataContainer.login = response.data.results;
                             if (response.data.error != "") {
-                                Toast.makeText(getContext(), R.string.login_incorrect, Toast.LENGTH_SHORT).show();
+                                BusProvider.getInstance().post(new MessageObject(R.string.login_incorrect, 3000, MessageObject.MESSAGE_ERROR));
+
                             } else {
                                 if (mCheckSaveUserDAata.isChecked()) {
-                                   // String md5Username = encryptIt(mUsername.getText().toString());
-                                  //  String md5Password= encryptIt(mPass.getText().toString());
+                                    // String md5Username = encryptIt(mUsername.getText().toString());
+                                    //  String md5Password= encryptIt(mPass.getText().toString());
                                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                                     SharedPreferences.Editor editor = prefs.edit();
                                     editor.putBoolean("checked", true);
@@ -150,12 +152,13 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                                     @Override
                                     public void onResponse(ResponseForgotPassword response) {
                                         DataContainer.forgotPassword = response.data.results;
-                                        Toast.makeText(getContext(), "Error" + response.data.error, Toast.LENGTH_SHORT).show();
+                                       BusProvider.getInstance().post(new MessageObject(R.string.email_pass_forgot,3000,MessageObject.MESSAGE_ERROR));
+
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-
+                                        Log.i("error", error.toString());
                                     }
                                 });
 
@@ -177,7 +180,9 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
     public static String encryptIt(String value) throws NoSuchAlgorithmException {
 
         return value;
-    };
+    }
+
+    ;
 
     @Override
     public void onDestroy() {

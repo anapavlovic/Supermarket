@@ -2,10 +2,10 @@ package com.example.cubesschool8.supermarket.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerViewAccessibilityDelegate;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +14,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.cubesschool8.supermarket.R;
-import com.example.cubesschool8.supermarket.activity.BasketActivity;
+
 import com.example.cubesschool8.supermarket.activity.ProductItemActivity;
-import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
+
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.DataProducts;
-import com.example.cubesschool8.supermarket.data.response.ResponseSingleProduct;
-import com.example.cubesschool8.supermarket.networking.GsonRequest;
+
 import com.example.cubesschool8.supermarket.tool.BusProvider;
 import com.example.cubesschool8.supermarket.tool.MessageObject;
 

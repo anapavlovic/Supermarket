@@ -23,7 +23,7 @@
 
     <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
         android:id="@+id/tvPrijava"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="@dimen/margin_prijava"
@@ -51,7 +51,7 @@
 
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativetop"
         android:id="@+id/relativeBottom">

@@ -15,14 +15,17 @@ import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.DataLogIn;
+import com.example.cubesschool8.supermarket.data.DataProducts;
 import com.example.cubesschool8.supermarket.data.DataSignUp;
 import com.example.cubesschool8.supermarket.tool.BusProvider;
 import com.example.cubesschool8.supermarket.tool.MessageObject;
 
+import java.util.ArrayList;
+
 public class BasketActivity extends ActivityWithMessage implements BasketAdapter.OnItemCountChanged {
 
     private ImageView mbackBasket;
-    public  BasketAdapter mAdapter;
+    public BasketAdapter mAdapter;
     private RecyclerView mRecycler;
     private Button mBuyButton;
     private RecyclerView.LayoutManager mLayoutmanager;
@@ -80,12 +83,12 @@ public class BasketActivity extends ActivityWithMessage implements BasketAdapter
     }
 
     public void displaytotalPrice() {
-        if(DataContainer.basketList.isEmpty()){
-           mTotalSum.setText("0.00");
+        if (DataContainer.basketList.isEmpty()) {
+            mTotalSum.setText("0.00");
         }
         double total = 0;
         for (int i = 0; i < DataContainer.basketList.size(); i++) {
-            total = total + (Double.parseDouble(DataContainer.basketList.get(i).first_price)*DataContainer.basketList.get(i).count);
+            total = total + (Double.parseDouble(DataContainer.basketList.get(i).first_price) * DataContainer.basketList.get(i).count);
             mTotalSum.setText(String.valueOf(total));
             mAdapter.notifyDataSetChanged();
 

@@ -19,17 +19,19 @@
     <string name="server_error">Greška na serveru. Pokušajte kasnije.</string>
     <string name="phone_length">Proverite uneti broj telefona</string>
     <string name="radiogroup_check">Izaberite pol</string>
+    <string name="pass_match">Lozinke se ne podudaraju.</string>
     <string name="volley_error">Servis nije dostupan. Pokušajte kasnije.</string>
     <string name="login_incorrect">Uneti podaci su neispravni.</string>
     <string name="add_product">Dodaj u korpu</string>
     <string name="kupi">Kupi</string>
-    <string name="adresa">Potvrdite adresu za slanje proizvoda.</string>
+    <string name="adresa">Adresa</string>
     <string name="korpa">Korpa</string>
     <string name="potvrda">Potvrdi</string>
     <string name="konacnaPotvrda">Konačna potvrda</string>
     <string name="praznakorpa">Vaša korpa je prazna."</string>
     <string name="dodato_korpa">Proizvod je uspešno dodat u korpu.</string>
     <string name="proizvod_u_korpi">Proizvod se već nalazi u korpi.</string>
+    <string name="email_pass_forgot">Ukoliko ste uneli ispravnu email adresu, dobićete link za izmenu korisničke lozinke.</string>
 
 
     <string-array name="paymentOptions">

@@ -13,6 +13,8 @@ import com.example.cubesschool8.supermarket.fragment.FragmentReg;
 public class PagerAdapter extends FragmentPagerAdapter {
     private int numOfTabs;
 
+    private PagerAdapter mPagerAdapter;
+
     public PagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.numOfTabs = NumOfTabs;

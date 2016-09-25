@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativeBarAddress"
-        android:layout_marginTop="@dimen/margin_top_relative">
+        android:layout_marginTop="@dimen/margin_prijava">
 
         <RelativeLayout
             android:id="@+id/linearStreet"
@@ -264,7 +264,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="@dimen/margin_prijava"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="20dp"
                 android:layout_toRightOf="@+id/spinnerCity"
                 android:layout_weight="2"
                 android:background="@null"

@@ -103,10 +103,15 @@ public class ProductItemActivity extends ActivityWithMessage {
                     e.printStackTrace();
                 }
 
-                if (BusProvider.getInstance() == null) {
-                    BusProvider.getInstance().post(new MessageObject(R.string.dodato_korpa, 3000, MessageObject.MESSAGE_SUCCESS));
-                } else {
-                }
+                BusProvider.getInstance().post(new MessageObject(R.string.dodato_korpa, 3000, MessageObject.MESSAGE_SUCCESS));
+                mAddProduct.setEnabled(false);
+
+                mAddProduct.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAddProduct.setEnabled(true);
+                    }
+                }, 5000);
 
 
             }
