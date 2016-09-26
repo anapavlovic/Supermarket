@@ -122,7 +122,7 @@ public class StartActivity extends ActivityWithMessage {
             @Override
             public void onResponse(ResponseCity response) {
                 checkVolleyFinished();
-                DataContainer.cities = response.data.results.townships;
+                DataContainer.cities = response.data.results.cities;
 
 
             }
@@ -206,6 +206,7 @@ public class StartActivity extends ActivityWithMessage {
                 public void onResponse(ResponseLogIn response) {
                     Log.i("Response", response.toString());
                     DataContainer.login = response.data.results;
+                    DataContainer.LOGIN_TOKEN= response.data.login_token;
                     if (response.data.error != "") {
                         Toast.makeText(getApplicationContext(), R.string.login_incorrect, Toast.LENGTH_SHORT).show();
                     }  else {

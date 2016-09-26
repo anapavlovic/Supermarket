@@ -101,6 +101,8 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                         public void onResponse(ResponseLogIn response) {
                             Log.i("Response", response.toString());
                             DataContainer.login = response.data.results;
+                            DataContainer.LOGIN_TOKEN = response.data.login_token;
+
                             if (response.data.error != "") {
                                 BusProvider.getInstance().post(new MessageObject(R.string.login_incorrect, 3000, MessageObject.MESSAGE_ERROR));
 
@@ -152,7 +154,7 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                                     @Override
                                     public void onResponse(ResponseForgotPassword response) {
                                         DataContainer.forgotPassword = response.data.results;
-                                       BusProvider.getInstance().post(new MessageObject(R.string.email_pass_forgot,3000,MessageObject.MESSAGE_ERROR));
+                                        BusProvider.getInstance().post(new MessageObject(R.string.email_pass_forgot, 3000, MessageObject.MESSAGE_ERROR));
 
                                     }
                                 }, new Response.ErrorListener() {

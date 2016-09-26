@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class DataContainer {
 
     public static String TOKEN;
+    public static String LOGIN_TOKEN;
 
     public static ArrayList<DataCategory> categories;
     public static ArrayList<DataCity> cities;
@@ -19,6 +20,8 @@ public class DataContainer {
     public static DataLogIn login;
     public static ArrayList<DataForgotPassword> forgotPassword;
     public static DataSingleProduct singleProductList;
+
+    public static DataOrder orderResponse;
 
     public static ArrayList<DataProducts> basketList = new ArrayList<>();
     public static DataLogIn addressChange = new DataLogIn();

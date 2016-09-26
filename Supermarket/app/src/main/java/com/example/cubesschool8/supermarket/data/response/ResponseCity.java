@@ -11,9 +11,12 @@ public class ResponseCity  {
     public ResponseCityPom2 data;
 
     public class ResponseCityPom1 {
-        public ArrayList<DataCity> townships;
+        //public ArrayList<DataCity> townships;
+        public ArrayList<DataCity> cities;
 
     }
+
+
 
     public class ResponseCityPom2{
         public String status;

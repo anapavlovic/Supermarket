@@ -57,7 +57,7 @@ public class CitySpinnerAdapter extends ArrayAdapter<DataCity> {
         }
 
         DataCity data= getItem(position);
-        holder.text.setText(data.name);
+        holder.text.setText(data.city);
         return row;
     }
 

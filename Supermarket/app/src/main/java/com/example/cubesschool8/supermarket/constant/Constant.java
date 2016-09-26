@@ -4,7 +4,7 @@ package com.example.cubesschool8.supermarket.constant;
  * Created by cubesschool8 on 9/9/16.
  */
 public class Constant {
-    private static String BASE_URL ="http://shop.cubes.rs/";
+    private static String BASE_URL = "http://shop.cubes.rs/";
 
     public static String GET_TOKEN_URL = BASE_URL + "phone-home-gettoken";
     public static String LOGIN_URL = BASE_URL + "phone-user";
@@ -15,6 +15,7 @@ public class Constant {
     public static String CATEGORY_URL = BASE_URL + "phone-categories";
     public static String PRODUCTS_URL = BASE_URL + "phone-products";
     public static String SINGLE_PRODUCT_URL = BASE_URL + "phone-products-single";
+    public static String SEND_ORDER_URL = BASE_URL + "phone_order";
 
 
     public static String USERNAME = "phone";

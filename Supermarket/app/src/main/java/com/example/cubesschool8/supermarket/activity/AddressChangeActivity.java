@@ -92,6 +92,7 @@ public class AddressChangeActivity extends ActivityWithMessage {
                 onBackPressed();
             }
         });
+        DataContainer.login.payment_type = mPaymentSpinner.getSelectedItem().toString();
 
         mChangeAddressConfirm.setOnClickListener(new View.OnClickListener() {
             @Override

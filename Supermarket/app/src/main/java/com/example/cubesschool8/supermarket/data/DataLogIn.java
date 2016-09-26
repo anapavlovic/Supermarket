@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class DataLogIn {
 
     public String id;
+    public String login_id;
     public String company_name;
     public String company_id;
     public String username;
@@ -32,5 +33,7 @@ public class DataLogIn {
     public String photo;
     public String user_type;
     public ArrayList<String> wish_list;
+
+    public String payment_type;
 
 }
