@@ -251,7 +251,9 @@ public class FragmentReg extends android.support.v4.app.Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i("error", error.toString());
-
+                Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                mRegButton.setText(R.string.registration);
+                mProgressBar.setVisibility(View.GONE);
             }
         }) {
             @Override
@@ -284,7 +286,7 @@ public class FragmentReg extends android.support.v4.app.Fragment {
                 params.put("floor", mFloor.getText().toString());
                 params.put("entrance", mEntrance.getText().toString());
 
-                params.put("city", (String) citySpinner.getSelectedItem());
+                params.put("city",  citySpinner.getSelectedItem().toString());
                 params.put("postal_code", mPostalCode.getText().toString());
 
                 params.put("newsletter", mCheckBox.isChecked() ? "1" : "0");
