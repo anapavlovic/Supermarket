@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -14,21 +15,23 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.cubesschool8.supermarket.R;
+import com.example.cubesschool8.supermarket.adapter.NavigationDrawerAdapter;
 import com.example.cubesschool8.supermarket.adapter.RecyclerAdapter;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.tool.BusProvider;
 import com.example.cubesschool8.supermarket.tool.MessageObject;
 
-public class HomeActivity extends ActivityWithMessage{
+public class HomeActivity extends ActivityWithMessage {
 
     private ImageView mDrawerMenu, mSearch, mShoppingCart;
 
     private RecyclerAdapter mrecyclerAdapter;
     private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.LayoutManager mLayoutManager, drawerLayoutManager;
 
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerListview;
+    private RecyclerView mDrawerRecyclerview;
+    private NavigationDrawerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,7 @@ public class HomeActivity extends ActivityWithMessage{
         mDrawerMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDrawerLayout.openDrawer(mDrawerListview);
+                mDrawerLayout.openDrawer(mDrawerRecyclerview);
             }
         });
 
@@ -69,8 +72,13 @@ public class HomeActivity extends ActivityWithMessage{
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mSearch = (ImageView) findViewById(R.id.search);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerListview = (ListView) findViewById(R.id.drawerList);
+        mDrawerRecyclerview = (RecyclerView) findViewById(R.id.drawerList);
         mShoppingCart = (ImageView) findViewById(R.id.shopingCart);
+
+        drawerLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mDrawerRecyclerview.setLayoutManager(drawerLayoutManager);
+        mAdapter = new NavigationDrawerAdapter(getApplicationContext(), DataContainer.categories);
+        mDrawerRecyclerview.setAdapter(mAdapter);
     }
 
     @Override

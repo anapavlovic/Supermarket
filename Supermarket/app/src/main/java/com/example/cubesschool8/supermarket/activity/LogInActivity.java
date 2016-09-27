@@ -30,6 +30,7 @@ import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.adapter.PagerAdapter;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
+import com.example.cubesschool8.supermarket.data.DataContainer;
 
 
 /**
@@ -70,8 +71,6 @@ public class LogInActivity extends ActivityWithMessage {
 
 
     }
-
-
 
 
     public void checkifUserisRegistered() {
@@ -131,7 +130,7 @@ public class LogInActivity extends ActivityWithMessage {
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-       // checkifUserisRegistered();
+        // checkifUserisRegistered();
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -238,7 +237,7 @@ public class LogInActivity extends ActivityWithMessage {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST) {
-            Uri imageUri = data.getData();
+            final Uri imageUri = data.getData();
             Glide.with(getApplicationContext()).load(imageUri).asBitmap().centerCrop().into(new BitmapImageViewTarget(mUserPhoto) {
                 @Override
                 protected void setResource(Bitmap resource) {
@@ -246,6 +245,7 @@ public class LogInActivity extends ActivityWithMessage {
                             RoundedBitmapDrawableFactory.create(getApplicationContext().getResources(), resource);
                     circularBitmapDrawable.setCircular(true);
                     mUserPhoto.setImageDrawable(circularBitmapDrawable);
+                    DataContainer.login.userImage = imageUri.toString();
                 }
             });
             // Bitmap photo = (Bitmap) data.getExtras().get("data");

@@ -84,7 +84,7 @@
     </RelativeLayout>
 
 </FrameLayout>
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/drawerList"
         android:layout_width="300dp"
         android:layout_height="match_parent"

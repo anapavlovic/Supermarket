@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -49,6 +50,7 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
     private Map<String, String> params;
     private String articles;
     private final String REQUEST_TAG = "Start_activity";
+    private ImageView mBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,36 +141,19 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
                     };
                     DataLoader.addRequest(getApplicationContext(), mRequestOrder, REQUEST_TAG);
 
-                  /*  new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(2000);
-
-                                for (int i = 0; i < DataContainer.basketList.size(); i++) {
-                                    DataContainer.basketList.get(i).count = 0;
-                                    for (int j = 0; j < DataContainer.products.size(); j++) {
-                                        if (DataContainer.products.get(i).id.equalsIgnoreCase(DataContainer.basketList.get(i).id)) {
-                                            DataContainer.products.get(i).count = 0;
-                                        } else {
-                                        }
-
-                                    }
-                                }
-                                DataContainer.basketList.clear();
-                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-
-                                finish();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }).start();*/
 
                 }
             }
         });
+
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
     }
 
     public void inicComp() {
@@ -178,6 +163,7 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
         progressBar = (ProgressBar) findViewById(R.id.progressConf);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#feea00"), PorterDuff.Mode.SRC_IN);
         mTotal = (CustomTextViewFont) findViewById(R.id.totalSumConf);
+        mBack = (ImageView) findViewById(R.id.confBack);
 
 
     }

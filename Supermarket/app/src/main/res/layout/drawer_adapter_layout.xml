@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_top_et"
+   >
+    <ImageView
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:id="@+id/drawerImage"
+        android:background="@drawable/personicon"
+        android:layout_margin="@dimen/margin_top_et"
+       />
+    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/drawerName"
+        android:textColor="@color/text_color_black"
+        android:textSize="@dimen/text_size"
+        android:layout_alignTop="@+id/drawerImage"
+        android:layout_marginTop="@dimen/margin_top_et"
+        android:layout_toRightOf="@+id/drawerImage"
+        android:text="Ime i prezime"/>
+    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/emailDrawer"
+        android:textSize="@dimen/text_size_12"
+        android:textColor="@color/transparent_progressbar"
+        android:layout_below="@+id/drawerName"
+        android:layout_toRightOf="@+id/drawerImage"
+        android:layout_marginTop="@dimen/margin10"
+        android:text="blabla@gmail.com"
+        />
+
+   <ImageView
+       android:layout_width="match_parent"
+       android:layout_height="12dp"
+       android:background="@drawable/line"
+       android:layout_marginLeft="@dimen/margin_top_et"
+       android:layout_marginRight="@dimen/margin_top_et"
+       android:layout_below="@+id/drawerImage"/>
+
+</RelativeLayout>

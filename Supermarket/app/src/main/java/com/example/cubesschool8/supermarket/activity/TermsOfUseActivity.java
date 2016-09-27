@@ -21,8 +21,8 @@ public class TermsOfUseActivity extends AppCompatActivity {
 
         mWebTerms = (WebView) findViewById(R.id.webTerms);
         mBackImg = (ImageView) findViewById(R.id.backweb);
-mWebTerms.setBackgroundColor(Color.parseColor("#7f000000"));
-        mWebTerms.loadUrl("http://www.google.com");
+        mWebTerms.setBackgroundColor(Color.parseColor("#7f000000"));
+        mWebTerms.loadUrl("http://shop.cubes.rs/online-shop/3.html");
 
         addListener();
     }

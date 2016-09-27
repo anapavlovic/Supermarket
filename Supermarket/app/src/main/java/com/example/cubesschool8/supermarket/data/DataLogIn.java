@@ -34,6 +34,8 @@ public class DataLogIn {
     public String user_type;
     public ArrayList<String> wish_list;
 
+    public String userImage;
+
     public String payment_type;
 
 }
