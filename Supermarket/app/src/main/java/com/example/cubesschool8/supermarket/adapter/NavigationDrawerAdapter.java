@@ -1,6 +1,7 @@
 package com.example.cubesschool8.supermarket.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.cubesschool8.supermarket.R;
+import com.example.cubesschool8.supermarket.activity.CategoryItemsActivity;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataCategory;
 import com.example.cubesschool8.supermarket.data.DataContainer;
@@ -75,6 +77,8 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
             holder.category.setTextColor(Color.parseColor("#ff3366"));
         } else if (itemType == 2) {
             holder.category.setText(list.get(position - 2).name);
+        }else if(itemType==3){
+            holder.category.setText("Odjavi se");
         }
 
     }
@@ -90,12 +94,15 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
             return 0;
         } else if (position == 1) {
             return 1;
+        } else if (position == list.size() + 2) {
+            return 3;
+
         } else {
             return 2;
         }
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
+    public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView image, icon, underline;
         private CustomTextViewFont name, email, category;
@@ -110,6 +117,14 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 
             icon = (ImageView) itemView.findViewById(R.id.drawerIcon);
             category = (CustomTextViewFont) itemView.findViewById(R.id.categoryString);
+
+
+        }
+
+        @Override
+        public void onClick(View v) {
+        context.startActivity(new Intent(v.getContext(), CategoryItemsActivity.class));
+            category.setTextColor(Color.parseColor("#ff3366"));
 
         }
     }

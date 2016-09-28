@@ -10,16 +10,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.cubesschool8.supermarket.R;
+import com.example.cubesschool8.supermarket.adapter.NavigationAdapter;
 import com.example.cubesschool8.supermarket.adapter.NavigationDrawerAdapter;
 import com.example.cubesschool8.supermarket.adapter.RecyclerAdapter;
+import com.example.cubesschool8.supermarket.data.DataCategory;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.tool.BusProvider;
 import com.example.cubesschool8.supermarket.tool.MessageObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class HomeActivity extends ActivityWithMessage {
 
@@ -30,8 +37,10 @@ public class HomeActivity extends ActivityWithMessage {
     private RecyclerView.LayoutManager mLayoutManager, drawerLayoutManager;
 
     private DrawerLayout mDrawerLayout;
-    private RecyclerView mDrawerRecyclerview;
-    private NavigationDrawerAdapter mAdapter;
+    private ExpandableListView mDrawerlist;
+    private NavigationAdapter mAdapter;
+    private ArrayList<DataCategory> subCategories;
+    private HashMap<DataCategory, List<DataCategory>> childList = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +61,7 @@ public class HomeActivity extends ActivityWithMessage {
         mDrawerMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDrawerLayout.openDrawer(mDrawerRecyclerview);
+                mDrawerLayout.openDrawer(mDrawerlist);
             }
         });
 
@@ -72,13 +81,23 @@ public class HomeActivity extends ActivityWithMessage {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mSearch = (ImageView) findViewById(R.id.search);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerRecyclerview = (RecyclerView) findViewById(R.id.drawerList);
+        mDrawerlist = (ExpandableListView) findViewById(R.id.drawerList);
         mShoppingCart = (ImageView) findViewById(R.id.shopingCart);
 
-        drawerLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mDrawerRecyclerview.setLayoutManager(drawerLayoutManager);
-        mAdapter = new NavigationDrawerAdapter(getApplicationContext(), DataContainer.categories);
-        mDrawerRecyclerview.setAdapter(mAdapter);
+        for (int i = 0; i < DataContainer.categories.size(); i++) {
+            subCategories = DataContainer.categories.get(i).subcategories;
+            childList.put(DataContainer.categories.get(i), subCategories);
+
+        }
+
+
+        mAdapter = new NavigationAdapter(this, DataContainer.categories, childList);
+        mDrawerlist.setAdapter(mAdapter);
+
+        // drawerLayoutManager = new LinearLayoutManager(getApplicationContext());
+        // mDrawerRecyclerview.setLayoutManager(drawerLayoutManager);
+        // mAdapter = new NavigationDrawerAdapter(getApplicationContext(), DataContainer.categories);
+        // mDrawerRecyclerview.setAdapter(mAdapter);
     }
 
     @Override

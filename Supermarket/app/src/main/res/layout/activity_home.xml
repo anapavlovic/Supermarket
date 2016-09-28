@@ -84,11 +84,15 @@
     </RelativeLayout>
 
 </FrameLayout>
-    <android.support.v7.widget.RecyclerView
+    <ExpandableListView
         android:id="@+id/drawerList"
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
-        android:background="@color/text_color"/>
+        android:background="@color/text_color"
+        ></ExpandableListView>
+
+
+
 </android.support.v4.widget.DrawerLayout>

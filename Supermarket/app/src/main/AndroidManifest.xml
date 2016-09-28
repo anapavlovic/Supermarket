@@ -33,7 +33,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.AddressChangeActivity" />
         <activity android:name=".activity.FinalConfirmationActivity" />
-        <activity android:name=".activity.IntroActivity"></activity>
+        <activity android:name=".activity.IntroActivity" />
+        <activity android:name=".activity.CategoryItemsActivity"></activity>
     </application>
 
 </manifest>
