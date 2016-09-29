@@ -1,5 +1,6 @@
 package com.example.cubesschool8.supermarket.data.response;
 
+import com.example.cubesschool8.supermarket.data.DataCategory;
 import com.example.cubesschool8.supermarket.data.DataProducts;
 
 import java.util.ArrayList;

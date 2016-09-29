@@ -3,6 +3,7 @@ package com.example.cubesschool8.supermarket.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
@@ -96,6 +97,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         View row = convertView;
         Holder holder = null;
+
         if (groupPosition == 0) {
             if (row == null) {
                 row = inflater.inflate(R.layout.drawer_adapter_layout, parent, false);
@@ -147,7 +149,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
             });
 
 
-        }  else if (groupPosition == list.size()+1) {
+        } else if (groupPosition == list.size() + 1) {
             if (row == null) {
                 row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
                 holder = new Holder();
@@ -160,10 +162,10 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder = (Holder) row.getTag();
             }
 
-            holder.category.setText(list.get(groupPosition-2).toString());
+            holder.category.setText(list.get(groupPosition - 2).toString());
             holder.underline.setVisibility(View.VISIBLE);
 
-        }else if (groupPosition == list.size()+2) {
+        } else if (groupPosition == list.size() + 2) {
             if (row == null) {
                 row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
                 holder = new Holder();
@@ -194,19 +196,25 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
             holder.category.setText("Profil");
 
         } else if (groupPosition == list.size() + 4) {
-                if (row == null) {
-                    row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
-                    holder = new Holder();
-                    holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
-                    holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
-                    holder.underline = (ImageView) row.findViewById(R.id.underline);
-                    row.setTag(holder);
+            if (row == null) {
+                row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
+                holder = new Holder();
+                holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
+                holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
+                holder.underline = (ImageView) row.findViewById(R.id.underline);
+                row.setTag(holder);
 
-                } else {
-                    holder = (Holder) row.getTag();
+            } else {
+                holder = (Holder) row.getTag();
+            }
+
+            holder.category.setText("Odjavi se");
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //odjavi se
                 }
-
-                holder.category.setText("Odjavi se");
+            });
 
 
         } else {
@@ -222,13 +230,16 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder = (Holder) row.getTag();
             }
             holder.category.setText(list.get(groupPosition - 2).toString());
+
+
         }
+
         return row;
     }
 
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         View row = convertView;
         Holder holder = null;
         DataCategory dataCategory = null;
@@ -245,7 +256,6 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
             holder.category.setText(dataCategory.toString());
         }
 
-
         return row;
     }
 
@@ -253,6 +263,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
+
 
 
     public class Holder {

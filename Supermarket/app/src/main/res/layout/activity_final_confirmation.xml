@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_prijava"
-            android:layout_toRightOf="@+id/addressBack"
+            android:layout_toRightOf="@+id/confBack"
             android:text="@string/konacnaPotvrda"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />

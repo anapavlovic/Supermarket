@@ -62,7 +62,6 @@ public class StartActivity extends ActivityWithMessage {
     private GsonRequest<ResponseLogIn> mRequestLogIn;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -142,7 +141,6 @@ public class StartActivity extends ActivityWithMessage {
                 DataContainer.products = response.data.results;
 
 
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -179,11 +177,11 @@ public class StartActivity extends ActivityWithMessage {
     }
 
 
-    public  synchronized void checkVolleyFinished() {
+    public synchronized void checkVolleyFinished() {
         if (counter == 4) {
             checkifUserDataSaved();
             finish();
-        }else  {
+        } else {
             counter++;
         }
 
@@ -206,12 +204,12 @@ public class StartActivity extends ActivityWithMessage {
                 public void onResponse(ResponseLogIn response) {
                     Log.i("Response", response.toString());
                     DataContainer.login = response.data.results;
-                    DataContainer.LOGIN_TOKEN= response.data.login_token;
+                    DataContainer.LOGIN_TOKEN = response.data.login_token;
                     if (response.data.error != "") {
                         Toast.makeText(getApplicationContext(), R.string.login_incorrect, Toast.LENGTH_SHORT).show();
-                    }  else {
-                        }
-                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    } else {
+                    }
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
 
                 }
             }, new Response.ErrorListener() {
@@ -225,11 +223,10 @@ public class StartActivity extends ActivityWithMessage {
 
             DataLoader.addRequest(getApplicationContext(), mRequestLogIn, REQUEST_TAG);
 
-        }else{
+        } else {
             startActivity(new Intent(getApplicationContext(), LogInActivity.class));
         }
     }
-
 
 
     @Override
@@ -245,14 +242,10 @@ public class StartActivity extends ActivityWithMessage {
     }
 
 
-
-
     public static String decryptIt(String value) {
 
         return value;
     }
-
-
 
 
 }

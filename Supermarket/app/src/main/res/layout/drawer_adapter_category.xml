@@ -4,10 +4,10 @@
     android:layout_height="wrap_content"
     >
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:id="@+id/drawerIcon"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginLeft="@dimen/margin_prijava"
         android:layout_marginBottom="@dimen/margin_top_et"/>
    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
@@ -18,7 +18,7 @@
      android:layout_toRightOf="@+id/drawerIcon"
        android:layout_alignBaseline="@+id/drawerIcon"
        android:layout_marginLeft="@dimen/margin_prijava"
-       android:layout_marginTop="@dimen/margin_top_et"
+       android:layout_marginTop="@dimen/margin10"
        android:text="hjfklh"
        android:textSize="@dimen/text_size"/>
     <ImageView

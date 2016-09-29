@@ -96,6 +96,7 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
                                 }
                                 DataContainer.basketList.clear();
                                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                DataContainer.addressChange.address.equalsIgnoreCase("");
                                 finish();
 
                             }

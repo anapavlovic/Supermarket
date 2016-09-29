@@ -1,35 +1,47 @@
 package com.example.cubesschool8.supermarket.activity;
 
-import android.app.Activity;
-import android.content.DialogInterface;
+
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
+
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.ListView;
+
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.adapter.NavigationAdapter;
-import com.example.cubesschool8.supermarket.adapter.NavigationDrawerAdapter;
+
 import com.example.cubesschool8.supermarket.adapter.RecyclerAdapter;
+import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.data.DataCategory;
 import com.example.cubesschool8.supermarket.data.DataContainer;
+import com.example.cubesschool8.supermarket.data.DataProducts;
+import com.example.cubesschool8.supermarket.data.response.ResponseProducts;
+import com.example.cubesschool8.supermarket.networking.DataLoader;
+import com.example.cubesschool8.supermarket.networking.GsonRequest;
 import com.example.cubesschool8.supermarket.tool.BusProvider;
 import com.example.cubesschool8.supermarket.tool.MessageObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class HomeActivity extends ActivityWithMessage {
-
+    private final String REQUEST_TAG = "Start_activity";
     private ImageView mDrawerMenu, mSearch, mShoppingCart;
 
     private RecyclerAdapter mrecyclerAdapter;
@@ -38,8 +50,17 @@ public class HomeActivity extends ActivityWithMessage {
 
     private DrawerLayout mDrawerLayout;
     private ExpandableListView mDrawerlist;
-    private NavigationAdapter mAdapter;
+    public static NavigationAdapter mAdapter;
+    private DataCategory data;
+    private int categoryPosition;
+    private int mChildPosition;
+    private RelativeLayout mRelativeProgress;
+    private ProgressBar progressBar;
+    private String childId;
+
+    private GsonRequest<ResponseProducts> mSubcategoriesRequest;
     private ArrayList<DataCategory> subCategories;
+
     private HashMap<DataCategory, List<DataCategory>> childList = new HashMap<>();
 
     @Override
@@ -72,6 +93,92 @@ public class HomeActivity extends ActivityWithMessage {
             }
         });
 
+        mDrawerlist.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+
+                data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
+                categoryPosition = groupPosition;
+                if (groupPosition > 1 && groupPosition < 7) {
+                if (mAdapter.getChildrenCount(groupPosition) == 0) {
+                    mDrawerLayout.closeDrawers();
+                        if (checkList(DataContainer.categoriesLists, data.id) == false) {
+                            mRelativeProgress.setVisibility(View.VISIBLE);
+                            mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
+                                @Override
+                                public void onResponse(ResponseProducts response) {
+                                    DataContainer.categoriesLists.put(data.id, response.data.results);
+                                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                                    i.putExtra("id", data.id);
+                                    startActivity(i);
+                                    mRelativeProgress.setVisibility(View.GONE);
+
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                                }
+                            });
+
+                            DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
+                        } else {
+                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                            i.putExtra("id", data.id);
+                            startActivity(i);
+                            mRelativeProgress.setVisibility(View.GONE);
+                        }
+                    } else {
+
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "hujdsok", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
+
+        mDrawerlist.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
+                categoryPosition = groupPosition;
+                mChildPosition = childPosition;
+                childId = String.valueOf(id);
+                mDrawerLayout.closeDrawers();
+                if (checkList(DataContainer.categoriesLists, data.id + "." + childId) == false) {
+                    mRelativeProgress.setVisibility(View.VISIBLE);
+                    mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
+                        @Override
+                        public void onResponse(ResponseProducts response) {
+                            mRelativeProgress.setVisibility(View.VISIBLE);
+                            DataContainer.categoriesLists.put(data.id + "." + childId, response.data.results);
+                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                            i.putExtra("id", data.id + "." + childId);
+                            startActivity(i);
+                            mRelativeProgress.setVisibility(View.GONE);
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                        }
+                    });
+
+                    DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
+                } else {
+                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                    i.putExtra("id", data.id + "." + childId);
+                    startActivity(i);
+                    mRelativeProgress.setVisibility(View.GONE);
+                }
+
+
+                return false;
+            }
+        });
+
 
     }
 
@@ -83,21 +190,18 @@ public class HomeActivity extends ActivityWithMessage {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerlist = (ExpandableListView) findViewById(R.id.drawerList);
         mShoppingCart = (ImageView) findViewById(R.id.shopingCart);
+        mRelativeProgress = (RelativeLayout) findViewById(R.id.relativeProgressHome);
+        progressBar = (ProgressBar) findViewById(R.id.progressHome);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#feea00"), PorterDuff.Mode.SRC_IN);
 
         for (int i = 0; i < DataContainer.categories.size(); i++) {
             subCategories = DataContainer.categories.get(i).subcategories;
             childList.put(DataContainer.categories.get(i), subCategories);
 
         }
-
-
         mAdapter = new NavigationAdapter(this, DataContainer.categories, childList);
         mDrawerlist.setAdapter(mAdapter);
 
-        // drawerLayoutManager = new LinearLayoutManager(getApplicationContext());
-        // mDrawerRecyclerview.setLayoutManager(drawerLayoutManager);
-        // mAdapter = new NavigationDrawerAdapter(getApplicationContext(), DataContainer.categories);
-        // mDrawerRecyclerview.setAdapter(mAdapter);
     }
 
     @Override
@@ -105,4 +209,19 @@ public class HomeActivity extends ActivityWithMessage {
         super.onBackPressed();
         finish();
     }
+
+    public boolean checkList(HashMap<String, ArrayList<DataProducts>> list, String id) {
+        boolean isIntheList = false;
+        Iterator myVeryOwnIterator = list.keySet().iterator();
+        while (myVeryOwnIterator.hasNext()) {
+            String key = (String) myVeryOwnIterator.next();
+            if (key.equalsIgnoreCase(id)) {
+                isIntheList = true;
+            } else
+                isIntheList = false;
+
+        }
+        return isIntheList;
+    }
+
 }
