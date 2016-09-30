@@ -49,7 +49,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return list.size() + 5;
+        return list.size() + 6;
     }
 
     @Override
@@ -98,6 +98,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
         View row = convertView;
         Holder holder = null;
 
+
         if (groupPosition == 0) {
             if (row == null) {
                 row = inflater.inflate(R.layout.drawer_adapter_layout, parent, false);
@@ -105,10 +106,10 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder.name = (CustomTextViewFont) row.findViewById(R.id.drawerName);
                 holder.email = (CustomTextViewFont) row.findViewById(R.id.emailDrawer);
                 holder.image = (ImageView) row.findViewById(R.id.drawerImage);
-                row.setTag(holder);
+                row.setTag(R.layout.drawer_adapter_layout,holder);
 
             } else {
-                holder = (Holder) row.getTag();
+                holder = (Holder) row.getTag(R.layout.drawer_adapter_layout);
             }
 
             Glide.with(context).load(DataContainer.login.userImage).asBitmap().centerCrop().into(new BitmapImageViewTarget(holder.image) {
@@ -131,10 +132,10 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
                 holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
                 holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(holder);
+                row.setTag(R.layout.drawer_adapter_category,holder);
 
             } else {
-                holder = (Holder) row.getTag();
+                holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
             }
             holder.iconImage.setVisibility(View.VISIBLE);
 
@@ -149,36 +150,26 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
             });
 
 
-        } else if (groupPosition == list.size() + 1) {
+        }
+
+        //LINIJA
+        else if (groupPosition == list.size() + 2) {
             if (row == null) {
                 row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
                 holder = new Holder();
                 holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
                 holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
                 holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(holder);
+                row.setTag(R.layout.drawer_adapter_category,holder);
 
             } else {
-                holder = (Holder) row.getTag();
+                holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
             }
 
-            holder.category.setText(list.get(groupPosition - 2).toString());
+            holder.category.setText("");
+            holder.category.setVisibility(View.GONE);
+            holder.iconImage.setVisibility(View.GONE);
             holder.underline.setVisibility(View.VISIBLE);
-
-        } else if (groupPosition == list.size() + 2) {
-            if (row == null) {
-                row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
-                holder = new Holder();
-                holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
-                holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
-                holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(holder);
-
-            } else {
-                holder = (Holder) row.getTag();
-            }
-
-            holder.category.setText("Podesavanja");
 
         } else if (groupPosition == list.size() + 3) {
             if (row == null) {
@@ -187,13 +178,18 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
                 holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
                 holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(holder);
+                row.setTag(R.layout.drawer_adapter_category,holder);
 
             } else {
-                holder = (Holder) row.getTag();
+                holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
             }
 
-            holder.category.setText("Profil");
+            holder.category.setText("Podesavanja");
+            holder.iconImage.setImageResource(R.drawable.ic_settings_black_24dp);
+
+            holder.category.setVisibility(View.VISIBLE);
+            holder.iconImage.setVisibility(View.VISIBLE);
+            holder.underline.setVisibility(View.GONE);
 
         } else if (groupPosition == list.size() + 4) {
             if (row == null) {
@@ -202,19 +198,37 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
                 holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
                 holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(holder);
+                row.setTag(R.layout.drawer_adapter_category,holder);
 
             } else {
-                holder = (Holder) row.getTag();
+                holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
+            }
+
+            holder.category.setText("Profil");
+
+            holder.category.setVisibility(View.VISIBLE);
+            holder.iconImage.setVisibility(View.VISIBLE);
+            holder.underline.setVisibility(View.GONE);
+
+        } else if (groupPosition == list.size() + 5) {
+            if (row == null) {
+                row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
+                holder = new Holder();
+                holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
+                holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
+                holder.underline = (ImageView) row.findViewById(R.id.underline);
+                row.setTag(R.layout.drawer_adapter_category,holder);
+
+            } else {
+                holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
             }
 
             holder.category.setText("Odjavi se");
-            row.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //odjavi se
-                }
-            });
+
+            holder.category.setVisibility(View.VISIBLE);
+
+            holder.underline.setVisibility(View.GONE);
+            holder.iconImage.setVisibility(View.VISIBLE);
 
 
         } else {
@@ -224,13 +238,17 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder = new Holder();
                 holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
                 holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
-                row.setTag(holder);
+                holder.underline = (ImageView) row.findViewById(R.id.underline);
+                row.setTag(R.layout.drawer_adapter_category,holder);
 
             } else {
-                holder = (Holder) row.getTag();
+                holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
             }
             holder.category.setText(list.get(groupPosition - 2).toString());
 
+            holder.category.setVisibility(View.VISIBLE);
+            holder.iconImage.setVisibility(View.INVISIBLE);
+            holder.underline.setVisibility(View.GONE);
 
         }
 
@@ -244,9 +262,9 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
         Holder holder = null;
         DataCategory dataCategory = null;
         if (row == null) {
-            row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
+            row = inflater.inflate(R.layout.navigation_adapter_child_layout, parent, false);
             holder = new Holder();
-            holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
+            holder.category = (CustomTextViewFont) row.findViewById(R.id.childString);
             row.setTag(holder);
         } else {
             holder = (Holder) row.getTag();

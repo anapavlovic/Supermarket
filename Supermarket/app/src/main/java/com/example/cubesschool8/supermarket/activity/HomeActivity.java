@@ -1,10 +1,13 @@
 package com.example.cubesschool8.supermarket.activity;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.widget.RecyclerView;
@@ -97,11 +100,12 @@ public class HomeActivity extends ActivityWithMessage {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
-                data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
+
                 categoryPosition = groupPosition;
-                if (groupPosition > 1 && groupPosition < 7) {
-                if (mAdapter.getChildrenCount(groupPosition) == 0) {
-                    mDrawerLayout.closeDrawers();
+                if (groupPosition > 1 && groupPosition < DataContainer.categories.size() + 2) {
+                    data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
+                    if (mAdapter.getChildrenCount(groupPosition) == 0) {
+                        mDrawerLayout.closeDrawers();
                         if (checkList(DataContainer.categoriesLists, data.id) == false) {
                             mRelativeProgress.setVisibility(View.VISIBLE);
                             mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
@@ -131,8 +135,20 @@ public class HomeActivity extends ActivityWithMessage {
                     } else {
 
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(), "hujdsok", Toast.LENGTH_SHORT).show();
+                } else if (groupPosition == DataContainer.categories.size() + 3) {
+                    Toast.makeText(getApplicationContext(), "podesavanja", Toast.LENGTH_SHORT).show();
+               } else if (groupPosition == DataContainer.categories.size() + 4) {
+                   Toast.makeText(getApplicationContext(), "profil", Toast.LENGTH_SHORT).show();
+                } else if (groupPosition == DataContainer.categories.size() + 5) {
+
+                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+
+                    SharedPreferences settings = getSharedPreferences("PreferencesName", Context.MODE_PRIVATE);
+                    settings.edit().remove("checked").commit();
+                    settings.edit().remove("username").commit();
+                    settings.edit().remove("password").commit();
+
+
                 }
                 return false;
             }

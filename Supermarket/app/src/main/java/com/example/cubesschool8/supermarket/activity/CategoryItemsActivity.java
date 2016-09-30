@@ -1,6 +1,8 @@
 package com.example.cubesschool8.supermarket.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v4.widget.DrawerLayout;
@@ -9,6 +11,8 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -43,7 +47,7 @@ public class CategoryItemsActivity extends ActivityWithMessage {
     private RecyclerAdapter mAdapter;
     private NavigationAdapter mAdapterNavigation;
     private RecyclerView recyclerView;
-    private CustomTextViewFont itemsCount;
+    private CustomTextViewFont itemsCount, empty;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<DataProducts> mList;
     private ImageView mMenu, mSearch, mShoppingCart;
@@ -58,6 +62,7 @@ public class CategoryItemsActivity extends ActivityWithMessage {
     private ProgressBar progressBar;
     private String childId;
     private GsonRequest<ResponseProducts> mSubcategoriesRequest;
+    private Animation animation;
 
 
     @Override
@@ -79,6 +84,7 @@ public class CategoryItemsActivity extends ActivityWithMessage {
         itemsCount = (CustomTextViewFont) findViewById(R.id.tvItemsCount);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerlist = (ExpandableListView) findViewById(R.id.drawerList);
+        empty = (CustomTextViewFont) findViewById(R.id.empty);
 
         mRelativeProgress = (RelativeLayout) findViewById(R.id.relativeProgressHome);
         progressBar = (ProgressBar) findViewById(R.id.progressHome);
@@ -108,10 +114,14 @@ public class CategoryItemsActivity extends ActivityWithMessage {
         }
 
 
-        if (mList != null) {
+        if (!mList.isEmpty()) {
             itemsCount.setText("Ukupno proizvoda: " + String.valueOf(mList.size()));
         } else {
-            itemsCount.setText("Ukupno proizvoda: 0");
+            itemsCount.setVisibility(View.GONE);
+            empty.setVisibility(View.VISIBLE);
+            animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+            animation.setFillAfter(true);
+            empty.setAnimation(animation);
         }
 
     }
@@ -136,39 +146,55 @@ public class CategoryItemsActivity extends ActivityWithMessage {
         mDrawerlist.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-
-                data = (DataCategory) mAdapterNavigation.getGroup(groupPosition - 2);
                 categoryPosition = groupPosition;
-                childId = String.valueOf(id);
-                if (mAdapterNavigation.getChildrenCount(groupPosition) == 0) {
-                    mDrawerLayout.closeDrawers();
-                    if (checkList(DataContainer.categoriesLists, data.id) == false) {
-                        mRelativeProgress.setVisibility(View.VISIBLE);
-                        mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
-                            @Override
-                            public void onResponse(ResponseProducts response) {
-                                DataContainer.categoriesLists.put(data.id, response.data.results);
-                                Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                                i.putExtra("id", data.id);
-                                startActivity(i);
-                                mRelativeProgress.setVisibility(View.GONE);
+                if (groupPosition > 1 && groupPosition < DataContainer.categories.size() + 2) {
+                    data = (DataCategory) mAdapterNavigation.getGroup(groupPosition - 2);
+                    if (mAdapterNavigation.getChildrenCount(groupPosition) == 0) {
+                        mDrawerLayout.closeDrawers();
+                        if (checkList(DataContainer.categoriesLists, data.id) == false) {
+                            mRelativeProgress.setVisibility(View.VISIBLE);
+                            mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
+                                @Override
+                                public void onResponse(ResponseProducts response) {
+                                    DataContainer.categoriesLists.put(data.id, response.data.results);
+                                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                                    i.putExtra("id", data.id);
+                                    startActivity(i);
+                                    mRelativeProgress.setVisibility(View.GONE);
 
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                            }
-                        });
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                                }
+                            });
 
-                        DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
+                            DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
+                        } else {
+                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                            i.putExtra("id", data.id);
+                            startActivity(i);
+                            mRelativeProgress.setVisibility(View.GONE);
+                        }
                     } else {
-                        Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                        i.putExtra("id", data.id);
-                        startActivity(i);
-                        mRelativeProgress.setVisibility(View.GONE);
+
                     }
-                }else {}
+                } else if (groupPosition == DataContainer.categories.size() + 3) {
+                    Toast.makeText(getApplicationContext(), "podesavanja", Toast.LENGTH_SHORT).show();
+                } else if (groupPosition == DataContainer.categories.size() + 4) {
+                    Toast.makeText(getApplicationContext(), "profil", Toast.LENGTH_SHORT).show();
+                } else if (groupPosition == DataContainer.categories.size() + 5) {
+
+                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+
+                    SharedPreferences settings = getSharedPreferences("PreferencesName", Context.MODE_PRIVATE);
+                    settings.edit().remove("checked").commit();
+                    settings.edit().remove("username").commit();
+                    settings.edit().remove("password").commit();
+
+
+                }
                 return false;
             }
         });
@@ -188,7 +214,7 @@ public class CategoryItemsActivity extends ActivityWithMessage {
                             mRelativeProgress.setVisibility(View.VISIBLE);
                             DataContainer.categoriesLists.put(data.id + "." + childId, response.data.results);
                             Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                            i.putExtra("id", data.id+ "." + childId);
+                            i.putExtra("id", data.id + "." + childId);
                             startActivity(i);
                             mRelativeProgress.setVisibility(View.GONE);
 
@@ -203,7 +229,7 @@ public class CategoryItemsActivity extends ActivityWithMessage {
                     DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
                 } else {
                     Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                    i.putExtra("id", data.id+ "." + childId);
+                    i.putExtra("id", data.id + "." + childId);
                     startActivity(i);
                     mRelativeProgress.setVisibility(View.GONE);
                 }

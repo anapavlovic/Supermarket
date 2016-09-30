@@ -85,7 +85,7 @@
             android:layout_height="match_parent"
             android:id="@+id/relativeProgressHome"
             android:visibility="gone"
-            android:background="@color/transparent_progressbar">
+            android:background="@color/transparent_error">
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

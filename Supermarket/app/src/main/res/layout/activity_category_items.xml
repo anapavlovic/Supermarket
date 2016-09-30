@@ -99,6 +99,17 @@
             android:id="@+id/progressHome" />
     </RelativeLayout>
 
+
+    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/empty"
+        android:textSize="@dimen/text_size"
+        android:textColor="@color/text_color"
+        android:text="Nema proizvoda u izabranoj kategoriji"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+       />
 </RelativeLayout>
     </FrameLayout>
     <ExpandableListView
