@@ -31,6 +31,14 @@
     <string name="praznakorpa">Vaša korpa je prazna."</string>
     <string name="dodato_korpa">Proizvod je uspešno dodat u korpu.</string>
     <string name="proizvod_u_korpi">Proizvod se već nalazi u korpi.</string>
+    <string name="profile_data_change">Izmeni</string>
+    <string name="changes_saved">Promene su sačuvane.</string>
+    <string name="empty_fields">Molimo Vas popunite sva obavezna polja</string>
+    <string name="logout">Odjavi se</string>
+    <string name="profil">Profil</string>
+    <string name="settings">Podesavanja</string>
+    <string name="empty_category">U izabranoj kategoriji</string>
+    <string name="empty">trenutmo nema proizvoda.</string>
     <string name="email_pass_forgot">Ukoliko ste uneli ispravnu email adresu, dobićete link za izmenu korisničke lozinke.</string>
 
 

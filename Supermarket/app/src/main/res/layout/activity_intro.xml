@@ -11,15 +11,14 @@
         android:background="@drawable/overlay">
 
     </RelativeLayout>
-    
+
     <android.support.v4.view.ViewPager
-        android:layout_width="400dp"
-        android:layout_height="340dp"
-       android:layout_above="@+id/introButton"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_above="@+id/introButton"
         android:id="@+id/introViewPager"
         android:layout_marginBottom="30dp"
-        android:layout_marginLeft="@dimen/margin_prijava"
-        android:layout_marginRight="@dimen/margin_prijava"
+        android:layout_centerHorizontal="true"
 
      >
 

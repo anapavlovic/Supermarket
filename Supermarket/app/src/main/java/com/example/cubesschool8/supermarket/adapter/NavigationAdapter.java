@@ -9,15 +9,12 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.cubesschool8.supermarket.R;
-import com.example.cubesschool8.supermarket.activity.CategoryItemsActivity;
 import com.example.cubesschool8.supermarket.activity.HomeActivity;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataCategory;
@@ -106,7 +103,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder.name = (CustomTextViewFont) row.findViewById(R.id.drawerName);
                 holder.email = (CustomTextViewFont) row.findViewById(R.id.emailDrawer);
                 holder.image = (ImageView) row.findViewById(R.id.drawerImage);
-                row.setTag(R.layout.drawer_adapter_layout,holder);
+                row.setTag(R.layout.drawer_adapter_layout, holder);
 
             } else {
                 holder = (Holder) row.getTag(R.layout.drawer_adapter_layout);
@@ -122,6 +119,8 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
 
                 }
             });
+
+
             holder.name.setText(DataContainer.login.first_name + " " + DataContainer.login.last_name);
             holder.email.setText(DataContainer.login.email);
 
@@ -132,7 +131,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
                 holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
                 holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(R.layout.drawer_adapter_category,holder);
+                row.setTag(R.layout.drawer_adapter_category, holder);
 
             } else {
                 holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
@@ -142,6 +141,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
             holder.iconImage.setImageResource(R.drawable.home);
             holder.underline.setVisibility(View.VISIBLE);
             holder.category.setText("Home");
+            holder.category.setTextColor(Color.parseColor("#ff3366"));
             row.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -160,7 +160,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
                 holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
                 holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(R.layout.drawer_adapter_category,holder);
+                row.setTag(R.layout.drawer_adapter_category, holder);
 
             } else {
                 holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
@@ -171,6 +171,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
             holder.iconImage.setVisibility(View.GONE);
             holder.underline.setVisibility(View.VISIBLE);
 
+
         } else if (groupPosition == list.size() + 3) {
             if (row == null) {
                 row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
@@ -178,18 +179,19 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
                 holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
                 holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(R.layout.drawer_adapter_category,holder);
+                row.setTag(R.layout.drawer_adapter_category, holder);
 
             } else {
                 holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
             }
 
-            holder.category.setText("Podesavanja");
+            holder.category.setText(R.string.settings);
             holder.iconImage.setImageResource(R.drawable.ic_settings_black_24dp);
 
             holder.category.setVisibility(View.VISIBLE);
             holder.iconImage.setVisibility(View.VISIBLE);
             holder.underline.setVisibility(View.GONE);
+
 
         } else if (groupPosition == list.size() + 4) {
             if (row == null) {
@@ -198,17 +200,19 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
                 holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
                 holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(R.layout.drawer_adapter_category,holder);
+                row.setTag(R.layout.drawer_adapter_category, holder);
 
             } else {
                 holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
             }
 
-            holder.category.setText("Profil");
+            holder.category.setText(R.string.profil);
 
             holder.category.setVisibility(View.VISIBLE);
             holder.iconImage.setVisibility(View.VISIBLE);
             holder.underline.setVisibility(View.GONE);
+            holder.iconImage.setImageResource(R.drawable.usernamegray);
+
 
         } else if (groupPosition == list.size() + 5) {
             if (row == null) {
@@ -217,18 +221,19 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
                 holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
                 holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(R.layout.drawer_adapter_category,holder);
+                row.setTag(R.layout.drawer_adapter_category, holder);
 
             } else {
                 holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
             }
 
-            holder.category.setText("Odjavi se");
+            holder.category.setText(R.string.logout);
 
             holder.category.setVisibility(View.VISIBLE);
 
             holder.underline.setVisibility(View.GONE);
             holder.iconImage.setVisibility(View.VISIBLE);
+            holder.iconImage.setImageResource(R.drawable.profil);
 
 
         } else {
@@ -239,7 +244,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
                 holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
                 holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(R.layout.drawer_adapter_category,holder);
+                row.setTag(R.layout.drawer_adapter_category, holder);
 
             } else {
                 holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
@@ -249,6 +254,18 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
             holder.category.setVisibility(View.VISIBLE);
             holder.iconImage.setVisibility(View.INVISIBLE);
             holder.underline.setVisibility(View.GONE);
+
+            if (list.get(groupPosition-2).name.equalsIgnoreCase("Clothing")) {
+                holder.iconImage.setVisibility(View.VISIBLE);
+                holder.iconImage.setImageResource(R.drawable.menuicon);
+                if(isExpanded){
+                    holder.category.setTextColor(context.getResources().getColor(R.color.pink_navigation));
+                }else {
+                    holder.category.setTextColor(Color.BLACK);
+                }
+
+            }else{}
+
 
         }
 
@@ -281,7 +298,6 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
-
 
 
     public class Holder {

@@ -10,7 +10,8 @@
     <color name="message_error">#870707</color>
     <color name="message_success">#06943a</color>
     <color name="transparent_progressbar">#9e000000</color>
-    <color name="transparent_error">#c0000000</color>
+    <color name="transparent_error">#d2000000</color>
     <color name="white_transparent">#80ffffff</color>
+    <color name="pink_navigation">#ff3366</color>
 
 </resources>

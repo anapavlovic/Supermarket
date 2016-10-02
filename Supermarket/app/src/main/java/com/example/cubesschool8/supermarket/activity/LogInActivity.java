@@ -1,5 +1,6 @@
 package com.example.cubesschool8.supermarket.activity;
 
+
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,8 +38,8 @@ import com.example.cubesschool8.supermarket.data.DataContainer;
  * Created by cubesschool8 on 9/7/16.
  */
 public class LogInActivity extends ActivityWithMessage {
-    private static final int CAMERA_REQUEST = 7;
-    private static final int GALLERY_REQUEST = 9;
+    public static final int CAMERA_REQUEST = 7;
+    public static final int GALLERY_REQUEST = 9;
 
     private ImageView mOverlayImg, mLogo, mBack, mAddPhoto, mUserPhoto;
     private CustomEditTextFont mUsername, mPassword;
@@ -61,14 +62,17 @@ public class LogInActivity extends ActivityWithMessage {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
-
-
         inicComp();
-        addListener();
-        setLogoAnimation();
-        setViewPagerAnimation();
-        setViewPager();
-
+        overridePendingTransition(R.anim.fade_in_pending_transition, 0);
+        mLogo.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addListener();
+                setLogoAnimation();
+                setViewPagerAnimation();
+                setViewPager();
+            }
+        }, 200);
 
     }
 
@@ -233,7 +237,7 @@ public class LogInActivity extends ActivityWithMessage {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST) {

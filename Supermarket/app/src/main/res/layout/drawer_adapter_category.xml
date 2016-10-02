@@ -8,6 +8,7 @@
         android:layout_height="30dp"
         android:id="@+id/drawerIcon"
         android:visibility="visible"
+        android:layout_marginTop="@dimen/margin5"
         android:layout_marginLeft="@dimen/margin_prijava"
         android:layout_marginBottom="@dimen/margin_top_et"/>
    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont

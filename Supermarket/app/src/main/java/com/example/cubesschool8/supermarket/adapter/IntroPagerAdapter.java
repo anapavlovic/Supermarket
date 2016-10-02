@@ -27,4 +27,6 @@ public class IntroPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return 3;
     }
+
+
 }

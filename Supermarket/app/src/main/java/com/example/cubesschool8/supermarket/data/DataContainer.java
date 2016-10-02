@@ -26,10 +26,10 @@ public class DataContainer {
 
     public static ArrayList<DataProducts> basketList = new ArrayList<>();
     public static DataLogIn addressChange = new DataLogIn();
+    public static ArrayList<String> wishList = new ArrayList<>();
 
 
     public static HashMap<String, ArrayList<DataProducts>> categoriesLists = new HashMap<>();
-
 
 
 }

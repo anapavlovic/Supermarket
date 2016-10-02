@@ -108,6 +108,7 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
                             Log.i("error", error.toString());
                             BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
                             progressBar.setVisibility(View.GONE);
+                            relativeProgress.setVisibility(View.GONE);
 
                         }
                     }) {
@@ -121,7 +122,7 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
                             params.put("articles", setArticlesString());
 
                             if (DataContainer.addressChange.address.equalsIgnoreCase(DataContainer.login.address) && DataContainer.addressChange.street_number.equalsIgnoreCase(DataContainer.login.street_number) &&
-                                    DataContainer.addressChange.apartment.equalsIgnoreCase(DataContainer.login.apartment) && DataContainer.addressChange.floor.equalsIgnoreCase(DataContainer.login.floor) &&
+                                    DataContainer.addressChange.appartement.equalsIgnoreCase(DataContainer.login.appartement) && DataContainer.addressChange.floor.equalsIgnoreCase(DataContainer.login.floor) &&
                                     DataContainer.addressChange.entrance.equalsIgnoreCase(DataContainer.login.entrance) && DataContainer.addressChange.city.equalsIgnoreCase(DataContainer.login.city) &&
                                     DataContainer.addressChange.postal_code.equalsIgnoreCase(DataContainer.login.postal_code)) {
                                 params.put("new_address", "0");
@@ -129,7 +130,7 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
                                 params.put("new_address", "1");
                                 params.put("street", DataContainer.addressChange.address);
                                 params.put("number", DataContainer.addressChange.street_number);
-                                params.put("appartement", DataContainer.addressChange.apartment);
+                                params.put("appartement", DataContainer.addressChange.appartement);
                                 params.put("floor", DataContainer.addressChange.floor);
                                 params.put("entrance", DataContainer.addressChange.entrance);
                                 params.put("city", DataContainer.addressChange.city);

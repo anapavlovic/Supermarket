@@ -60,6 +60,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
 
         holder.yellowBasket.setEnabled(mComponentEnabled);
 
+        for (int j = 0; j < DataContainer.wishList.size(); j++) {
+
+            if (mList.get(position).id.equalsIgnoreCase(DataContainer.wishList.get(j))) {
+                holder.star.setImageResource(R.drawable.yellowstar);
+            } else {
+
+            }
+
+
+        }
+
     }
 
     @Override
@@ -74,7 +85,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
 
     public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ImageView productImage, yellowBasket;
+        private ImageView productImage, yellowBasket, star;
         private CustomTextViewFont productTitle;
         private CustomTextViewFont productPrice;
 
@@ -86,6 +97,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
             productPrice = (CustomTextViewFont) itemView.findViewById(R.id.productPriceTv);
             productTitle = (CustomTextViewFont) itemView.findViewById(R.id.productTitleTv);
             yellowBasket = (ImageView) itemView.findViewById(R.id.yellowBasket);
+            star = (ImageView) itemView.findViewById(R.id.star);
             productImage.setOnClickListener(this);
             yellowBasket.setOnClickListener(this);
 
@@ -117,17 +129,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
                             if (mList.get(getAdapterPosition()).id.equalsIgnoreCase(DataContainer.basketList.get(i).id)) {
                                 mList.get(getAdapterPosition()).count++;
                                 DataContainer.basketList.get(i).count++;
-                               
-                                    BusProvider.getInstance().post(new MessageObject(R.string.dodato_korpa, 3000, MessageObject.MESSAGE_SUCCESS));
+
+                                BusProvider.getInstance().post(new MessageObject(R.string.dodato_korpa, 3000, MessageObject.MESSAGE_SUCCESS));
 
 
-
-                                mComponentEnabled=false;
+                                mComponentEnabled = false;
 
                                 itemView.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        mComponentEnabled=true;
+                                        mComponentEnabled = true;
                                         notifyDataSetChanged();
                                     }
                                 }, 5000);
@@ -145,12 +156,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
                         BusProvider.getInstance().post(new MessageObject(R.string.dodato_korpa, 3000, MessageObject.MESSAGE_SUCCESS));
 
 
-                       mComponentEnabled=false;
+                        mComponentEnabled = false;
 
                         itemView.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mComponentEnabled=true;
+                                mComponentEnabled = true;
                                 notifyDataSetChanged();
 
                             }

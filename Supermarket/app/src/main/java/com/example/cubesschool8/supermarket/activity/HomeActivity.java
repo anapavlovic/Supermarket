@@ -105,27 +105,34 @@ public class HomeActivity extends ActivityWithMessage {
                 if (groupPosition > 1 && groupPosition < DataContainer.categories.size() + 2) {
                     data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
                     if (mAdapter.getChildrenCount(groupPosition) == 0) {
-                        mDrawerLayout.closeDrawers();
                         if (checkList(DataContainer.categoriesLists, data.id) == false) {
-                            mRelativeProgress.setVisibility(View.VISIBLE);
-                            mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
+                            mDrawerLayout.closeDrawers();
+                            mRelativeProgress.postDelayed(new Runnable() {
                                 @Override
-                                public void onResponse(ResponseProducts response) {
-                                    DataContainer.categoriesLists.put(data.id, response.data.results);
-                                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                                    i.putExtra("id", data.id);
-                                    startActivity(i);
-                                    mRelativeProgress.setVisibility(View.GONE);
+                                public void run() {
+                                    mRelativeProgress.setVisibility(View.VISIBLE);
+                                    mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
+                                        @Override
+                                        public void onResponse(ResponseProducts response) {
+                                            DataContainer.categoriesLists.put(data.id, response.data.results);
+                                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                                            i.putExtra("id", data.id);
+                                            startActivity(i);
+                                            mRelativeProgress.setVisibility(View.GONE);
 
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                                }
-                            });
+                                        }
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                                        }
+                                    });
 
-                            DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
+                                    DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
+                                }
+                            }, 200);
+
+
                         } else {
                             Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
                             i.putExtra("id", data.id);
@@ -137,17 +144,17 @@ public class HomeActivity extends ActivityWithMessage {
                     }
                 } else if (groupPosition == DataContainer.categories.size() + 3) {
                     Toast.makeText(getApplicationContext(), "podesavanja", Toast.LENGTH_SHORT).show();
-               } else if (groupPosition == DataContainer.categories.size() + 4) {
-                   Toast.makeText(getApplicationContext(), "profil", Toast.LENGTH_SHORT).show();
+                } else if (groupPosition == DataContainer.categories.size() + 4) {
+                    startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
                 } else if (groupPosition == DataContainer.categories.size() + 5) {
 
                     startActivity(new Intent(getApplicationContext(), LogInActivity.class));
 
-                    SharedPreferences settings = getSharedPreferences("PreferencesName", Context.MODE_PRIVATE);
+                    SharedPreferences settings = getSharedPreferences("MyPreferences", 0);
                     settings.edit().remove("checked").commit();
                     settings.edit().remove("username").commit();
                     settings.edit().remove("password").commit();
-
+                    finish();
 
                 }
                 return false;
@@ -161,33 +168,41 @@ public class HomeActivity extends ActivityWithMessage {
                 categoryPosition = groupPosition;
                 mChildPosition = childPosition;
                 childId = String.valueOf(id);
-                mDrawerLayout.closeDrawers();
                 if (checkList(DataContainer.categoriesLists, data.id + "." + childId) == false) {
-                    mRelativeProgress.setVisibility(View.VISIBLE);
-                    mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
+                    mDrawerLayout.closeDrawers();
+                    mRelativeProgress.postDelayed(new Runnable() {
                         @Override
-                        public void onResponse(ResponseProducts response) {
+                        public void run() {
                             mRelativeProgress.setVisibility(View.VISIBLE);
-                            DataContainer.categoriesLists.put(data.id + "." + childId, response.data.results);
-                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                            i.putExtra("id", data.id + "." + childId);
-                            startActivity(i);
-                            mRelativeProgress.setVisibility(View.GONE);
+                            mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
+                                @Override
+                                public void onResponse(ResponseProducts response) {
+                                    mRelativeProgress.setVisibility(View.VISIBLE);
+                                    DataContainer.categoriesLists.put(data.id + "." + childId, response.data.results);
+                                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                                    i.putExtra("id", data.id + "." + childId);
+                                    startActivity(i);
+                                    mRelativeProgress.setVisibility(View.GONE);
 
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                        }
-                    });
 
-                    DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                                }
+                            });
+
+                            DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
+                        }
+                    }, 200);
+
                 } else {
                     Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
                     i.putExtra("id", data.id + "." + childId);
                     startActivity(i);
                     mRelativeProgress.setVisibility(View.GONE);
+
                 }
 
 
@@ -210,10 +225,12 @@ public class HomeActivity extends ActivityWithMessage {
         progressBar = (ProgressBar) findViewById(R.id.progressHome);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#feea00"), PorterDuff.Mode.SRC_IN);
 
-        for (int i = 0; i < DataContainer.categories.size(); i++) {
-            subCategories = DataContainer.categories.get(i).subcategories;
-            childList.put(DataContainer.categories.get(i), subCategories);
+        if (DataContainer.categories != null) {
+            for (int i = 0; i < DataContainer.categories.size(); i++) {
+                subCategories = DataContainer.categories.get(i).subcategories;
+                childList.put(DataContainer.categories.get(i), subCategories);
 
+            }
         }
         mAdapter = new NavigationAdapter(this, DataContainer.categories, childList);
         mDrawerlist.setAdapter(mAdapter);

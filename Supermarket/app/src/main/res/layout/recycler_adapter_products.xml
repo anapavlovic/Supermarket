@@ -15,11 +15,20 @@
 
         >
 
+
         <ImageView
             android:id="@+id/adapterImageView"
             android:layout_width="138.5dp"
             android:layout_height="119dp"
             android:layout_above="@+id/lineViewAdapter" />
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_margin="@dimen/margin5"
+            android:id="@+id/star"
+            android:background="@drawable/emptystar"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"/>
 
         <View
             android:id="@+id/lineViewAdapter"

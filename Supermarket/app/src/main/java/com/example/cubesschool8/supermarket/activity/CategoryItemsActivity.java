@@ -47,7 +47,7 @@ public class CategoryItemsActivity extends ActivityWithMessage {
     private RecyclerAdapter mAdapter;
     private NavigationAdapter mAdapterNavigation;
     private RecyclerView recyclerView;
-    private CustomTextViewFont itemsCount, empty;
+    private CustomTextViewFont itemsCount, tvEmptyCategory, tvEmptyCategory2;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<DataProducts> mList;
     private ImageView mMenu, mSearch, mShoppingCart;
@@ -84,11 +84,13 @@ public class CategoryItemsActivity extends ActivityWithMessage {
         itemsCount = (CustomTextViewFont) findViewById(R.id.tvItemsCount);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerlist = (ExpandableListView) findViewById(R.id.drawerList);
-        empty = (CustomTextViewFont) findViewById(R.id.empty);
+        tvEmptyCategory = (CustomTextViewFont) findViewById(R.id.tvEmptyCategory);
+        tvEmptyCategory2 = (CustomTextViewFont) findViewById(R.id.tvEmpty);
 
         mRelativeProgress = (RelativeLayout) findViewById(R.id.relativeProgressHome);
         progressBar = (ProgressBar) findViewById(R.id.progressHome);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#feea00"), PorterDuff.Mode.SRC_IN);
+
         for (int i = 0; i < DataContainer.categories.size(); i++) {
             subCategories = DataContainer.categories.get(i).subcategories;
             childList.put(DataContainer.categories.get(i), subCategories);
@@ -118,10 +120,32 @@ public class CategoryItemsActivity extends ActivityWithMessage {
             itemsCount.setText("Ukupno proizvoda: " + String.valueOf(mList.size()));
         } else {
             itemsCount.setVisibility(View.GONE);
-            empty.setVisibility(View.VISIBLE);
-            animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+            tvEmptyCategory.setVisibility(View.VISIBLE);
+            tvEmptyCategory.setText(R.string.empty_category);
+            animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_empty_category);
             animation.setFillAfter(true);
-            empty.setAnimation(animation);
+            tvEmptyCategory.setAnimation(animation);
+
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    tvEmptyCategory2.setVisibility(View.VISIBLE);
+                    tvEmptyCategory2.setText(R.string.empty);
+                    animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_empty_category);
+                    tvEmptyCategory2.setAnimation(animation);
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
         }
 
     }
@@ -146,31 +170,40 @@ public class CategoryItemsActivity extends ActivityWithMessage {
         mDrawerlist.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+
+
                 categoryPosition = groupPosition;
                 if (groupPosition > 1 && groupPosition < DataContainer.categories.size() + 2) {
                     data = (DataCategory) mAdapterNavigation.getGroup(groupPosition - 2);
                     if (mAdapterNavigation.getChildrenCount(groupPosition) == 0) {
-                        mDrawerLayout.closeDrawers();
                         if (checkList(DataContainer.categoriesLists, data.id) == false) {
-                            mRelativeProgress.setVisibility(View.VISIBLE);
-                            mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
+                            mDrawerLayout.closeDrawers();
+                            mRelativeProgress.postDelayed(new Runnable() {
                                 @Override
-                                public void onResponse(ResponseProducts response) {
-                                    DataContainer.categoriesLists.put(data.id, response.data.results);
-                                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                                    i.putExtra("id", data.id);
-                                    startActivity(i);
-                                    mRelativeProgress.setVisibility(View.GONE);
+                                public void run() {
+                                    mRelativeProgress.setVisibility(View.VISIBLE);
+                                    mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
+                                        @Override
+                                        public void onResponse(ResponseProducts response) {
+                                            DataContainer.categoriesLists.put(data.id, response.data.results);
+                                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                                            i.putExtra("id", data.id);
+                                            startActivity(i);
+                                            mRelativeProgress.setVisibility(View.GONE);
 
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                                }
-                            });
+                                        }
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                                        }
+                                    });
 
-                            DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
+                                    DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
+                                }
+                            }, 200);
+
+
                         } else {
                             Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
                             i.putExtra("id", data.id);
@@ -183,16 +216,16 @@ public class CategoryItemsActivity extends ActivityWithMessage {
                 } else if (groupPosition == DataContainer.categories.size() + 3) {
                     Toast.makeText(getApplicationContext(), "podesavanja", Toast.LENGTH_SHORT).show();
                 } else if (groupPosition == DataContainer.categories.size() + 4) {
-                    Toast.makeText(getApplicationContext(), "profil", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
                 } else if (groupPosition == DataContainer.categories.size() + 5) {
 
                     startActivity(new Intent(getApplicationContext(), LogInActivity.class));
 
-                    SharedPreferences settings = getSharedPreferences("PreferencesName", Context.MODE_PRIVATE);
+                    SharedPreferences settings = getSharedPreferences("MyPreferences", 0);
                     settings.edit().remove("checked").commit();
                     settings.edit().remove("username").commit();
                     settings.edit().remove("password").commit();
-
+                    finish();
 
                 }
                 return false;
@@ -205,33 +238,41 @@ public class CategoryItemsActivity extends ActivityWithMessage {
                 categoryPosition = groupPosition;
                 mChildPosition = childPosition;
                 childId = String.valueOf(id);
-                mDrawerLayout.closeDrawers();
                 if (checkList(DataContainer.categoriesLists, data.id + "." + childId) == false) {
-                    mRelativeProgress.setVisibility(View.VISIBLE);
-                    mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
+                    mDrawerLayout.closeDrawers();
+                    mRelativeProgress.postDelayed(new Runnable() {
                         @Override
-                        public void onResponse(ResponseProducts response) {
+                        public void run() {
                             mRelativeProgress.setVisibility(View.VISIBLE);
-                            DataContainer.categoriesLists.put(data.id + "." + childId, response.data.results);
-                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                            i.putExtra("id", data.id + "." + childId);
-                            startActivity(i);
-                            mRelativeProgress.setVisibility(View.GONE);
+                            mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
+                                @Override
+                                public void onResponse(ResponseProducts response) {
+                                    mRelativeProgress.setVisibility(View.VISIBLE);
+                                    DataContainer.categoriesLists.put(data.id + "." + childId, response.data.results);
+                                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                                    i.putExtra("id", data.id + "." + childId);
+                                    startActivity(i);
+                                    mRelativeProgress.setVisibility(View.GONE);
 
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                        }
-                    });
 
-                    DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                                }
+                            });
+
+                            DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
+                        }
+                    }, 200);
+
                 } else {
                     Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
                     i.putExtra("id", data.id + "." + childId);
                     startActivity(i);
                     mRelativeProgress.setVisibility(View.GONE);
+
                 }
 
 

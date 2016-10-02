@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/content_frame"
+
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_prijava">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/rootView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg"
+            tools:context=".activity.HomeActivity">
+
+            <RelativeLayout
+                android:id="@+id/relativeBarProfil"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:background="@color/underlineopacity"
+                android:padding="@dimen/margin5"
+
+                >
+
+                <ImageView
+                    android:id="@+id/drawerMenuProfil"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/menu"
+                    android:layout_marginLeft="@dimen/margin5"
+
+                    />
+
+                <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                    android:id="@+id/Profil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_prijava"
+                    android:layout_toRightOf="@+id/drawerMenuProfil"
+                    android:text="Profil"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/text_size" />
+
+                <ImageView
+                    android:id="@+id/photoChange"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginLeft="@dimen/margin5"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/add" />
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:id="@+id/userPhoto"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/margin10"
+                android:background="@drawable/personicon"
+                android:layout_below="@+id/relativeBarProfil"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/relativeRegistrationLaout"
+                android:layout_below="@+id/userPhoto"
+                >
+
+                <RelativeLayout
+                    android:id="@+id/relativename"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top_relative">
+
+                    <ImageView
+                        android:id="@+id/nameimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:background="@drawable/username" />
+
+                    <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                        android:id="@+id/eTname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginTop="@dimen/margin_top_et"
+                        android:layout_toRightOf="@+id/nameimage"
+                        android:background="@null"
+                        android:hint="Ime"
+                        android:inputType="text"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/text_color"
+                        android:textSize="@dimen/text_size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_below="@+id/eTname"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginRight="@dimen/margin_prijava"
+                        android:background="@color/underlineopacity"
+
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativSurname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativename"
+                    android:layout_marginTop="@dimen/margin_top_relative">
+
+                    <ImageView
+                        android:id="@+id/prezimeimg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:background="@drawable/username" />
+
+                    <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                        android:id="@+id/etSurname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginTop="@dimen/margin_top_et"
+                        android:layout_toRightOf="@+id/prezimeimg"
+                        android:background="@null"
+                        android:hint="Prezime"
+                        android:inputType="text"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/text_color"
+                        android:textSize="@dimen/text_size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_below="@+id/etSurname"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginRight="@dimen/margin_prijava"
+                        android:background="@color/underlineopacity"
+
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativSurname"
+                    android:layout_marginTop="@dimen/margin_top_relative">
+
+                    <ImageView
+                        android:id="@+id/emailimg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:background="@drawable/email" />
+
+                    <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                        android:id="@+id/etEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginTop="@dimen/margin_top_et"
+                        android:layout_toRightOf="@+id/emailimg"
+                        android:background="@null"
+                        android:hint="email"
+                        android:inputType="textWebEmailAddress"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/text_color"
+                        android:textSize="@dimen/text_size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_below="@+id/etEmail"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginRight="@dimen/margin_prijava"
+                        android:background="@color/underlineopacity"
+
+                        />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/relativeMobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeEmail"
+                    android:layout_marginTop="@dimen/margin_top_relative">
+
+                    <ImageView
+                        android:id="@+id/mobileimg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:background="@drawable/phone" />
+
+                    <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                        android:id="@+id/etMobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginTop="@dimen/margin_top_et"
+                        android:layout_toRightOf="@+id/mobileimg"
+                        android:background="@null"
+                        android:hint="mobile"
+                        android:inputType="phone"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/text_color"
+                        android:textSize="@dimen/text_size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_below="@+id/etMobile"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginRight="@dimen/margin_prijava"
+                        android:background="@color/underlineopacity"
+
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativePhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeMobile"
+                    android:layout_marginTop="@dimen/margin_top_relative">
+
+                    <ImageView
+                        android:id="@+id/phoneimg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:background="@drawable/phone" />
+
+                    <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                        android:id="@+id/etPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginTop="@dimen/margin_top_et"
+                        android:layout_toRightOf="@+id/phoneimg"
+                        android:background="@null"
+                        android:hint="phone number"
+                        android:inputType="phone"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/text_color"
+                        android:textSize="@dimen/text_size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_below="@+id/etPhone"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginRight="@dimen/margin_prijava"
+                        android:background="@color/underlineopacity"
+
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeFax"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativePhone"
+                    android:layout_marginTop="@dimen/margin_top_relative">
+
+                    <ImageView
+                        android:id="@+id/faximg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:background="@drawable/phone" />
+
+                    <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                        android:id="@+id/etFax"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginTop="@dimen/margin_top_et"
+                        android:layout_toRightOf="@+id/faximg"
+                        android:background="@null"
+                        android:hint="fax"
+                        android:inputType="phone"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/text_color"
+                        android:textSize="@dimen/text_size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_below="@+id/etFax"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginRight="@dimen/margin_prijava"
+                        android:background="@color/underlineopacity"
+
+                        />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/relativeStreet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeFax"
+                    android:layout_marginTop="@dimen/margin_top_relative">
+
+                    <RelativeLayout
+                        android:id="@+id/linearStreet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_weight="1">
+
+
+                        <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                            android:id="@+id/etStreet"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="@dimen/margin_prijava"
+                            android:layout_marginTop="@dimen/margin_top_et"
+                            android:background="@null"
+                            android:hint="ulica"
+                            android:textColor="@color/text_color"
+                            android:textColorHint="@color/text_color"
+                            android:textSize="@dimen/text_size" />
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_below="@+id/etStreet"
+                            android:layout_marginLeft="@dimen/margin_prijava"
+                            android:layout_marginRight="@dimen/margin_prijava"
+                            android:background="@color/underlineopacity"
+
+                            />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_toRightOf="@+id/linearStreet"
+                        android:layout_weight="2">
+
+                        <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                            android:id="@+id/etNumber"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="@dimen/margin_prijava"
+                            android:layout_marginTop="@dimen/margin_top_et"
+
+                            android:background="@null"
+                            android:hint="broj"
+                            android:inputType="text"
+                            android:textColor="@color/text_color"
+                            android:textColorHint="@color/text_color"
+                            android:textSize="@dimen/text_size" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_below="@+id/etNumber"
+                            android:layout_marginLeft="@dimen/margin_top_et"
+                            android:layout_marginRight="@dimen/margin_prijava"
+                            android:background="@color/underlineopacity"
+
+                            />
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/relativeAppartment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeStreet"
+                    android:layout_marginTop="@dimen/margin_top_relative">
+
+                    <RelativeLayout
+                        android:id="@+id/relApp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+
+                        <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                            android:id="@+id/etApartment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="@dimen/margin_prijava"
+                            android:layout_marginTop="@dimen/margin_top_et"
+                            android:background="@null"
+                            android:hint="stan"
+                            android:textColor="@color/text_color"
+                            android:textColorHint="@color/text_color"
+                            android:textSize="@dimen/text_size" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_below="@+id/etApartment"
+                            android:layout_marginLeft="@dimen/margin_prijava"
+                            android:layout_marginRight="@dimen/margin_prijava"
+                            android:background="@color/underlineopacity"
+
+                            />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/relativeFloor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+
+                        <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                            android:id="@+id/etFloor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="@dimen/margin_prijava"
+                            android:layout_marginTop="@dimen/margin_top_et"
+
+                            android:background="@null"
+                            android:hint="sprat"
+                            android:inputType="number"
+                            android:textColor="@color/text_color"
+                            android:textColorHint="@color/text_color"
+                            android:textSize="@dimen/text_size" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_below="@+id/etFloor"
+                            android:layout_marginLeft="@dimen/margin_top_et"
+                            android:layout_marginRight="@dimen/margin_prijava"
+                            android:background="@color/underlineopacity"
+
+                            />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/relativeEntrance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+
+                        <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                            android:id="@+id/etEntrance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="@dimen/margin_prijava"
+                            android:layout_marginTop="@dimen/margin_top_et"
+                            android:background="@null"
+                            android:hint="ulaz"
+                            android:textColor="@color/text_color"
+                            android:textColorHint="@color/text_color"
+                            android:textSize="@dimen/text_size" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_below="@+id/etEntrance"
+                            android:layout_marginLeft="@dimen/margin_top_et"
+                            android:layout_marginRight="@dimen/margin_prijava"
+                            android:background="@color/underlineopacity"
+
+                            />
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/relativeCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeAppartment">
+
+                    <ImageView
+                        android:id="@+id/cityimg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:background="@drawable/city" />
+
+                    <LinearLayout
+                        android:id="@+id/l"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/cityimg"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/spinnerCity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_top_relative"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="@dimen/margin_top_relative"
+                            android:layout_toRightOf="@+id/cityimg"
+                            android:layout_weight="1"></Spinner>
+
+                        <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                            android:id="@+id/etPostalcode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="@dimen/margin_prijava"
+                            android:layout_marginTop="25dp"
+                            android:layout_toRightOf="@+id/spinnerCity"
+                            android:layout_weight="2"
+                            android:background="@null"
+                            android:hint="postanski broj"
+                            android:textColor="@color/text_color"
+                            android:textColorHint="@color/text_color"
+                            android:textSize="@dimen/text_size" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_below="@+id/l"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginRight="@dimen/margin_prijava"
+                        android:background="@color/underlineopacity"
+
+                        />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/relativeCheckbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeCity"
+                    android:layout_marginLeft="@dimen/margin_prijava"
+                    android:layout_marginTop="@dimen/margin_top_relative">
+
+                    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/newsletter"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/text_size" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxNewsLetter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/margin_top_et"
+                        android:layout_marginTop="@dimen/margin_top_et" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_below="@+id/checkboxNewsLetter"
+                        android:layout_marginRight="@dimen/margin_prijava"
+                        android:background="@color/underlineopacity"
+
+                        />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/relativeDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeCheckbox">
+
+                    <ImageView
+                        android:id="@+id/dayimg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:background="@drawable/birthday" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/dayimg"
+                        android:id="@+id/linearDatum"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/spinnerDay"
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginBottom="@dimen/margin_top_relative"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="@dimen/margin_top_relative"></Spinner>
+
+                        <Spinner
+                            android:id="@+id/spinnerMonth"
+                            android:layout_width="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_top_relative"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="@dimen/margin_top_relative"
+                            android:layout_toRightOf="@+id/spinnerDay"></Spinner>
+
+                        <Spinner
+                            android:id="@+id/spinnerYear"
+                            android:layout_width="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_top_relative"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="@dimen/margin_top_relative"
+                            android:layout_toRightOf="@+id/spinnerMonth"></Spinner>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_below="@+id/linearDatum"
+                        android:layout_marginRight="@dimen/margin_prijava"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:background="@color/underlineopacity"
+
+                        />
+                </RelativeLayout>
+
+
+                <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                    android:id="@+id/tvPol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeDay"
+                    android:layout_marginLeft="@dimen/margin_prijava"
+                    android:layout_marginTop="@dimen/margin_top_relative"
+                    android:text="Pol:"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/text_size" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvPol"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/radioFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="zenski" />
+
+                    <RadioButton
+                        android:id="@+id/radioMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="muski" />
+
+
+                </RadioGroup>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/radioGroup"
+                    android:layout_marginLeft="@dimen/margin_prijava"
+                    android:layout_marginRight="@dimen/margin_prijava"
+                    android:background="@color/underlineopacity"
+
+                    />
+
+
+                <RelativeLayout
+                    android:id="@+id/relativeSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/radioGroup">
+
+                    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                        android:id="@+id/tvPravnoLice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_prijava"
+                        android:text="@string/pravno_lice"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/text_size" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/dSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="@dimen/margin_prijava" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeCompany"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeSwitch"
+                    android:visibility="gone">
+
+                    <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                        android:id="@+id/etCompanyName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginTop="@dimen/margin_top_et"
+                        android:background="@null"
+                        android:hint="Naziv kompanije"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/text_color"
+                        android:textSize="@dimen/text_size" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:id="@+id/view"
+                        android:layout_below="@+id/etCompanyName"
+                        android:layout_marginRight="@dimen/margin_prijava"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:background="@color/underlineopacity"
+
+                        />
+
+                    <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                        android:id="@+id/etCompanyPib"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/view"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:layout_marginTop="25dp"
+                        android:background="@null"
+                        android:hint="PIB"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/text_color"
+                        android:textSize="@dimen/text_size" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_below="@+id/etCompanyPib"
+                        android:layout_marginRight="@dimen/margin_prijava"
+                        android:layout_marginLeft="@dimen/margin_prijava"
+                        android:background="@color/underlineopacity"
+
+                        />
+
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/relativeProgressProfile"
+                android:visibility="gone"
+                android:background="@color/transparent_error">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:indeterminate="true"
+                    android:id="@+id/progressProfile" />
+            </RelativeLayout>
+        </RelativeLayout>
+        </ScrollView>
+
+
+        <Button
+            android:id="@+id/changeAddressButton"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/margin_prijava"
+            android:background="@color/yellow"
+            android:text="@string/profile_data_change"
+            android:textColor="@color/text_color_black" />
+        </RelativeLayout>
+    </FrameLayout>
+    <ExpandableListView
+        android:id="@+id/drawerList"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:background="@color/text_color"
+        ></ExpandableListView>
+
+
+
+</android.support.v4.widget.DrawerLayout>

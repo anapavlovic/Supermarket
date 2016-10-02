@@ -10,18 +10,20 @@ public class DataLogIn {
     public String id;
     public String login_id;
     public String company_name;
+    public String pib;
     public String company_id;
     public String username;
     public String first_name;
     public String last_name;
     public String address;
     public String street_number;
-    public String apartment;
+    public String appartement;
     public String floor;
     public String entrance;
     public String city;
     public String postal_code;
     public String country;
+    public String phone;
     public String cell_phone;
     public String land_line;
     public String fax;
@@ -33,6 +35,7 @@ public class DataLogIn {
     public String photo;
     public String user_type;
     public ArrayList<String> wish_list;
+
 
     public String userImage;
 

@@ -1,6 +1,7 @@
 package com.example.cubesschool8.supermarket.fragment;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.cubesschool8.supermarket.activity.HomeActivity;
 import com.example.cubesschool8.supermarket.R;
+import com.example.cubesschool8.supermarket.activity.LogInActivity;
 import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
@@ -102,6 +104,7 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                             Log.i("Response", response.toString());
                             DataContainer.login = response.data.results;
                             DataContainer.LOGIN_TOKEN = response.data.login_token;
+                            DataContainer.wishList = response.data.results.wish_list;
 
                             if (response.data.error != "") {
                                 BusProvider.getInstance().post(new MessageObject(R.string.login_incorrect, 3000, MessageObject.MESSAGE_ERROR));
@@ -110,17 +113,18 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                                 if (mCheckSaveUserDAata.isChecked()) {
                                     // String md5Username = encryptIt(mUsername.getText().toString());
                                     //  String md5Password= encryptIt(mPass.getText().toString());
-                                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                                    SharedPreferences prefs = getActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = prefs.edit();
                                     editor.putBoolean("checked", true);
                                     editor.putString("username", mUsername.getText().toString());
                                     editor.putString("password", mPass.getText().toString());
                                     editor.commit();
                                     startActivity(new Intent(getActivity(), HomeActivity.class));
-
+                                    getActivity().finish();
 
                                 } else {
                                     startActivity(new Intent(getActivity(), HomeActivity.class));
+                                    getActivity().finish();
                                 }
                             }
                         }

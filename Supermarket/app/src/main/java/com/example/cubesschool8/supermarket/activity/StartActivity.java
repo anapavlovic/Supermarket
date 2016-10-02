@@ -103,7 +103,7 @@ public class StartActivity extends ActivityWithMessage {
                 checkVolleyFinished();
                 DataContainer.categories = response.data.results;
 
-                // Toast.makeText(getApplicationContext(), DataContainer.categories.toString(), Toast.LENGTH_SHORT).show();
+
 
 
             }
@@ -189,13 +189,15 @@ public class StartActivity extends ActivityWithMessage {
     }
 
     public void checkifUserDataSaved() {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences = getSharedPreferences("MyPreferences",0);
         boolean s = sharedPreferences.getBoolean("checked", false);
         String encryptmUsername = sharedPreferences.getString("username", "");
         String encryptmPass = sharedPreferences.getString("password", "");
 
         String username = decryptIt(encryptmUsername);
         String password = decryptIt(encryptmPass);
+
+
 
         if (s == true) {
             mRequestLogIn = new GsonRequest<ResponseLogIn>(Constant.LOGIN_URL + "?token=" + DataContainer.TOKEN + "&email=" + encryptmUsername + "&password=" + encryptmPass,
@@ -205,6 +207,10 @@ public class StartActivity extends ActivityWithMessage {
                     Log.i("Response", response.toString());
                     DataContainer.login = response.data.results;
                     DataContainer.LOGIN_TOKEN = response.data.login_token;
+                   // DataContainer.wishList= response.data.results.wish_list;
+                    DataContainer.wishList.add(String.valueOf(8));
+                    DataContainer.wishList.add(String.valueOf(6));
+
                     if (response.data.error != "") {
                         Toast.makeText(getApplicationContext(), R.string.login_incorrect, Toast.LENGTH_SHORT).show();
                     } else {
@@ -216,7 +222,7 @@ public class StartActivity extends ActivityWithMessage {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.i("error", error.toString());
-                    BusProvider.getInstance().post(new MessageObject());
+                    BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
                     startActivity(new Intent(getApplicationContext(), LogInActivity.class));
                 }
             });

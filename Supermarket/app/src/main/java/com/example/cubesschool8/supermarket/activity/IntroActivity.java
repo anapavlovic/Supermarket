@@ -1,11 +1,13 @@
 package com.example.cubesschool8.supermarket.activity;
 
-import android.content.res.Resources;
+
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -26,6 +28,7 @@ public class IntroActivity extends FragmentActivity {
         setContentView(R.layout.activity_intro);
         inicComp();
         addListener();
+
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -53,6 +56,8 @@ public class IntroActivity extends FragmentActivity {
                         break;
 
                 }
+
+
             }
 
             @Override
@@ -99,6 +104,10 @@ public class IntroActivity extends FragmentActivity {
         secondIndicator.setImageResource(R.drawable.circleindicatortransparent);
         thirdIndicator.setImageResource(R.drawable.circleindicatortransparent);
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        viewPager.setPageMargin(
+                getResources().getDimensionPixelOffset(R.dimen.viewpager_margin));
+
+
     }
 
 

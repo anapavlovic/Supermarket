@@ -10,4 +10,5 @@
     <dimen name="margin5">5dp</dimen>
     <dimen name="margin10">10dp</dimen>
     <dimen name="text_size_12">12dp</dimen>
+    <dimen name="viewpager_margin">-80dp</dimen>
 </resources>
