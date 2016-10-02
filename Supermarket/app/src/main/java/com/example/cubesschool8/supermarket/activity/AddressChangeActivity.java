@@ -58,7 +58,7 @@ public class AddressChangeActivity extends ActivityWithMessage {
             mNumber.setText(DataContainer.login.street_number);
             mFloor.setText(DataContainer.login.floor);
             mPostalCode.setText(DataContainer.login.postal_code);
-            mApartment.setText(DataContainer.login.appartement);
+            mApartment.setText(DataContainer.login.apartment);
             mEntrance.setText(DataContainer.login.entrance);
             mCity.setSelection(getSpinnerIndex(mCity, DataContainer.login.city));
         } else {
@@ -66,7 +66,7 @@ public class AddressChangeActivity extends ActivityWithMessage {
             mNumber.setText(DataContainer.addressChange.street_number);
             mFloor.setText(DataContainer.addressChange.floor);
             mPostalCode.setText(DataContainer.addressChange.postal_code);
-            mApartment.setText(DataContainer.addressChange.appartement);
+            mApartment.setText(DataContainer.addressChange.apartment);
             mEntrance.setText(DataContainer.addressChange.entrance);
             mCity.setSelection(getSpinnerIndex(mCity, DataContainer.addressChange.city));
         }
@@ -105,13 +105,13 @@ public class AddressChangeActivity extends ActivityWithMessage {
                 } else {
 
                     if (mStreet.getText().toString() != DataContainer.login.address || mNumber.getText().toString() != DataContainer.login.street_number ||
-                            mFloor.getText().toString() != DataContainer.login.floor || mPostalCode.getText().toString() != DataContainer.login.postal_code || mApartment.getText().toString() != DataContainer.login.appartement
+                            mFloor.getText().toString() != DataContainer.login.floor || mPostalCode.getText().toString() != DataContainer.login.postal_code || mApartment.getText().toString() != DataContainer.login.apartment
                             || mEntrance.getText().toString() != DataContainer.login.entrance || mCity.getSelectedItem().toString() != DataContainer.login.city) {
                         DataContainer.addressChange.street_number = mNumber.getText().toString();
                         DataContainer.addressChange.address = mStreet.getText().toString();
                         DataContainer.addressChange.floor = mFloor.getText().toString();
                         DataContainer.addressChange.postal_code = mPostalCode.getText().toString();
-                        DataContainer.addressChange.appartement = mApartment.getText().toString();
+                        DataContainer.addressChange.apartment = mApartment.getText().toString();
                         DataContainer.addressChange.entrance = mEntrance.getText().toString();
                         DataContainer.addressChange.city = mCity.getSelectedItem().toString();
 

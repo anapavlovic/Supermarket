@@ -50,7 +50,7 @@ public class FinalConfirmationAdapter extends RecyclerView.Adapter<FinalConfirma
         int itemType = getItemViewType(position);
         if (itemType == 0) {
             holder.address.setText(DataContainer.addressChange.address + " " + DataContainer.addressChange.street_number + "\nulaz: " + DataContainer.addressChange.entrance + "  sprat: " + DataContainer.addressChange.floor +
-                    "  stan: " + DataContainer.addressChange.appartement + "\n" + DataContainer.addressChange.city + " " + DataContainer.addressChange.postal_code);
+                    "  stan: " + DataContainer.addressChange.apartment + "\n" + DataContainer.addressChange.city + " " + DataContainer.addressChange.postal_code);
         } else if (itemType == 1) {
             holder.title.setText(list.get(position).name);
             holder.price.setText(list.get(position).price);

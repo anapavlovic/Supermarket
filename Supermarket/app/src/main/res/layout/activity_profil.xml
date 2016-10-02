@@ -819,6 +819,10 @@
 
 
 
+
+        </RelativeLayout>
+        </ScrollView>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -832,10 +836,6 @@
                     android:indeterminate="true"
                     android:id="@+id/progressProfile" />
             </RelativeLayout>
-        </RelativeLayout>
-        </ScrollView>
-
-
         <Button
             android:id="@+id/changeAddressButton"
             android:layout_width="match_parent"

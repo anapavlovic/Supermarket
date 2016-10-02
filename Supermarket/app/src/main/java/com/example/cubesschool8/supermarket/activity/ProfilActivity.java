@@ -166,7 +166,7 @@ public class ProfilActivity extends ActivityWithMessage {
         listMonth = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.monthArray)));
         listYear = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.yearArray)));
         mProgressBar = (ProgressBar) findViewById(R.id.progressProfile);
-        mProgressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_IN);
+        mProgressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#feea00"), PorterDuff.Mode.SRC_IN);
 
         citySpinner = (Spinner) findViewById(R.id.spinnerCity);
         daySpinner = (Spinner) findViewById(R.id.spinnerDay);
@@ -211,7 +211,7 @@ public class ProfilActivity extends ActivityWithMessage {
     }
 
     private void changeProfileData() {
-        mIzmeniButton.setText("");
+
         relativeProgressProfile.setVisibility(View.VISIBLE);
 
 
@@ -221,14 +221,14 @@ public class ProfilActivity extends ActivityWithMessage {
                 Log.i("Response", response.toString());
                 DataContainer.signup = response.data.results;
 
-                if (response.data.error != "") {
+                if (response.data.error.equalsIgnoreCase("")) {
                     BusProvider.getInstance().post(new MessageObject(R.string.changes_saved, 3000, MessageObject.MESSAGE_SUCCESS));
-                   // Toast.makeText(getApplicationContext(), response.data.error, Toast.LENGTH_SHORT).show();
-                    mIzmeniButton.setText(R.string.registration);
+                    mIzmeniButton.setText(R.string.profile_data_change);
                     relativeProgressProfile.setVisibility(View.GONE);
                 } else {
-                    BusProvider.getInstance().post(new MessageObject(R.string.empty_fields, 3000, MessageObject.MESSAGE_SUCCESS));
-
+                    BusProvider.getInstance().post(new MessageObject(R.string.empty_fields, 3000, MessageObject.MESSAGE_INFO));
+                    relativeProgressProfile.setVisibility(View.GONE);
+                    mIzmeniButton.setText(R.string.profile_data_change);
                    // mIzmeniButton.setText(R.string.registration);
                    // mProgressBar.setVisibility(View.GONE);
 
@@ -301,7 +301,7 @@ public class ProfilActivity extends ActivityWithMessage {
         mFax.setText(DataContainer.login.fax);
         mStreet.setText(DataContainer.login.address);
         mNumber.setText(DataContainer.login.street_number);
-        mApartment.setText(DataContainer.login.appartement);
+        mApartment.setText(DataContainer.login.apartment);
         mFloor.setText(DataContainer.login.floor);
         mEntrance.setText(DataContainer.login.entrance);
         citySpinner.setSelection(addressChangeAcc.getSpinnerIndex(citySpinner, DataContainer.login.city));

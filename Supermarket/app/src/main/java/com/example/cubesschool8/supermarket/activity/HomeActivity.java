@@ -145,6 +145,7 @@ public class HomeActivity extends ActivityWithMessage {
                 } else if (groupPosition == DataContainer.categories.size() + 3) {
                     Toast.makeText(getApplicationContext(), "podesavanja", Toast.LENGTH_SHORT).show();
                 } else if (groupPosition == DataContainer.categories.size() + 4) {
+
                     startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
                 } else if (groupPosition == DataContainer.categories.size() + 5) {
 

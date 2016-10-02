@@ -17,7 +17,7 @@ public class DataLogIn {
     public String last_name;
     public String address;
     public String street_number;
-    public String appartement;
+    public String apartment;
     public String floor;
     public String entrance;
     public String city;
