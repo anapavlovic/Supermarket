@@ -64,10 +64,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
 
             if (mList.get(position).id.equalsIgnoreCase(DataContainer.wishList.get(j))) {
                 holder.star.setImageResource(R.drawable.yellowstar);
+                break;
             } else {
-
+                holder.star.setImageResource(R.drawable.emptystar);
             }
-
 
         }
 

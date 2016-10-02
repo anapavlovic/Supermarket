@@ -208,8 +208,9 @@ public class StartActivity extends ActivityWithMessage {
                     DataContainer.login = response.data.results;
                     DataContainer.LOGIN_TOKEN = response.data.login_token;
                    // DataContainer.wishList= response.data.results.wish_list;
+                    DataContainer.wishList.add(String.valueOf(1));
+                    DataContainer.wishList.add(String.valueOf(3));
                     DataContainer.wishList.add(String.valueOf(8));
-                    DataContainer.wishList.add(String.valueOf(6));
 
                     if (response.data.error != "") {
                         Toast.makeText(getApplicationContext(), R.string.login_incorrect, Toast.LENGTH_SHORT).show();
