@@ -13,17 +13,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/margin_prijava">
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/rootView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg"
-            tools:context=".activity.HomeActivity">
+
 
             <RelativeLayout
                 android:id="@+id/relativeBarProfil"
@@ -65,21 +55,36 @@
                     android:layout_centerVertical="true"
                     android:background="@drawable/add" />
             </RelativeLayout>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/margin_prijava"
+                android:layout_below="@+id/relativeBarProfil">
+                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/rootView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg"
+                    tools:context=".activity.HomeActivity">
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
                 android:id="@+id/userPhoto"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/margin10"
+                android:layout_margin="@dimen/margin_top_et"
                 android:background="@drawable/personicon"
-                android:layout_below="@+id/relativeBarProfil"/>
+              />
+
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/relativeRegistrationLaout"
                 android:layout_below="@+id/userPhoto"
+
                 >
 
                 <RelativeLayout
@@ -751,7 +756,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_margin="@dimen/margin_prijava" />
+                        android:layout_marginTop="@dimen/margin_prijava"
+                        android:layout_marginRight="@dimen/margin_prijava"/>
 
 
                 </RelativeLayout>
@@ -761,7 +767,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/relativeSwitch"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:layout_marginBottom="60dp">
 
                     <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
                         android:id="@+id/etCompanyName"
@@ -826,7 +833,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/relativeProgressProfile"
+                android:id="@+id/relativeProgress"
                 android:visibility="gone"
                 android:background="@color/transparent_error">
                 <ProgressBar

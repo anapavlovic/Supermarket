@@ -3,6 +3,7 @@ package com.example.cubesschool8.supermarket.activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -44,6 +45,7 @@ import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataCategory;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.DataLogIn;
+import com.example.cubesschool8.supermarket.data.response.ResponseProducts;
 import com.example.cubesschool8.supermarket.data.response.ResponseSignUp;
 import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
@@ -80,12 +82,20 @@ public class ProfilActivity extends ActivityWithMessage {
     private ExpandableListView mDrawerlist;
     public static NavigationAdapter mAdapter;
     private ImageView mDrawerMenu, mChangeImage, userPhoto;
-    private ArrayList<DataCategory> subCategories;
 
-    private HashMap<DataCategory, List<DataCategory>> childList = new HashMap<>();
     private GsonRequest<ResponseSignUp> mRequestChangeData;
     private Map<String, String> params;
     private Dialog dialog;
+
+    private DataCategory data;
+    private int categoryPosition;
+    private int mChildPosition;
+    private String childId;
+
+    private GsonRequest<ResponseProducts> mSubcategoriesRequest;
+    private ArrayList<DataCategory> subCategories;
+
+    private HashMap<DataCategory, List<DataCategory>> childList = new HashMap<>();
 
 
     @Override
@@ -139,10 +149,128 @@ public class ProfilActivity extends ActivityWithMessage {
 
             }
         });
+
+        mDrawerlist.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+
+
+                categoryPosition = groupPosition;
+                if (groupPosition > 1 && groupPosition < DataContainer.categories.size() + 2) {
+                    data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
+                    if (mAdapter.getChildrenCount(groupPosition) == 0) {
+                        if (HomeActivity.checkList(DataContainer.categoriesLists, data.id) == false) {
+                            mDrawerLayout.closeDrawers();
+                            relativeProgressProfile.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    relativeProgressProfile.setVisibility(View.VISIBLE);
+                                    mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
+                                        @Override
+                                        public void onResponse(ResponseProducts response) {
+                                            DataContainer.categoriesLists.put(data.id, response.data.results);
+                                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                                            i.putExtra("id", data.id);
+                                            startActivity(i);
+                                            relativeProgressProfile.setVisibility(View.GONE);
+
+                                        }
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                                        }
+                                    });
+
+                                    DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
+                                }
+                            }, 200);
+
+
+                        } else {
+                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                            i.putExtra("id", data.id);
+                            startActivity(i);
+                            relativeProgressProfile.setVisibility(View.GONE);
+                        }
+                    } else {
+
+                    }
+                } else if (groupPosition == DataContainer.categories.size() + 3) {
+                    startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                } else if (groupPosition == DataContainer.categories.size() + 4) {
+
+                    startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
+
+
+                } else if (groupPosition == DataContainer.categories.size() + 5) {
+
+                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+
+                    SharedPreferences settings = getSharedPreferences("MyPreferences", 0);
+                    settings.edit().remove("checked").commit();
+                    settings.edit().remove("username").commit();
+                    settings.edit().remove("password").commit();
+                    finish();
+
+                }
+                return false;
+            }
+        });
+
+        mDrawerlist.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
+                categoryPosition = groupPosition;
+                mChildPosition = childPosition;
+                childId = String.valueOf(id);
+                if (HomeActivity.checkList(DataContainer.categoriesLists, data.id + "." + childId) == false) {
+                    mDrawerLayout.closeDrawers();
+                    relativeProgressProfile.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            relativeProgressProfile.setVisibility(View.VISIBLE);
+                            mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
+                                @Override
+                                public void onResponse(ResponseProducts response) {
+                                    relativeProgressProfile.setVisibility(View.VISIBLE);
+                                    DataContainer.categoriesLists.put(data.id + "." + childId, response.data.results);
+                                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                                    i.putExtra("id", data.id + "." + childId);
+                                    startActivity(i);
+                                    relativeProgressProfile.setVisibility(View.GONE);
+
+
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                                }
+                            });
+
+                            DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
+                        }
+                    }, 200);
+
+                } else {
+                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                    i.putExtra("id", data.id + "." + childId);
+                    startActivity(i);
+                    relativeProgressProfile.setVisibility(View.GONE);
+
+                }
+
+
+                return false;
+            }
+        });
+
     }
 
     private void inicComp() {
-        userPhoto=(ImageView) findViewById(R.id.userPhoto);
+        userPhoto = (ImageView) findViewById(R.id.userPhoto);
         addressChangeAcc = new AddressChangeActivity();
         mName = (CustomEditTextFont) findViewById(R.id.eTname);
         mSurname = (CustomEditTextFont) findViewById(R.id.etSurname);
@@ -159,7 +287,7 @@ public class ProfilActivity extends ActivityWithMessage {
         mEntrance = (CustomEditTextFont) findViewById(R.id.etEntrance);
         mPostalCode = (CustomEditTextFont) findViewById(R.id.etPostalcode);
         mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        relativeProgressProfile = (RelativeLayout) findViewById(R.id.relativeProgressProfile);
+        relativeProgressProfile = (RelativeLayout) findViewById(R.id.relativeProgress);
 
         list = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.cityArray)));
         listDay = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.dayArray)));
@@ -229,8 +357,7 @@ public class ProfilActivity extends ActivityWithMessage {
                     BusProvider.getInstance().post(new MessageObject(R.string.empty_fields, 3000, MessageObject.MESSAGE_INFO));
                     relativeProgressProfile.setVisibility(View.GONE);
                     mIzmeniButton.setText(R.string.profile_data_change);
-                   // mIzmeniButton.setText(R.string.registration);
-                   // mProgressBar.setVisibility(View.GONE);
+
 
                 }
             }
@@ -239,13 +366,14 @@ public class ProfilActivity extends ActivityWithMessage {
             public void onErrorResponse(VolleyError error) {
                 Log.i("error", error.toString());
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
-               mIzmeniButton.setText(R.string.registration);
+                mIzmeniButton.setText(R.string.registration);
                 relativeProgressProfile.setVisibility(View.GONE);
             }
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 params = new HashMap<String, String>();
+                params.put("id", DataContainer.login.id);
 
                 if (mRelativeCompany.getVisibility() == View.VISIBLE) {
                     params.put("user_type", "company");
@@ -257,6 +385,9 @@ public class ProfilActivity extends ActivityWithMessage {
                     params.put("pib", "");
                 }
 
+
+                params.put("password", "");
+                params.put("password_retype", "");
                 params.put("first_name", mName.getText().toString());
                 params.put("last_name", mSurname.getText().toString());
                 params.put("email", mEmail.getText().toString());
@@ -271,7 +402,7 @@ public class ProfilActivity extends ActivityWithMessage {
                 params.put("floor", mFloor.getText().toString());
                 params.put("entrance", mEntrance.getText().toString());
 
-                params.put("city",  citySpinner.getSelectedItem().toString());
+                params.put("city", citySpinner.getSelectedItem().toString());
                 params.put("postal_code", mPostalCode.getText().toString());
 
                 params.put("newsletter", mCheckBox.isChecked() ? "1" : "0");
@@ -328,12 +459,14 @@ public class ProfilActivity extends ActivityWithMessage {
             mFemale.setChecked(true);
         }
 
-       if(DataContainer.login.company_name!= null){
-
-        }else {
-           mRelativeCompany.setVisibility(View.VISIBLE);
+        if (DataContainer.login.company_name != null) {
+            mSwitch.setChecked(true);
+            mRelativeCompany.setVisibility(View.VISIBLE);
             mCompanyName.setText(DataContainer.login.company_name);
-           mCompanyPib.setText(DataContainer.login.pib);
+            mCompanyPib.setText(DataContainer.login.pib);
+
+        } else {
+
         }
     }
 

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/content_frame"
+
+        >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.cubesschool8.supermarket.activity.SettingsActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/relativeBarProfil"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/underlineopacity"
+        android:padding="@dimen/margin5"
+
+        >
+
+        <ImageView
+            android:id="@+id/drawerMenuProfil"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/menu"
+            android:layout_marginLeft="@dimen/margin5"
+
+            />
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:id="@+id/Profil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_toRightOf="@+id/drawerMenuProfil"
+            android:text="Podesavanja"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/userPhotoSettings"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/margin_prijava"
+        android:background="@drawable/personicon"
+        android:layout_below="@+id/relativeBarProfil"/>
+
+
+
+    <RelativeLayout
+        android:id="@+id/relativeNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userPhotoSettings"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginTop="@dimen/margin_top_relative">
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/notifications"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/dSwitchSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/margin10" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/dSwitchSettings"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:background="@color/underlineopacity"
+
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relativeTermsSetting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeNotification"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginTop="@dimen/margin_top_relative">
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/termsof_use"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+        <ImageView
+            android:id="@+id/rightarrowterms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/margin_top_et"
+            android:layout_marginTop="@dimen/margin10"
+            android:layout_marginRight="@dimen/margin_top_et"
+            android:background="@drawable/ic_keyboard_arrow_right_white_24dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/rightarrowterms"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:background="@color/underlineopacity"
+
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relativeProfileSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeTermsSetting"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginTop="@dimen/margin_top_relative">
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/profil"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+        <ImageView
+            android:id="@+id/rightarrowProfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/margin_top_et"
+            android:layout_marginTop="@dimen/margin10"
+            android:layout_marginRight="@dimen/margin_top_et"
+            android:background="@drawable/ic_keyboard_arrow_right_white_24dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/rightarrowProfil"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:background="@color/underlineopacity"
+
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLOgoutSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeProfileSettings"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginTop="@dimen/margin_top_relative">
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/logout"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+        <ImageView
+            android:id="@+id/rightarrowLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/margin_top_et"
+            android:layout_marginTop="@dimen/margin10"
+            android:layout_marginRight="@dimen/margin_top_et"
+            android:background="@drawable/ic_keyboard_arrow_right_white_24dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/rightarrowLogout"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:background="@color/underlineopacity"
+
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeSupportSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLOgoutSettings"
+        android:layout_marginLeft="@dimen/margin_prijava"
+        android:layout_marginTop="@dimen/margin_top_relative">
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/support"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+        <ImageView
+            android:id="@+id/rightarrowSupport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/margin_top_et"
+            android:layout_marginTop="@dimen/margin10"
+            android:layout_marginRight="@dimen/margin_top_et"
+            android:background="@drawable/ic_keyboard_arrow_right_white_24dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/rightarrowSupport"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:background="@color/underlineopacity"
+
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relativeProgressS"
+        android:visibility="gone"
+        android:background="@color/transparent_error">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:id="@+id/progressSetting" />
+    </RelativeLayout>
+
+</RelativeLayout>
+    </FrameLayout>
+    <ExpandableListView
+        android:id="@+id/drawerList"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:background="@color/text_color"
+        ></ExpandableListView>
+
+
+
+</android.support.v4.widget.DrawerLayout>

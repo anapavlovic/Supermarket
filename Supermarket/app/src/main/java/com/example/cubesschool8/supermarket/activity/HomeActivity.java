@@ -143,10 +143,13 @@ public class HomeActivity extends ActivityWithMessage {
 
                     }
                 } else if (groupPosition == DataContainer.categories.size() + 3) {
-                    Toast.makeText(getApplicationContext(), "podesavanja", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                 } else if (groupPosition == DataContainer.categories.size() + 4) {
 
                     startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
+
+
+
                 } else if (groupPosition == DataContainer.categories.size() + 5) {
 
                     startActivity(new Intent(getApplicationContext(), LogInActivity.class));
@@ -244,7 +247,7 @@ public class HomeActivity extends ActivityWithMessage {
         finish();
     }
 
-    public boolean checkList(HashMap<String, ArrayList<DataProducts>> list, String id) {
+    public static boolean checkList(HashMap<String, ArrayList<DataProducts>> list, String id) {
         boolean isIntheList = false;
         Iterator myVeryOwnIterator = list.keySet().iterator();
         while (myVeryOwnIterator.hasNext()) {

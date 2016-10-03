@@ -38,8 +38,11 @@
     <string name="profil">Profil</string>
     <string name="settings">Podesavanja</string>
     <string name="empty_category">U izabranoj kategoriji</string>
-    <string name="empty">trenutmo nema proizvoda.</string>
+    <string name="empty">trenutno nema proizvoda.</string>
     <string name="email_pass_forgot">Ukoliko ste uneli ispravnu email adresu, dobićete link za izmenu korisničke lozinke.</string>
+    <string name="notifications">Notifikacije</string>
+    <string name="termsof_use">Uslovi koriscenja</string>
+    <string name="support">Podrska</string>
 
 
     <string-array name="paymentOptions">

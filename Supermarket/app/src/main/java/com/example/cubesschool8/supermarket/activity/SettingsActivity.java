@@ -1,6 +1,5 @@
 package com.example.cubesschool8.supermarket.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -9,14 +8,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,12 +22,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.adapter.NavigationAdapter;
-import com.example.cubesschool8.supermarket.adapter.RecyclerAdapter;
 import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataCategory;
 import com.example.cubesschool8.supermarket.data.DataContainer;
-import com.example.cubesschool8.supermarket.data.DataProducts;
 import com.example.cubesschool8.supermarket.data.response.ResponseProducts;
 import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
@@ -37,135 +33,85 @@ import com.example.cubesschool8.supermarket.tool.BusProvider;
 import com.example.cubesschool8.supermarket.tool.MessageObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
-public class CategoryItemsActivity extends ActivityWithMessage {
+public class SettingsActivity extends AppCompatActivity {
     private final String REQUEST_TAG = "Start_activity";
-    private RecyclerAdapter mAdapter;
-    private NavigationAdapter mAdapterNavigation;
-    private RecyclerView recyclerView;
-    private CustomTextViewFont itemsCount, tvEmptyCategory, tvEmptyCategory2;
-    private RecyclerView.LayoutManager layoutManager;
-    private ArrayList<DataProducts> mList;
-    private ImageView mMenu, mSearch, mShoppingCart;
+    public RelativeLayout termsOfuse, profile, logout, support;
+    public ImageView userImage, mDrawerMenu;
+    private SwitchCompat mSwitchNotification;
+
     private DrawerLayout mDrawerLayout;
     private ExpandableListView mDrawerlist;
-    private ArrayList<DataCategory> subCategories;
-    private HashMap<DataCategory, List<DataCategory>> childList = new HashMap<>();
+    public static NavigationAdapter mAdapter;
+
+
     private DataCategory data;
     private int categoryPosition;
     private int mChildPosition;
+    private String childId;
     private RelativeLayout mRelativeProgress;
     private ProgressBar progressBar;
-    private String childId;
     private GsonRequest<ResponseProducts> mSubcategoriesRequest;
-    private Animation animation;
+    private ArrayList<DataCategory> subCategories;
+
+
+    private HashMap<DataCategory, List<DataCategory>> childList = new HashMap<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_items);
+        setContentView(R.layout.activity_settings);
         inicComp();
         addListener();
-
-
     }
 
 
-    private void inicComp() {
-        mMenu = (ImageView) findViewById(R.id.CategoryMenu);
-        mSearch = (ImageView) findViewById(R.id.searchCategory);
-        mShoppingCart = (ImageView) findViewById(R.id.shopingCartCategory);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerSubcategories);
-        itemsCount = (CustomTextViewFont) findViewById(R.id.tvItemsCount);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerlist = (ExpandableListView) findViewById(R.id.drawerList);
-        tvEmptyCategory = (CustomTextViewFont) findViewById(R.id.tvEmptyCategory);
-        tvEmptyCategory2 = (CustomTextViewFont) findViewById(R.id.tvEmpty);
-
-        mRelativeProgress = (RelativeLayout) findViewById(R.id.relativeProgressHome);
-        progressBar = (ProgressBar) findViewById(R.id.progressCategory);
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#feea00"), PorterDuff.Mode.SRC_IN);
-
-        for (int i = 0; i < DataContainer.categories.size(); i++) {
-            subCategories = DataContainer.categories.get(i).subcategories;
-            childList.put(DataContainer.categories.get(i), subCategories);
-
-        }
-        mAdapterNavigation = new NavigationAdapter(this, DataContainer.categories, childList);
-        mDrawerlist.setAdapter(mAdapterNavigation);
+    private void addListener() {
 
 
-        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
+        termsOfuse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), TermsOfUseActivity.class));
+            }
+        });
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String id = extras.getString("id");
-            mList = getList(DataContainer.categoriesLists, id);
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
+            }
+        });
 
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), LogInActivity.class));
 
-            mAdapter = new RecyclerAdapter(this, mList);
-            recyclerView.setAdapter(mAdapter);
+                SharedPreferences settings = getSharedPreferences("MyPreferences", 0);
+                settings.edit().remove("checked").commit();
+                settings.edit().remove("username").commit();
+                settings.edit().remove("password").commit();
+                finish();
+            }
+        });
 
-        } else {
-        }
-
-
-        if (!mList.isEmpty()) {
-            itemsCount.setText("Ukupno proizvoda: " + String.valueOf(mList.size()));
-        } else {
-            itemsCount.setVisibility(View.GONE);
-            tvEmptyCategory.setVisibility(View.VISIBLE);
-            tvEmptyCategory.setText(R.string.empty_category);
-            animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_empty_category);
-            animation.setFillAfter(true);
-            tvEmptyCategory.setAnimation(animation);
-
-            animation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    tvEmptyCategory2.setVisibility(View.VISIBLE);
-                    tvEmptyCategory2.setText(R.string.empty);
-                    animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_empty_category);
-                    tvEmptyCategory2.setAnimation(animation);
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-        }
-
-    }
-
-
-    public void addListener() {
-
-        mMenu.setOnClickListener(new View.OnClickListener() {
+        support.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Support", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mDrawerMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDrawerLayout.openDrawer(mDrawerlist);
             }
         });
 
-        mShoppingCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), BasketActivity.class));
-            }
-        });
 
         mDrawerlist.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -174,9 +120,9 @@ public class CategoryItemsActivity extends ActivityWithMessage {
 
                 categoryPosition = groupPosition;
                 if (groupPosition > 1 && groupPosition < DataContainer.categories.size() + 2) {
-                    data = (DataCategory) mAdapterNavigation.getGroup(groupPosition - 2);
-                    if (mAdapterNavigation.getChildrenCount(groupPosition) == 0) {
-                        if (checkList(DataContainer.categoriesLists, data.id) == false) {
+                    data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
+                    if (mAdapter.getChildrenCount(groupPosition) == 0) {
+                        if (HomeActivity.checkList(DataContainer.categoriesLists, data.id) == false) {
                             mDrawerLayout.closeDrawers();
                             mRelativeProgress.postDelayed(new Runnable() {
                                 @Override
@@ -239,11 +185,11 @@ public class CategoryItemsActivity extends ActivityWithMessage {
         mDrawerlist.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                data = (DataCategory) mAdapterNavigation.getGroup(groupPosition - 2);
+                data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
                 categoryPosition = groupPosition;
                 mChildPosition = childPosition;
                 childId = String.valueOf(id);
-                if (checkList(DataContainer.categoriesLists, data.id + "." + childId) == false) {
+                if (HomeActivity.checkList(DataContainer.categoriesLists, data.id + "." + childId) == false) {
                     mDrawerLayout.closeDrawers();
                     mRelativeProgress.postDelayed(new Runnable() {
                         @Override
@@ -285,34 +231,32 @@ public class CategoryItemsActivity extends ActivityWithMessage {
             }
         });
 
+
     }
 
-    public ArrayList<DataProducts> getList(HashMap<String, ArrayList<DataProducts>> list, String id) {
-        ArrayList mlist = new ArrayList<DataProducts>();
-        Iterator myVeryOwnIterator = list.keySet().iterator();
-        while (myVeryOwnIterator.hasNext()) {
-            String key = (String) myVeryOwnIterator.next();
-            if (key.equalsIgnoreCase(id)) {
-                mlist = list.get(key);
-                break;
+    private void inicComp() {
+        mSwitchNotification = (SwitchCompat) findViewById(R.id.dSwitchSettings);
+        termsOfuse = (RelativeLayout) findViewById(R.id.relativeTermsSetting);
+        profile = (RelativeLayout) findViewById(R.id.relativeProfileSettings);
+        logout = (RelativeLayout) findViewById(R.id.relativeLOgoutSettings);
+        support = (RelativeLayout) findViewById(R.id.relativeSupportSettings);
+        mDrawerMenu = (ImageView) findViewById(R.id.drawerMenuProfil);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerlist = (ExpandableListView) findViewById(R.id.drawerList);
+
+        if (DataContainer.categories != null) {
+            for (int i = 0; i < DataContainer.categories.size(); i++) {
+                subCategories = DataContainer.categories.get(i).subcategories;
+                childList.put(DataContainer.categories.get(i), subCategories);
+
             }
-
         }
-        return mlist;
+        mAdapter = new NavigationAdapter(this, DataContainer.categories, childList);
+        mDrawerlist.setAdapter(mAdapter);
+
+        mRelativeProgress = (RelativeLayout) findViewById(R.id.relativeProgressS);
+       progressBar = (ProgressBar) findViewById(R.id.progressSetting);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#feea00"), PorterDuff.Mode.SRC_IN);
+
     }
-
-    public boolean checkList(HashMap<String, ArrayList<DataProducts>> list, String id) {
-        boolean isIntheList = false;
-        Iterator myVeryOwnIterator = list.keySet().iterator();
-        while (myVeryOwnIterator.hasNext()) {
-            String key = (String) myVeryOwnIterator.next();
-            if (key.equalsIgnoreCase(id)) {
-                isIntheList = true;
-            } else
-                isIntheList = false;
-
-        }
-        return isIntheList;
-    }
-
 }

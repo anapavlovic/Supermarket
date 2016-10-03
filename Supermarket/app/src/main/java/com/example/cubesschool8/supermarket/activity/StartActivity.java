@@ -22,6 +22,7 @@ import com.example.cubesschool8.supermarket.data.response.ResponseLogIn;
 import com.example.cubesschool8.supermarket.data.response.ResponseProducts;
 import com.example.cubesschool8.supermarket.data.response.ResponseReservation;
 import com.example.cubesschool8.supermarket.data.response.ResponseToken;
+import com.example.cubesschool8.supermarket.data.response.ResponseWishlist;
 import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
 import com.example.cubesschool8.supermarket.tool.BusProvider;
@@ -49,6 +50,7 @@ public class StartActivity extends ActivityWithMessage {
     private GsonRequest<ResponseCity> mrequestCity;
     private GsonRequest<ResponseProducts> mRequestProducts;
     private GsonRequest<ResponseReservation> mRequestReservation;
+    private GsonRequest<ResponseWishlist> mRequestWishList;
 
 
     private final String REQUEST_TAG = "Start_activity";
@@ -170,6 +172,8 @@ public class StartActivity extends ActivityWithMessage {
             }
 
         });
+
+       
 
         DataLoader.addRequest(getApplicationContext(), mRequestToken, REQUEST_TAG);
 

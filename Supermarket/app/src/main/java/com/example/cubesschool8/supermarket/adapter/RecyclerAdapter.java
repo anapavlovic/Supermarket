@@ -100,6 +100,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
             star = (ImageView) itemView.findViewById(R.id.star);
             productImage.setOnClickListener(this);
             yellowBasket.setOnClickListener(this);
+            star.setOnClickListener(this);
 
 
         }
@@ -176,6 +177,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
                 }
+            }else if (v == star){
+
+                Toast.makeText(mContex, "star", Toast.LENGTH_SHORT).show();
             }
         }
     }
