@@ -1,6 +1,7 @@
 package com.example.cubesschool8.supermarket.activity;
 
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 
@@ -65,28 +66,7 @@ public class IntroActivity extends FragmentActivity {
 
             }
         });
-      /*  viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-            @Override
-            public void onPageSelected(int position) {
-                int pageCount = mAdapter.getCount();
-                if (position == 0){
-                    viewPager.setCurrentItem(pageCount-2,false);
-                } else if (position == pageCount-1){
-                    viewPager.setCurrentItem(1,false);
-                }
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });*/
 
     }
 
@@ -115,7 +95,7 @@ public class IntroActivity extends FragmentActivity {
         mCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                startActivity(new Intent(getApplicationContext(), LogInActivity.class));
             }
         });
     }

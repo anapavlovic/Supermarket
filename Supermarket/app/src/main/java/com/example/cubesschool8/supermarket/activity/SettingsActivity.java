@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends ActivityWithMessage {
     private final String REQUEST_TAG = "Start_activity";
     public RelativeLayout termsOfuse, profile, logout, support;
     public ImageView userImage, mDrawerMenu;
@@ -55,7 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private GsonRequest<ResponseProducts> mSubcategoriesRequest;
     private ArrayList<DataCategory> subCategories;
-
+    public ViewGroup mRootView;
 
     private HashMap<DataCategory, List<DataCategory>> childList = new HashMap<>();
 

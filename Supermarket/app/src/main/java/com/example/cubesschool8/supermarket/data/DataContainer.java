@@ -2,6 +2,7 @@ package com.example.cubesschool8.supermarket.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,7 +27,8 @@ public class DataContainer {
 
     public static ArrayList<DataProducts> basketList = new ArrayList<>();
     public static DataLogIn addressChange = new DataLogIn();
-    public static ArrayList<String> wishList = new ArrayList<>();
+    public static ArrayList<String> wishList;
+    public static ArrayList<DataAddWishlist> addWishlist;
 
 
     public static HashMap<String, ArrayList<DataProducts>> categoriesLists = new HashMap<>();

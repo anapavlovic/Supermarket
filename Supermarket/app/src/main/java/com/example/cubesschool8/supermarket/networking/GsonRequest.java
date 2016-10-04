@@ -48,7 +48,7 @@ public class GsonRequest<T> extends Request<T> {  //t je genericki tip i vraca t
     }
 
 
-    //for POST method
+    //za POST
     public GsonRequest(int type, String url, Class<T> myClass, Map<String, String> params, Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(type, url, errorListener);
         this.mClass = myClass;

@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -72,8 +73,8 @@ public class ProfilActivity extends ActivityWithMessage {
     private List<String> listMonth;
     private List<String> listYear;
     private Button mIzmeniButton;
-    private SwitchCompat mSwitch;
-    private RelativeLayout relativeProgressProfile, mRelativeCompany;
+    private SwitchCompat mSwitch, mSwitchPass;
+    private RelativeLayout relativeProgressProfile, mRelativeCompany, mRelativePasswordCHange;
     private AddressChangeActivity addressChangeAcc;
     String day, month, year;
     private ProgressBar mProgressBar;
@@ -105,6 +106,18 @@ public class ProfilActivity extends ActivityWithMessage {
         inicComp();
         getProfileData();
         addListener();
+
+
+       mSwitchPass.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+           @Override
+           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+               if(mSwitchPass.isChecked()){
+                   mRelativePasswordCHange.setVisibility(View.VISIBLE);
+               }else{
+                   mRelativePasswordCHange.setVisibility(View.GONE);
+               }
+           }
+       });
     }
 
 
@@ -200,7 +213,15 @@ public class ProfilActivity extends ActivityWithMessage {
                     startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                 } else if (groupPosition == DataContainer.categories.size() + 4) {
 
-                    startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
+                    mDrawerLayout.closeDrawers();
+                    mRootView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
+
+                        }
+                    }, 200);
 
 
                 } else if (groupPosition == DataContainer.categories.size() + 5) {
@@ -288,6 +309,9 @@ public class ProfilActivity extends ActivityWithMessage {
         mPostalCode = (CustomEditTextFont) findViewById(R.id.etPostalcode);
         mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         relativeProgressProfile = (RelativeLayout) findViewById(R.id.relativeProgress);
+        mRelativePasswordCHange = (RelativeLayout) findViewById(R.id.relativPassChange);
+        mSwitchPass = (SwitchCompat) findViewById(R.id.passSwitch);
+
 
         list = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.cityArray)));
         listDay = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.dayArray)));
@@ -339,7 +363,10 @@ public class ProfilActivity extends ActivityWithMessage {
     }
 
     private void changeProfileData() {
+        if (!mPass.getText().toString().equalsIgnoreCase(mPassRetype.getText().toString())) {
+            BusProvider.getInstance().post(new MessageObject(R.string.pass_match, 3000, MessageObject.MESSAGE_ERROR));
 
+        }
         relativeProgressProfile.setVisibility(View.VISIBLE);
 
 
@@ -365,8 +392,7 @@ public class ProfilActivity extends ActivityWithMessage {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i("error", error.toString());
-                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
-                mIzmeniButton.setText(R.string.registration);
+                mIzmeniButton.setText(R.string.profile_data_change);
                 relativeProgressProfile.setVisibility(View.GONE);
             }
         }) {
@@ -376,18 +402,20 @@ public class ProfilActivity extends ActivityWithMessage {
                 params.put("id", DataContainer.login.id);
 
                 if (mRelativeCompany.getVisibility() == View.VISIBLE) {
-                    params.put("user_type", "company");
+                   // params.put("user_type", "company");
                     params.put("company_name", mCompanyName.getText().toString());
                     params.put("pib", mCompanyPib.getText().toString());
                 } else {
-                    params.put("user_type", "buyer");
+                   // params.put("user_type", "buyer");
                     params.put("company_name", "");
                     params.put("pib", "");
                 }
 
+                if (mPass.getText().length() > 0 && mPassRetype.getText().length() > 0) {
+                    params.put("password", mPass.getText().toString());
+                    params.put("password_retype", mPassRetype.getText().toString());
+                }
 
-                params.put("password", "");
-                params.put("password_retype", "");
                 params.put("first_name", mName.getText().toString());
                 params.put("last_name", mSurname.getText().toString());
                 params.put("email", mEmail.getText().toString());
@@ -413,7 +441,7 @@ public class ProfilActivity extends ActivityWithMessage {
 
                 params.put("gender", mMale.isChecked() ? "1" : "2");
 
-                params.put("token", DataContainer.TOKEN);
+               // params.put("token", DataContainer.TOKEN);
                 return params;
             }
         };

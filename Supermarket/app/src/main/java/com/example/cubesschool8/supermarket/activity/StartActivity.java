@@ -52,7 +52,7 @@ public class StartActivity extends ActivityWithMessage {
     private GsonRequest<ResponseReservation> mRequestReservation;
     private GsonRequest<ResponseWishlist> mRequestWishList;
 
-
+    final String PREFS_NAME = "FirstRunPrefs";
     private final String REQUEST_TAG = "Start_activity";
 
     private ImageView mLogo;
@@ -73,7 +73,6 @@ public class StartActivity extends ActivityWithMessage {
 
 
         inicComp();
-
 
 
         mRequestToken = new GsonRequest<ResponseToken>(Constant.GET_TOKEN_URL + "/?username=" + Constant.USERNAME + "&password=" + Constant.PASSWORD, Request.Method.GET, ResponseToken.class, new Response.Listener<ResponseToken>() {
@@ -104,8 +103,6 @@ public class StartActivity extends ActivityWithMessage {
             public void onResponse(ResponseCategory response) {
                 checkVolleyFinished();
                 DataContainer.categories = response.data.results;
-
-
 
 
             }
@@ -173,7 +170,6 @@ public class StartActivity extends ActivityWithMessage {
 
         });
 
-       
 
         DataLoader.addRequest(getApplicationContext(), mRequestToken, REQUEST_TAG);
 
@@ -193,49 +189,51 @@ public class StartActivity extends ActivityWithMessage {
     }
 
     public void checkifUserDataSaved() {
-        sharedPreferences = getSharedPreferences("MyPreferences",0);
+
+        sharedPreferences = getSharedPreferences("MyPreferences", 0);
         boolean s = sharedPreferences.getBoolean("checked", false);
         String encryptmUsername = sharedPreferences.getString("username", "");
         String encryptmPass = sharedPreferences.getString("password", "");
 
-        String username = decryptIt(encryptmUsername);
-        String password = decryptIt(encryptmPass);
+        // String username = decryptIt(encryptmUsername);
+        // String password = decryptIt(encryptmPass);
 
-
-
-        if (s == true) {
-            mRequestLogIn = new GsonRequest<ResponseLogIn>(Constant.LOGIN_URL + "?token=" + DataContainer.TOKEN + "&email=" + encryptmUsername + "&password=" + encryptmPass,
-                    Request.Method.GET, ResponseLogIn.class, new Response.Listener<ResponseLogIn>() {
-                @Override
-                public void onResponse(ResponseLogIn response) {
-                    Log.i("Response", response.toString());
-                    DataContainer.login = response.data.results;
-                    DataContainer.LOGIN_TOKEN = response.data.login_token;
-                   // DataContainer.wishList= response.data.results.wish_list;
-                    DataContainer.wishList.add(String.valueOf(1));
-                    DataContainer.wishList.add(String.valueOf(3));
-                    DataContainer.wishList.add(String.valueOf(8));
-
-                    if (response.data.error != "") {
-                        Toast.makeText(getApplicationContext(), R.string.login_incorrect, Toast.LENGTH_SHORT).show();
-                    } else {
-                    }
-                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.i("error", error.toString());
-                    BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
-                }
-            });
-
-            DataLoader.addRequest(getApplicationContext(), mRequestLogIn, REQUEST_TAG);
-
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        if (settings.getBoolean("first_run", true)) {
+            startActivity(new Intent(getApplicationContext(), IntroActivity.class));
+            settings.edit().putBoolean("first_run", false).commit();
         } else {
-            startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+            if (s == true) {
+                mRequestLogIn = new GsonRequest<ResponseLogIn>(Constant.LOGIN_URL + "?token=" + DataContainer.TOKEN + "&email=" + encryptmUsername + "&password=" + encryptmPass,
+                        Request.Method.GET, ResponseLogIn.class, new Response.Listener<ResponseLogIn>() {
+                    @Override
+                    public void onResponse(ResponseLogIn response) {
+                        Log.i("Response", response.toString());
+                        DataContainer.login = response.data.results;
+                        DataContainer.LOGIN_TOKEN = response.data.login_token;
+
+                        if (response.data.error != "") {
+                            Toast.makeText(getApplicationContext(), R.string.login_incorrect, Toast.LENGTH_SHORT).show();
+                        } else {
+                        }
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("error", error.toString());
+                        BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                        startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+                    }
+                });
+
+                DataLoader.addRequest(getApplicationContext(), mRequestLogIn, REQUEST_TAG);
+
+            } else {
+                startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+            }
+
         }
     }
 

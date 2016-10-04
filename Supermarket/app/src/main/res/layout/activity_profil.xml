@@ -12,7 +12,9 @@
         >
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/rootView"
+            >
 
 
             <RelativeLayout
@@ -62,7 +64,6 @@
                 android:layout_below="@+id/relativeBarProfil">
                 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:tools="http://schemas.android.com/tools"
-                    android:id="@+id/rootView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg"
@@ -214,13 +215,130 @@
 
                         />
                 </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/relativePassSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeEmail"
+                    >
 
+                    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                        android:id="@+id/tvPassChange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_prijava"
+                        android:text="@string/pass_switch"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/text_size" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/passSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/margin_prijava"
+                        android:layout_marginRight="@dimen/margin_prijava"/>
+
+
+                </RelativeLayout>
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/relativPassChange"
+    android:layout_below="@+id/relativePassSwitch"
+    android:visibility="gone">
+    <RelativeLayout
+        android:id="@+id/relativePass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_relative">
+
+        <ImageView
+            android:id="@+id/passimg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:background="@drawable/password" />
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+            android:id="@+id/etPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginTop="@dimen/margin_top_et"
+            android:layout_toRightOf="@+id/passimg"
+            android:background="@null"
+            android:hint="password"
+            android:inputType="textWebPassword"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/etPass"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:background="@color/underlineopacity"
+
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativePassRetype"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativePass"
+        android:layout_marginTop="@dimen/margin_top_relative">
+
+        <ImageView
+            android:id="@+id/passRetypeimg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:background="@drawable/password" />
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+            android:id="@+id/etPassRetype"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginTop="@dimen/margin_top_et"
+            android:layout_toRightOf="@+id/passRetypeimg"
+            android:background="@null"
+            android:hint="password retype"
+            android:inputType="textWebPassword"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/etPassRetype"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:background="@color/underlineopacity"
+
+            />
+    </RelativeLayout>
+
+</RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/relativeMobile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/relativeEmail"
+                    android:layout_below="@+id/relativPassChange"
                     android:layout_marginTop="@dimen/margin_top_relative">
 
                     <ImageView

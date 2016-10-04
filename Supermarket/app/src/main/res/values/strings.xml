@@ -43,6 +43,7 @@
     <string name="notifications">Notifikacije</string>
     <string name="termsof_use">Uslovi koriscenja</string>
     <string name="support">Podrska</string>
+    <string name="pass_switch">Da li želite da promenite lozinku?</string>
 
 
     <string-array name="paymentOptions">

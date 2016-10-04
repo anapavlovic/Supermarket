@@ -4,27 +4,42 @@ import android.app.Activity;
 import android.content.Context;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.example.cubesschool8.supermarket.R;
 
 import com.example.cubesschool8.supermarket.activity.ProductItemActivity;
 
+import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.DataProducts;
 
+import com.example.cubesschool8.supermarket.data.response.ResponseAddWishlist;
+import com.example.cubesschool8.supermarket.data.response.ResponseWishlist;
+import com.example.cubesschool8.supermarket.networking.DataLoader;
+import com.example.cubesschool8.supermarket.networking.GsonRequest;
 import com.example.cubesschool8.supermarket.tool.BusProvider;
 import com.example.cubesschool8.supermarket.tool.MessageObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Ana on 9/16/2016.
@@ -36,6 +51,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
     private LayoutInflater inflater;
     private ArrayList<DataProducts> mList;
     public boolean mComponentEnabled;
+    private GsonRequest<ResponseAddWishlist> mRequestAddWishlist;
+    private final String REQUEST_TAG = "Start_activity";
 
 
     public RecyclerAdapter(Context context, ArrayList<DataProducts> object) {
@@ -60,16 +77,27 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
 
         holder.yellowBasket.setEnabled(mComponentEnabled);
 
-        for (int j = 0; j < DataContainer.wishList.size(); j++) {
 
-            if (mList.get(position).id.equalsIgnoreCase(DataContainer.wishList.get(j))) {
-                holder.star.setImageResource(R.drawable.yellowstar);
-                break;
-            } else {
-                holder.star.setImageResource(R.drawable.emptystar);
+///check wishList
+        if (DataContainer.wishList != null && !DataContainer.wishList.isEmpty()) {
+            for (int j = 0; j < DataContainer.wishList.size(); j++) {
+
+                if (mList.get(position).id.equalsIgnoreCase(DataContainer.wishList.get(j))) {
+                    holder.star.setTag(R.drawable.yellowstar);
+                    holder.star.setImageResource(R.drawable.yellowstar);
+                    break;
+                } else {
+                    holder.star.setTag(R.drawable.emptystar);
+                    holder.star.setImageResource(R.drawable.emptystar);
+
+                }
+
             }
-
+        } else {
+            holder.star.setTag(R.drawable.emptystar);
+            holder.star.setImageResource(R.drawable.emptystar);
         }
+
 
     }
 
@@ -177,11 +205,43 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
                 }
-            }else if (v == star){
+            } else if (v == star) {
 
-                Toast.makeText(mContex, "star", Toast.LENGTH_SHORT).show();
+                Object tag = star.getTag();
+
+                if (tag.equals(R.drawable.emptystar)) {
+
+                    mRequestAddWishlist = new GsonRequest<ResponseAddWishlist>(Constant.URL_FAVOURITES_ADD, Request.Method.POST, ResponseAddWishlist.class, new Response.Listener<ResponseAddWishlist>() {
+                        @Override
+                        public void onResponse(ResponseAddWishlist response) {
+                            DataContainer.addWishlist = response.data.results;
+                            star.setImageResource(R.drawable.yellowstar);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.i("Error", error.toString());
+                            BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String, String> params = new HashMap<String, String>();
+
+                            params.put("token", DataContainer.TOKEN);
+                            params.put("user_id", DataContainer.login.id);
+                            params.put("article_id", mList.get(getAdapterPosition()).id);
+                            return params;
+                        }
+                    };
+
+                    DataLoader.addRequest(mContex, mRequestAddWishlist, REQUEST_TAG);
+                } else if (tag.equals(R.drawable.yellowstar)) {
+                    star.setEnabled(false);
+                }
             }
         }
     }
 }
+
 

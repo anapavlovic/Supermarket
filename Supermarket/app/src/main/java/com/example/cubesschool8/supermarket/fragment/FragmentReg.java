@@ -53,7 +53,7 @@ import java.util.Map;
  * Created by cubesschool8 on 9/7/16.
  */
 public class FragmentReg extends android.support.v4.app.Fragment {
-
+    private final String REQUEST_TAG = "Start_activity";
     private static String TAG = "jsonResponse";
 
     private CustomEditTextFont mName, mSurname, mEmail, mPass, mPassRetype, mMobile, mPhone, mFax, mStreet, mNumber, mApartment, mFloor, mEntrance, mPostalCode, mCompanyName, mCompanyPib;
@@ -81,7 +81,7 @@ public class FragmentReg extends android.support.v4.app.Fragment {
     private GsonRequest<ResponseSignUp> mRequestSignUp;
     private Map<String, String> params;
 
-    private final String REQUEST_TAG = "Start_activity";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

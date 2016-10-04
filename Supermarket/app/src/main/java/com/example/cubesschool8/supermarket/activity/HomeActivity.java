@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.ExpandableListView;
@@ -21,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -33,6 +35,8 @@ import com.example.cubesschool8.supermarket.data.DataCategory;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.DataProducts;
 import com.example.cubesschool8.supermarket.data.response.ResponseProducts;
+import com.example.cubesschool8.supermarket.data.response.ResponseReservation;
+import com.example.cubesschool8.supermarket.data.response.ResponseWishlist;
 import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
 import com.example.cubesschool8.supermarket.tool.BusProvider;
@@ -42,6 +46,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class HomeActivity extends ActivityWithMessage {
     private final String REQUEST_TAG = "Start_activity";
@@ -62,7 +67,9 @@ public class HomeActivity extends ActivityWithMessage {
     private String childId;
 
     private GsonRequest<ResponseProducts> mSubcategoriesRequest;
+    private GsonRequest<ResponseWishlist> mRequestWishList;
     private ArrayList<DataCategory> subCategories;
+    private GsonRequest<ResponseProducts> mRequestProducts;
 
     private HashMap<DataCategory, List<DataCategory>> childList = new HashMap<>();
 
@@ -70,6 +77,9 @@ public class HomeActivity extends ActivityWithMessage {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+        getWishlist();
         inicComp();
         addListener();
 
@@ -145,13 +155,17 @@ public class HomeActivity extends ActivityWithMessage {
                 } else if (groupPosition == DataContainer.categories.size() + 3) {
                     startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                 } else if (groupPosition == DataContainer.categories.size() + 4) {
+                    mDrawerLayout.closeDrawers();
+                    mRootView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
 
-                    startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
+                            startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
 
-
+                        }
+                    }, 200);
 
                 } else if (groupPosition == DataContainer.categories.size() + 5) {
-
                     startActivity(new Intent(getApplicationContext(), LogInActivity.class));
 
                     SharedPreferences settings = getSharedPreferences("MyPreferences", 0);
@@ -261,4 +275,35 @@ public class HomeActivity extends ActivityWithMessage {
         return isIntheList;
     }
 
+
+    public void getWishlist() {
+
+
+        mRequestWishList = new GsonRequest<ResponseWishlist>(Constant.URL_FAVOURITES_LIST, Request.Method.GET, ResponseWishlist.class, new Response.Listener<ResponseWishlist>() {
+            @Override
+            public void onResponse(ResponseWishlist response) {
+
+                DataContainer.wishList = response.data.results;
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("Error", error.toString());
+                BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("token", DataContainer.TOKEN);
+                params.put("login_token", DataContainer.LOGIN_TOKEN);
+                params.put("user_id", DataContainer.login.id);
+                return params;
+            }
+        };
+        DataLoader.addRequest(getApplicationContext(), mRequestWishList, REQUEST_TAG);
+    }
 }

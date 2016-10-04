@@ -26,7 +26,6 @@
             android:layout_height="25dp"
             android:layout_margin="@dimen/margin5"
             android:id="@+id/star"
-            android:background="@drawable/emptystar"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"/>
 
