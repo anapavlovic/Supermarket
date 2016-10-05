@@ -46,12 +46,15 @@ import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataCategory;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.DataLogIn;
+import com.example.cubesschool8.supermarket.data.response.ResponseChangeProfileData;
+import com.example.cubesschool8.supermarket.data.response.ResponsePasswordChange;
 import com.example.cubesschool8.supermarket.data.response.ResponseProducts;
 import com.example.cubesschool8.supermarket.data.response.ResponseSignUp;
 import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
 import com.example.cubesschool8.supermarket.tool.BusProvider;
 import com.example.cubesschool8.supermarket.tool.MessageObject;
+import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,7 +87,8 @@ public class ProfilActivity extends ActivityWithMessage {
     public static NavigationAdapter mAdapter;
     private ImageView mDrawerMenu, mChangeImage, userPhoto;
 
-    private GsonRequest<ResponseSignUp> mRequestChangeData;
+    private GsonRequest<ResponseChangeProfileData> mRequestChangeData;
+    private GsonRequest<ResponsePasswordChange> mRequestPasswordChange;
     private Map<String, String> params;
     private Dialog dialog;
 
@@ -108,16 +112,16 @@ public class ProfilActivity extends ActivityWithMessage {
         addListener();
 
 
-       mSwitchPass.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-           @Override
-           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               if(mSwitchPass.isChecked()){
-                   mRelativePasswordCHange.setVisibility(View.VISIBLE);
-               }else{
-                   mRelativePasswordCHange.setVisibility(View.GONE);
-               }
-           }
-       });
+        mSwitchPass.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (mSwitchPass.isChecked()) {
+                    mRelativePasswordCHange.setVisibility(View.VISIBLE);
+                } else {
+                    mRelativePasswordCHange.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
 
@@ -295,11 +299,11 @@ public class ProfilActivity extends ActivityWithMessage {
         addressChangeAcc = new AddressChangeActivity();
         mName = (CustomEditTextFont) findViewById(R.id.eTname);
         mSurname = (CustomEditTextFont) findViewById(R.id.etSurname);
-        mEmail = (CustomEditTextFont) findViewById(R.id.etEmail);
-        mPass = (CustomEditTextFont) findViewById(R.id.etPass);
         mPassRetype = (CustomEditTextFont) findViewById(R.id.etPassRetype);
         mMobile = (CustomEditTextFont) findViewById(R.id.etMobile);
         mPhone = (CustomEditTextFont) findViewById(R.id.etPhone);
+        mEmail = (CustomEditTextFont) findViewById(R.id.etEmail);
+        mPass = (CustomEditTextFont) findViewById(R.id.etPass);
         mFax = (CustomEditTextFont) findViewById(R.id.etFax);
         mStreet = (CustomEditTextFont) findViewById(R.id.etStreet);
         mNumber = (CustomEditTextFont) findViewById(R.id.etNumber);
@@ -363,23 +367,113 @@ public class ProfilActivity extends ActivityWithMessage {
     }
 
     private void changeProfileData() {
-        if (!mPass.getText().toString().equalsIgnoreCase(mPassRetype.getText().toString())) {
-            BusProvider.getInstance().post(new MessageObject(R.string.pass_match, 3000, MessageObject.MESSAGE_ERROR));
+        if (mSwitchPass.isChecked()) {
+            if (!mPass.getText().toString().equalsIgnoreCase("") && !mPassRetype.getText().toString().equalsIgnoreCase("")) {
+                if (!mPass.getText().toString().equalsIgnoreCase(mPassRetype.getText().toString())) {
+                    BusProvider.getInstance().post(new MessageObject(R.string.pass_match, 3000, MessageObject.MESSAGE_ERROR));
+                } else {
+                    relativeProgressProfile.setVisibility(View.VISIBLE);
+                    sendChangeDataRequest();
+                    sendChangePasswordRequest();
+                }
+            } else {
+                BusProvider.getInstance().post(new MessageObject(R.string.empty_fields, 3000, MessageObject.MESSAGE_ERROR));
+            }
+
+        } else {
+
+            relativeProgressProfile.setVisibility(View.VISIBLE);
+            sendChangeDataRequest();
 
         }
-        relativeProgressProfile.setVisibility(View.VISIBLE);
 
 
-        mRequestChangeData = new GsonRequest<ResponseSignUp>(Constant.SIGNUP_URL, Request.Method.POST, ResponseSignUp.class, new Response.Listener<ResponseSignUp>() {
+    }
+
+
+    public void sendChangePasswordRequest() {
+
+
+        mRequestPasswordChange = new GsonRequest<ResponsePasswordChange>(Constant.CHANGE_PASSWORD, Request.Method.POST, ResponsePasswordChange.class, new Response.Listener<ResponsePasswordChange>() {
             @Override
-            public void onResponse(ResponseSignUp response) {
-                Log.i("Response", response.toString());
-                DataContainer.signup = response.data.results;
+            public void onResponse(ResponsePasswordChange response) {
+
+                DataContainer.passwordChangesList = response.data.results;
 
                 if (response.data.error.equalsIgnoreCase("")) {
                     BusProvider.getInstance().post(new MessageObject(R.string.changes_saved, 3000, MessageObject.MESSAGE_SUCCESS));
                     mIzmeniButton.setText(R.string.profile_data_change);
                     relativeProgressProfile.setVisibility(View.GONE);
+                } else {
+                    BusProvider.getInstance().post(new MessageObject(R.string.empty_fields, 3000, MessageObject.MESSAGE_INFO));
+                    relativeProgressProfile.setVisibility(View.GONE);
+                    mIzmeniButton.setText(R.string.profile_data_change);
+
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("error", error.toString());
+                mIzmeniButton.setText(R.string.profile_data_change);
+                relativeProgressProfile.setVisibility(View.GONE);
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                params = new HashMap<String, String>();
+                params.put("id", DataContainer.login.id);
+                params.put("token", DataContainer.TOKEN);
+                params.put("login_token", DataContainer.LOGIN_TOKEN);
+                params.put("password", mPass.getText().toString());
+                params.put("password_retype", mPassRetype.getText().toString());
+
+                return params;
+            }
+        };
+
+        DataLoader.addRequest(getApplication(), mRequestPasswordChange, REQUEST_TAG);
+    }
+
+    public void sendChangeDataRequest() {
+        mRequestChangeData = new GsonRequest<ResponseChangeProfileData>(Constant.CHANGE_PROFILE_DATA, Request.Method.POST, ResponseChangeProfileData.class, new Response.Listener<ResponseChangeProfileData>() {
+            @Override
+            public void onResponse(ResponseChangeProfileData response) {
+                Log.i("Response", response.toString());
+                DataContainer.changeProfileDataList = response.data.results;
+
+                if (response.data.error.equalsIgnoreCase("")) {
+                    BusProvider.getInstance().post(new MessageObject(R.string.changes_saved, 3000, MessageObject.MESSAGE_SUCCESS));
+                    mIzmeniButton.setText(R.string.profile_data_change);
+                    relativeProgressProfile.setVisibility(View.GONE);
+                    DataContainer.login.first_name = mName.getText().toString();
+                    DataContainer.login.last_name = mSurname.getText().toString();
+                    DataContainer.login.email = mEmail.getText().toString();
+                    DataContainer.login.cell_phone = mMobile.getText().toString();
+                    DataContainer.login.land_line = mPhone.getText().toString();
+                    DataContainer.login.fax = mFax.getText().toString();
+                    DataContainer.login.street_number = mNumber.getText().toString();
+                    DataContainer.login.address = mStreet.getText().toString();
+                    DataContainer.login.floor = mFloor.getText().toString();
+
+                    DataContainer.login.apartment = mApartment.getText().toString();
+                    DataContainer.login.entrance = mEntrance.getText().toString();
+                    DataContainer.login.city = citySpinner.getSelectedItem().toString();
+                    DataContainer.login.postal_code = mPostalCode.getText().toString();
+                    DataContainer.login.floor = mFloor.getText().toString();
+                    if (mCheckBox.isChecked()) {
+                        DataContainer.login.newsletter = String.valueOf(1);
+                    } else {
+                        DataContainer.login.newsletter = String.valueOf(0);
+                    }
+                    DataContainer.login.date_of_birth = daySpinner.getSelectedItem().toString() + "." + monthSpinner.getSelectedItem().toString() + "." + yearSpinner.getSelectedItem().toString();
+                    if (mMale.isChecked()) {
+                        DataContainer.login.gender = "muski";
+                    } else {
+                        DataContainer.login.gender = "zenski";
+                    }
                 } else {
                     BusProvider.getInstance().post(new MessageObject(R.string.empty_fields, 3000, MessageObject.MESSAGE_INFO));
                     relativeProgressProfile.setVisibility(View.GONE);
@@ -402,19 +496,15 @@ public class ProfilActivity extends ActivityWithMessage {
                 params.put("id", DataContainer.login.id);
 
                 if (mRelativeCompany.getVisibility() == View.VISIBLE) {
-                   // params.put("user_type", "company");
+                    // params.put("user_type", "company");
                     params.put("company_name", mCompanyName.getText().toString());
                     params.put("pib", mCompanyPib.getText().toString());
                 } else {
-                   // params.put("user_type", "buyer");
+                    // params.put("user_type", "buyer");
                     params.put("company_name", "");
                     params.put("pib", "");
                 }
 
-                if (mPass.getText().length() > 0 && mPassRetype.getText().length() > 0) {
-                    params.put("password", mPass.getText().toString());
-                    params.put("password_retype", mPassRetype.getText().toString());
-                }
 
                 params.put("first_name", mName.getText().toString());
                 params.put("last_name", mSurname.getText().toString());
@@ -441,14 +531,12 @@ public class ProfilActivity extends ActivityWithMessage {
 
                 params.put("gender", mMale.isChecked() ? "1" : "2");
 
-               // params.put("token", DataContainer.TOKEN);
+                params.put("token", DataContainer.TOKEN);
                 return params;
             }
         };
 
         DataLoader.addRequest(getApplicationContext(), mRequestChangeData, REQUEST_TAG);
-
-
     }
 
     public void getProfileData() {
@@ -456,7 +544,7 @@ public class ProfilActivity extends ActivityWithMessage {
         mSurname.setText(DataContainer.login.last_name);
         mEmail.setText(DataContainer.login.email);
         mMobile.setText(DataContainer.login.cell_phone);
-        mPhone.setText(DataContainer.login.photo);
+        mPhone.setText(DataContainer.login.land_line);
         mFax.setText(DataContainer.login.fax);
         mStreet.setText(DataContainer.login.address);
         mNumber.setText(DataContainer.login.street_number);
@@ -487,7 +575,7 @@ public class ProfilActivity extends ActivityWithMessage {
             mFemale.setChecked(true);
         }
 
-        if (DataContainer.login.company_name != null) {
+        if (!DataContainer.login.company_name.equalsIgnoreCase("")) {
             mSwitch.setChecked(true);
             mRelativeCompany.setVisibility(View.VISIBLE);
             mCompanyName.setText(DataContainer.login.company_name);

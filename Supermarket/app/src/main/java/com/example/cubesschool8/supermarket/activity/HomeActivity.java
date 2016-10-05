@@ -279,7 +279,7 @@ public class HomeActivity extends ActivityWithMessage {
     public void getWishlist() {
 
 
-        mRequestWishList = new GsonRequest<ResponseWishlist>(Constant.URL_FAVOURITES_LIST, Request.Method.GET, ResponseWishlist.class, new Response.Listener<ResponseWishlist>() {
+        mRequestWishList = new GsonRequest<ResponseWishlist>(Constant.URL_FAVOURITES_LIST, Request.Method.POST, ResponseWishlist.class, new Response.Listener<ResponseWishlist>() {
             @Override
             public void onResponse(ResponseWishlist response) {
 

@@ -26,7 +26,7 @@ public class FragmentSlideViewPagerIntro extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.intro_layout_fragment, container, false);
+        View rootView =  inflater.inflate(R.layout.intro_layout_fragment, container, false);
         return rootView;
     }
 

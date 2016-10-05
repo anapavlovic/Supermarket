@@ -17,8 +17,10 @@ public class Constant {
     public static String SINGLE_PRODUCT_URL = BASE_URL + "phone-products-single";
     public static String SEND_ORDER_URL = BASE_URL + "phone_order";
     public static String SUBCATEGORIES_URL = BASE_URL + "phone-products?token=TtMeK!Z8BB&search=1&mlimit=100&category=";
-    public static final String URL_FAVOURITES_LIST = BASE_URL + "phone-wishlist";
-    public static final String URL_FAVOURITES_ADD = BASE_URL + "phone-wishlist-add";
+    public static  String URL_FAVOURITES_LIST = BASE_URL + "phone-wishlist";
+    public static  String URL_FAVOURITES_ADD = BASE_URL + "phone-wishlist-add";
+    public static String CHANGE_PROFILE_DATA = BASE_URL + "phone-myprofile-changedata";
+    public static  String CHANGE_PASSWORD= BASE_URL+ "phone-myprofile-changepassword";
 
 
     public static String USERNAME = "phone";

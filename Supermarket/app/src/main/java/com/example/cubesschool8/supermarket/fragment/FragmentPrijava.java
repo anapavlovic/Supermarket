@@ -57,7 +57,7 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
 
     private Button mProceedButton;
     private CustomEditTextFont mUsername, mPass;
-    private CustomTextViewFont mpasswordForgot;
+    private CustomTextViewFont mpasswordForgot,mSkip;
     private CheckBox mCheckSaveUserDAata;
     private Dialog mDialog;
     private final String REQUEST_TAG = "Start_activity";
@@ -87,9 +87,17 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
         mPass = (CustomEditTextFont) getView().findViewById(R.id.tvPass);
         mpasswordForgot = (CustomTextViewFont) getView().findViewById(R.id.tvpassforgot);
         mCheckSaveUserDAata = (CheckBox) getView().findViewById(R.id.checkboxSaveUserData);
+        mSkip = (CustomTextViewFont)getView().findViewById(R.id.tvSkip);
     }
 
     private void addListener() {
+
+        mSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),HomeActivity.class));
+            }
+        });
         mProceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

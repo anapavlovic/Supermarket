@@ -30,7 +30,7 @@
         android:layout_below="@+id/drawerName"
         android:layout_toRightOf="@+id/drawerImage"
         android:layout_marginTop="@dimen/margin10"
-        android:text="blabla@gmail.com"
+        android:text="email@gmail.com"
         />
 
    <ImageView

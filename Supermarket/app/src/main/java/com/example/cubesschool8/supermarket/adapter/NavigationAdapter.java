@@ -108,21 +108,22 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
             } else {
                 holder = (Holder) row.getTag(R.layout.drawer_adapter_layout);
             }
+            if (DataContainer.login != null) {
+                Glide.with(context).load(DataContainer.login.userImage).asBitmap().centerCrop().into(new BitmapImageViewTarget(holder.image) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        new Holder().image.setImageDrawable(circularBitmapDrawable);
 
-            Glide.with(context).load(DataContainer.login.userImage).asBitmap().centerCrop().into(new BitmapImageViewTarget(holder.image) {
-                @Override
-                protected void setResource(Bitmap resource) {
-                    RoundedBitmapDrawable circularBitmapDrawable =
-                            RoundedBitmapDrawableFactory.create(context.getResources(), resource);
-                    circularBitmapDrawable.setCircular(true);
-                    new Holder().image.setImageDrawable(circularBitmapDrawable);
-
-                }
-            });
+                    }
+                });
 
 
-            holder.name.setText(DataContainer.login.first_name + " " + DataContainer.login.last_name);
-            holder.email.setText(DataContainer.login.email);
+                holder.name.setText(DataContainer.login.first_name + " " + DataContainer.login.last_name);
+                holder.email.setText(DataContainer.login.email);
+            }
 
         } else if (groupPosition == 1) {
             if (row == null) {
@@ -255,16 +256,17 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
             holder.iconImage.setVisibility(View.INVISIBLE);
             holder.underline.setVisibility(View.GONE);
 
-            if (list.get(groupPosition-2).name.equalsIgnoreCase("Clothing")) {
+            if (list.get(groupPosition - 2).name.equalsIgnoreCase("Clothing")) {
                 holder.iconImage.setVisibility(View.VISIBLE);
                 holder.iconImage.setImageResource(R.drawable.menuicon);
-                if(isExpanded){
+                if (isExpanded) {
                     holder.category.setTextColor(context.getResources().getColor(R.color.pink_navigation));
-                }else {
+                } else {
                     holder.category.setTextColor(Color.BLACK);
                 }
 
-            }else{}
+            } else {
+            }
 
 
         }

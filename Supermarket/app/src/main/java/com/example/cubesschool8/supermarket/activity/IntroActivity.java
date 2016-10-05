@@ -86,6 +86,7 @@ public class IntroActivity extends FragmentActivity {
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         viewPager.setPageMargin(
                 getResources().getDimensionPixelOffset(R.dimen.viewpager_margin));
+        viewPager.setOffscreenPageLimit(2);
 
 
     }

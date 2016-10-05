@@ -3,133 +3,146 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-   
 
 
- >
-<RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/relativetop">
-    <ImageView
-        android:id="@+id/usernameimg"
+    >
+
+    <RelativeLayout
+        android:id="@+id/relativetop"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="@dimen/margin_prijava"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/username" />
+        android:layout_height="wrap_content">
 
-    <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
-        android:id="@+id/tvPrijava"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="@dimen/margin_prijava"
-        android:layout_marginTop="30dp"
-        android:layout_toRightOf="@+id/usernameimg"
-        android:layout_centerVertical="true"
-        android:background="@null"
-        android:hint="Korisnicko ime"
-        android:textColorHint="@color/text_color"
-        android:textColor="@color/text_color"
-        android:textSize="@dimen/text_size"
-      />
+        <ImageView
+            android:id="@+id/usernameimg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/username" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@+id/tvPrijava"
-        android:layout_marginLeft="@dimen/margin_prijava"
-        android:layout_marginRight="@dimen/margin_prijava"
-        android:background="@color/underlineopacity"
+        <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+            android:id="@+id/tvPrijava"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@+id/usernameimg"
+            android:background="@null"
+            android:hint="Korisnicko ime"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/text_color"
+            android:textSize="@dimen/text_size" />
 
-        />
-</RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/tvPrijava"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:background="@color/underlineopacity"
 
+            />
+    </RelativeLayout>
 
 
     <RelativeLayout
+        android:id="@+id/relativeBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/relativetop"
-        android:id="@+id/relativeBottom">
-    <ImageView
-        android:id="@+id/passimg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="@dimen/margin_prijava"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/password" />
+        android:layout_below="@+id/relativetop">
 
-    <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
-        android:id="@+id/tvPass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="@dimen/margin_prijava"
-        android:layout_marginTop="30dp"
-        android:layout_toRightOf="@+id/passimg"
-        android:textColorHint="@color/text_color"
-        android:background="@null"
-        android:hint="Lozinka"
-        android:textColor="@color/text_color"
-        android:textSize="@dimen/text_size"
-        android:inputType="textWebPassword"
-        />
+        <ImageView
+            android:id="@+id/passimg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/password" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@+id/tvPass"
-        android:layout_marginLeft="@dimen/margin_prijava"
-        android:layout_marginRight="@dimen/margin_prijava"
-        android:background="@color/underlineopacity"
+        <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+            android:id="@+id/tvPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@+id/passimg"
+            android:background="@null"
+            android:hint="Lozinka"
+            android:inputType="textWebPassword"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/text_color"
+            android:textSize="@dimen/text_size" />
 
-        />
-</RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/tvPass"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:background="@color/underlineopacity"
+
+            />
+    </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativeBottom">
 
-    <android.support.v7.widget.AppCompatCheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkboxSaveUserData"
-        android:layout_marginTop="@dimen/margin_prijava"
-        android:layout_marginLeft="@dimen/margin_prijava"
-        android:layout_centerVertical="true"/>
-      <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_toRightOf="@+id/checkboxSaveUserData"
-          android:text="@string/podaci"
-          android:layout_centerVertical="true"
-          android:textSize="@dimen/text_size"
-          android:textColor="@color/text_color"
-          android:layout_marginLeft="@dimen/margin_prijava"/>
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/checkboxSaveUserData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_marginTop="@dimen/margin_prijava" />
+
+        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_prijava"
+            android:layout_toRightOf="@+id/checkboxSaveUserData"
+            android:text="@string/podaci"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size" />
 
 
     </RelativeLayout>
+
     <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
         android:id="@+id/tvpassforgot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/tvSkip"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/margin_prijava"
         android:text="@string/pass_forgot"
         android:textColor="@color/text_color"
         android:textSize="@dimen/text_size" />
 
+    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+        android:id="@+id/tvSkip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin_prijava"
+        android:text="Skip"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_size" />
+
     <Button
-        android:layout_width="match_parent"
         android:id="@+id/proceedButt"
+        android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_above="@+id/tvpassforgot"
         android:layout_marginBottom="@dimen/margin_prijava"
@@ -137,6 +150,6 @@
         android:layout_marginRight="@dimen/margin_prijava"
         android:background="@color/yellow"
         android:text="@string/Nastavi"
-        android:textColor="@color/text_color_black"/>
+        android:textColor="@color/text_color_black" />
 
 </RelativeLayout>

@@ -23,7 +23,6 @@ public class DataLogIn {
     public String city;
     public String postal_code;
     public String country;
-    public String phone;
     public String cell_phone;
     public String land_line;
     public String fax;

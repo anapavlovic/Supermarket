@@ -30,6 +30,9 @@ public class DataContainer {
     public static ArrayList<String> wishList;
     public static ArrayList<DataAddWishlist> addWishlist;
 
+    public static String changeProfileDataList;
+    public static ArrayList<DataPasswordChange> passwordChangesList;
+
 
     public static HashMap<String, ArrayList<DataProducts>> categoriesLists = new HashMap<>();
 
