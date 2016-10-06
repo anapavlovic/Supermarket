@@ -1,7 +1,9 @@
 package com.example.cubesschool8.supermarket.activity;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 
@@ -96,7 +98,10 @@ public class IntroActivity extends FragmentActivity {
         mCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+                SharedPreferences settings = getSharedPreferences("PrefsIntro", Context.MODE_PRIVATE);
+                settings.edit().putBoolean("firstRun", true).commit();
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                finish();
             }
         });
     }

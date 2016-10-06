@@ -59,7 +59,7 @@ public class StartActivity extends ActivityWithMessage {
     private String jsonResponse;
     private RelativeLayout relativeLayout;
     private int counter;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences, prefs;
 
     private GsonRequest<ResponseLogIn> mRequestLogIn;
 
@@ -73,7 +73,7 @@ public class StartActivity extends ActivityWithMessage {
 
 
         inicComp();
-
+        removePrefs();
 
         mRequestToken = new GsonRequest<ResponseToken>(Constant.GET_TOKEN_URL + "/?username=" + Constant.USERNAME + "&password=" + Constant.PASSWORD, Request.Method.GET, ResponseToken.class, new Response.Listener<ResponseToken>() {
             @Override
@@ -198,43 +198,42 @@ public class StartActivity extends ActivityWithMessage {
         // String username = decryptIt(encryptmUsername);
         // String password = decryptIt(encryptmPass);
 
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        if (settings.getBoolean("first_run", true)) {
-            startActivity(new Intent(getApplicationContext(), IntroActivity.class));
-            settings.edit().putBoolean("first_run", false).commit();
+
+        if (s == true) {
+            mRequestLogIn = new GsonRequest<ResponseLogIn>(Constant.LOGIN_URL + "?token=" + DataContainer.TOKEN + "&email=" + encryptmUsername + "&password=" + encryptmPass,
+                    Request.Method.GET, ResponseLogIn.class, new Response.Listener<ResponseLogIn>() {
+                @Override
+                public void onResponse(ResponseLogIn response) {
+                    Log.i("Response", response.toString());
+                    DataContainer.login = response.data.results;
+                    DataContainer.LOGIN_TOKEN = response.data.login_token;
+
+                    if (response.data.error != "") {
+                        Toast.makeText(getApplicationContext(), R.string.login_incorrect, Toast.LENGTH_SHORT).show();
+                    } else {
+                    }
+
+                        startActivity(new Intent(getApplicationContext(), IntroActivity.class));
+
+
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.i("error", error.toString());
+                    BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
+                }
+            });
+
+            DataLoader.addRequest(getApplicationContext(), mRequestLogIn, REQUEST_TAG);
+
         } else {
-            if (s == true) {
-                mRequestLogIn = new GsonRequest<ResponseLogIn>(Constant.LOGIN_URL + "?token=" + DataContainer.TOKEN + "&email=" + encryptmUsername + "&password=" + encryptmPass,
-                        Request.Method.GET, ResponseLogIn.class, new Response.Listener<ResponseLogIn>() {
-                    @Override
-                    public void onResponse(ResponseLogIn response) {
-                        Log.i("Response", response.toString());
-                        DataContainer.login = response.data.results;
-                        DataContainer.LOGIN_TOKEN = response.data.login_token;
-
-                        if (response.data.error != "") {
-                            Toast.makeText(getApplicationContext(), R.string.login_incorrect, Toast.LENGTH_SHORT).show();
-                        } else {
-                        }
-                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.i("error", error.toString());
-                        BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                        startActivity(new Intent(getApplicationContext(), LogInActivity.class));
-                    }
-                });
-
-                DataLoader.addRequest(getApplicationContext(), mRequestLogIn, REQUEST_TAG);
-
-            } else {
-                startActivity(new Intent(getApplicationContext(), LogInActivity.class));
-            }
-
+            startActivity(new Intent(getApplicationContext(), LogInActivity.class));
         }
+
+
     }
 
 
@@ -256,5 +255,8 @@ public class StartActivity extends ActivityWithMessage {
         return value;
     }
 
-
+    public void removePrefs() {
+        prefs = getSharedPreferences("PrefsIntro", 0);
+        prefs.edit().remove("firstRun").commit();
+    }
 }

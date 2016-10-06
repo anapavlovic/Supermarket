@@ -19,6 +19,6 @@ public class ResponseWishlist {
         public String status;
         public String message;
         public String error;
-        public ArrayList<String > results;
+        public ArrayList<DataProducts > results;
     }
 }

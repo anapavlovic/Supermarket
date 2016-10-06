@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.adapter.BasketAdapter;
@@ -31,6 +32,7 @@ public class BasketActivity extends ActivityWithMessage implements BasketAdapter
     private RecyclerView.LayoutManager mLayoutmanager;
     private CustomTextViewFont mTotalSum;
     private DataLogIn person = new DataLogIn();
+    private RelativeLayout rootView;
 
 
     @Override
@@ -56,6 +58,8 @@ public class BasketActivity extends ActivityWithMessage implements BasketAdapter
         mRecycler = (RecyclerView) findViewById(R.id.recyclerBasket);
         mBuyButton = (Button) findViewById(R.id.buyButton);
         mTotalSum = (CustomTextViewFont) findViewById(R.id.totalSum);
+        rootView = (RelativeLayout) findViewById(R.id.rootView);
+
 
 
     }
@@ -71,12 +75,25 @@ public class BasketActivity extends ActivityWithMessage implements BasketAdapter
         mBuyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (DataContainer.basketList.isEmpty()) {
-                    BusProvider.getInstance().post(new MessageObject(R.string.praznakorpa, 3000, MessageObject.MESSAGE_INFO));
+                if (DataContainer.login != null) {
+                    if (DataContainer.basketList.isEmpty()) {
+                        BusProvider.getInstance().post(new MessageObject(R.string.praznakorpa, 3000, MessageObject.MESSAGE_INFO));
+                    } else {
+                        Intent i = new Intent(getApplicationContext(), AddressChangeActivity.class);
+                        i.putExtra("total", mTotalSum.getText().toString());
+                        startActivity(i);
+                    }
                 } else {
-                    Intent i = new Intent(getApplicationContext(), AddressChangeActivity.class);
-                    i.putExtra("total", mTotalSum.getText().toString());
-                    startActivity(i);
+                    mBuyButton.setClickable(false);
+                    BusProvider.getInstance().post(new MessageObject(R.string.no_profile_buy, 3000, MessageObject.MESSAGE_INFO));
+
+                    rootView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mBuyButton.setClickable(true);
+                        }
+                    },5000);
+
                 }
             }
         });

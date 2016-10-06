@@ -83,7 +83,11 @@ public class SettingsActivity extends ActivityWithMessage {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
+                if (DataContainer.login != null) {
+                    startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
+                } else {
+                    BusProvider.getInstance().post(new MessageObject(R.string.no_profile, 3000, MessageObject.MESSAGE_INFO));
+                }
             }
         });
 
@@ -119,66 +123,7 @@ public class SettingsActivity extends ActivityWithMessage {
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
 
-                categoryPosition = groupPosition;
-                if (groupPosition > 1 && groupPosition < DataContainer.categories.size() + 2) {
-                    data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
-                    if (mAdapter.getChildrenCount(groupPosition) == 0) {
-                        if (HomeActivity.checkList(DataContainer.categoriesLists, data.id) == false) {
-                            mDrawerLayout.closeDrawers();
-                            mRelativeProgress.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mRelativeProgress.setVisibility(View.VISIBLE);
-                                    mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
-                                        @Override
-                                        public void onResponse(ResponseProducts response) {
-                                            DataContainer.categoriesLists.put(data.id, response.data.results);
-                                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                                            i.putExtra("id", data.id);
-                                            startActivity(i);
-                                            mRelativeProgress.setVisibility(View.GONE);
-
-                                        }
-                                    }, new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                                        }
-                                    });
-
-                                    DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
-                                }
-                            }, 200);
-
-
-                        } else {
-                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                            i.putExtra("id", data.id);
-                            startActivity(i);
-                            mRelativeProgress.setVisibility(View.GONE);
-                        }
-                    } else {
-
-                    }
-                } else if (groupPosition == DataContainer.categories.size() + 3) {
-                    startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
-                } else if (groupPosition == DataContainer.categories.size() + 4) {
-
-                    startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
-
-
-
-                } else if (groupPosition == DataContainer.categories.size() + 5) {
-
-                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
-
-                    SharedPreferences settings = getSharedPreferences("MyPreferences", 0);
-                    settings.edit().remove("checked").commit();
-                    settings.edit().remove("username").commit();
-                    settings.edit().remove("password").commit();
-                    finish();
-
-                }
+                setGroupClickListener(mDrawerlist, data, mAdapter, mDrawerLayout, mRelativeProgress, mSubcategoriesRequest, parent, v, groupPosition, id,progressBar);
                 return false;
             }
         });
@@ -186,46 +131,7 @@ public class SettingsActivity extends ActivityWithMessage {
         mDrawerlist.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
-                categoryPosition = groupPosition;
-                mChildPosition = childPosition;
-                childId = String.valueOf(id);
-                if (HomeActivity.checkList(DataContainer.categoriesLists, data.id + "." + childId) == false) {
-                    mDrawerLayout.closeDrawers();
-                    mRelativeProgress.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mRelativeProgress.setVisibility(View.VISIBLE);
-                            mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
-                                @Override
-                                public void onResponse(ResponseProducts response) {
-                                    mRelativeProgress.setVisibility(View.VISIBLE);
-                                    DataContainer.categoriesLists.put(data.id + "." + childId, response.data.results);
-                                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                                    i.putExtra("id", data.id + "." + childId);
-                                    startActivity(i);
-                                    mRelativeProgress.setVisibility(View.GONE);
-
-
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                                }
-                            });
-
-                            DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
-                        }
-                    }, 200);
-
-                } else {
-                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                    i.putExtra("id", data.id + "." + childId);
-                    startActivity(i);
-                    mRelativeProgress.setVisibility(View.GONE);
-
-                }
+                setOnChildClicklistener(mDrawerlist, data, mAdapter, mDrawerLayout, mRelativeProgress, mSubcategoriesRequest, parent, v, groupPosition, mChildPosition, id);
 
 
                 return false;
@@ -256,8 +162,15 @@ public class SettingsActivity extends ActivityWithMessage {
         mDrawerlist.setAdapter(mAdapter);
 
         mRelativeProgress = (RelativeLayout) findViewById(R.id.relativeProgressS);
-       progressBar = (ProgressBar) findViewById(R.id.progressSetting);
+        progressBar = (ProgressBar) findViewById(R.id.progressSetting);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#feea00"), PorterDuff.Mode.SRC_IN);
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        DataLoader.cancelRequest(getApplicationContext(), REQUEST_TAG);
+    }
+
 }

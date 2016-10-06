@@ -46,7 +46,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return list.size() + 6;
+        return list.size() + 7;
     }
 
     @Override
@@ -216,6 +216,27 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
 
 
         } else if (groupPosition == list.size() + 5) {
+            if (row == null) {
+                row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
+                holder = new Holder();
+                holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
+                holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
+                holder.underline = (ImageView) row.findViewById(R.id.underline);
+                row.setTag(R.layout.drawer_adapter_category, holder);
+
+            } else {
+                holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
+            }
+
+            holder.category.setText(R.string.statistics);
+
+            holder.category.setVisibility(View.VISIBLE);
+            holder.iconImage.setVisibility(View.VISIBLE);
+            holder.underline.setVisibility(View.GONE);
+            holder.iconImage.setImageResource(R.drawable.usernamegray);
+
+
+        }else if (groupPosition == list.size() + 6) {
             if (row == null) {
                 row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
                 holder = new Holder();

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 
@@ -20,7 +21,7 @@ import android.widget.ImageView;
 
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -35,7 +36,6 @@ import com.example.cubesschool8.supermarket.data.DataCategory;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.DataProducts;
 import com.example.cubesschool8.supermarket.data.response.ResponseProducts;
-import com.example.cubesschool8.supermarket.data.response.ResponseReservation;
 import com.example.cubesschool8.supermarket.data.response.ResponseWishlist;
 import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
@@ -48,12 +48,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+
 public class HomeActivity extends ActivityWithMessage {
+
+    public static final int WISHLIST = 0;
+
     private final String REQUEST_TAG = "Start_activity";
     private ImageView mDrawerMenu, mSearch, mShoppingCart;
 
     private RecyclerAdapter mrecyclerAdapter;
-    private RecyclerView recyclerView;
+    public static RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager, drawerLayoutManager;
 
     private DrawerLayout mDrawerLayout;
@@ -79,14 +83,25 @@ public class HomeActivity extends ActivityWithMessage {
         setContentView(R.layout.activity_home);
 
 
-        getWishlist();
         inicComp();
         addListener();
 
         mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
-        mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.products);
-        recyclerView.setAdapter(mrecyclerAdapter);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if (extras.getInt("wishlist") == WISHLIST) {
+                mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.wishList);
+                recyclerView.setAdapter(mrecyclerAdapter);
+            } else {
+                mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.products);
+                recyclerView.setAdapter(mrecyclerAdapter);
+            }
+        } else {
+            mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.products);
+            recyclerView.setAdapter(mrecyclerAdapter);
+        }
 
     }
 
@@ -111,70 +126,7 @@ public class HomeActivity extends ActivityWithMessage {
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
 
-                categoryPosition = groupPosition;
-                if (groupPosition > 1 && groupPosition < DataContainer.categories.size() + 2) {
-                    data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
-                    if (mAdapter.getChildrenCount(groupPosition) == 0) {
-                        if (checkList(DataContainer.categoriesLists, data.id) == false) {
-                            mDrawerLayout.closeDrawers();
-                            mRelativeProgress.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mRelativeProgress.setVisibility(View.VISIBLE);
-                                    mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
-                                        @Override
-                                        public void onResponse(ResponseProducts response) {
-                                            DataContainer.categoriesLists.put(data.id, response.data.results);
-                                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                                            i.putExtra("id", data.id);
-                                            startActivity(i);
-                                            mRelativeProgress.setVisibility(View.GONE);
-
-                                        }
-                                    }, new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                                        }
-                                    });
-
-                                    DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
-                                }
-                            }, 200);
-
-
-                        } else {
-                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                            i.putExtra("id", data.id);
-                            startActivity(i);
-                            mRelativeProgress.setVisibility(View.GONE);
-                        }
-                    } else {
-
-                    }
-                } else if (groupPosition == DataContainer.categories.size() + 3) {
-                    startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
-                } else if (groupPosition == DataContainer.categories.size() + 4) {
-                    mDrawerLayout.closeDrawers();
-                    mRootView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
-
-                        }
-                    }, 200);
-
-                } else if (groupPosition == DataContainer.categories.size() + 5) {
-                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
-
-                    SharedPreferences settings = getSharedPreferences("MyPreferences", 0);
-                    settings.edit().remove("checked").commit();
-                    settings.edit().remove("username").commit();
-                    settings.edit().remove("password").commit();
-                    finish();
-
-                }
+                setGroupClickListener(mDrawerlist, data, mAdapter, mDrawerLayout, mRelativeProgress, mSubcategoriesRequest, parent, v, groupPosition, id, progressBar);
                 return false;
             }
         });
@@ -182,47 +134,7 @@ public class HomeActivity extends ActivityWithMessage {
         mDrawerlist.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
-                categoryPosition = groupPosition;
-                mChildPosition = childPosition;
-                childId = String.valueOf(id);
-                if (checkList(DataContainer.categoriesLists, data.id + "." + childId) == false) {
-                    mDrawerLayout.closeDrawers();
-                    mRelativeProgress.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mRelativeProgress.setVisibility(View.VISIBLE);
-                            mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
-                                @Override
-                                public void onResponse(ResponseProducts response) {
-                                    mRelativeProgress.setVisibility(View.VISIBLE);
-                                    DataContainer.categoriesLists.put(data.id + "." + childId, response.data.results);
-                                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                                    i.putExtra("id", data.id + "." + childId);
-                                    startActivity(i);
-                                    mRelativeProgress.setVisibility(View.GONE);
-
-
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                                }
-                            });
-
-                            DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
-                        }
-                    }, 200);
-
-                } else {
-                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                    i.putExtra("id", data.id + "." + childId);
-                    startActivity(i);
-                    mRelativeProgress.setVisibility(View.GONE);
-
-                }
-
+                setOnChildClicklistener(mDrawerlist, data, mAdapter, mDrawerLayout, mRelativeProgress, mSubcategoriesRequest, parent, v, groupPosition, mChildPosition, id);
 
                 return false;
             }
@@ -230,6 +142,7 @@ public class HomeActivity extends ActivityWithMessage {
 
 
     }
+
 
     public void inicComp() {
         mDrawerMenu = (ImageView) findViewById(R.id.drawerMenu);
@@ -276,34 +189,9 @@ public class HomeActivity extends ActivityWithMessage {
     }
 
 
-    public void getWishlist() {
-
-
-        mRequestWishList = new GsonRequest<ResponseWishlist>(Constant.URL_FAVOURITES_LIST, Request.Method.POST, ResponseWishlist.class, new Response.Listener<ResponseWishlist>() {
-            @Override
-            public void onResponse(ResponseWishlist response) {
-
-                DataContainer.wishList = response.data.results;
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("Error", error.toString());
-                BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("token", DataContainer.TOKEN);
-                params.put("login_token", DataContainer.LOGIN_TOKEN);
-                params.put("user_id", DataContainer.login.id);
-                return params;
-            }
-        };
-        DataLoader.addRequest(getApplicationContext(), mRequestWishList, REQUEST_TAG);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        DataLoader.cancelRequest(getApplicationContext(), REQUEST_TAG);
     }
 }

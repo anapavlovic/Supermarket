@@ -171,74 +171,7 @@ public class ProfilActivity extends ActivityWithMessage {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
-
-                categoryPosition = groupPosition;
-                if (groupPosition > 1 && groupPosition < DataContainer.categories.size() + 2) {
-                    data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
-                    if (mAdapter.getChildrenCount(groupPosition) == 0) {
-                        if (HomeActivity.checkList(DataContainer.categoriesLists, data.id) == false) {
-                            mDrawerLayout.closeDrawers();
-                            relativeProgressProfile.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    relativeProgressProfile.setVisibility(View.VISIBLE);
-                                    mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
-                                        @Override
-                                        public void onResponse(ResponseProducts response) {
-                                            DataContainer.categoriesLists.put(data.id, response.data.results);
-                                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                                            i.putExtra("id", data.id);
-                                            startActivity(i);
-                                            relativeProgressProfile.setVisibility(View.GONE);
-
-                                        }
-                                    }, new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                                        }
-                                    });
-
-                                    DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
-                                }
-                            }, 200);
-
-
-                        } else {
-                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                            i.putExtra("id", data.id);
-                            startActivity(i);
-                            relativeProgressProfile.setVisibility(View.GONE);
-                        }
-                    } else {
-
-                    }
-                } else if (groupPosition == DataContainer.categories.size() + 3) {
-                    startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
-                } else if (groupPosition == DataContainer.categories.size() + 4) {
-
-                    mDrawerLayout.closeDrawers();
-                    mRootView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
-
-                        }
-                    }, 200);
-
-
-                } else if (groupPosition == DataContainer.categories.size() + 5) {
-
-                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
-
-                    SharedPreferences settings = getSharedPreferences("MyPreferences", 0);
-                    settings.edit().remove("checked").commit();
-                    settings.edit().remove("username").commit();
-                    settings.edit().remove("password").commit();
-                    finish();
-
-                }
+                setGroupClickListener(mDrawerlist, data, mAdapter, mDrawerLayout, relativeProgressProfile, mSubcategoriesRequest, parent, v, groupPosition, id, mProgressBar);
                 return false;
             }
         });
@@ -246,48 +179,7 @@ public class ProfilActivity extends ActivityWithMessage {
         mDrawerlist.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                data = (DataCategory) mAdapter.getGroup(groupPosition - 2);
-                categoryPosition = groupPosition;
-                mChildPosition = childPosition;
-                childId = String.valueOf(id);
-                if (HomeActivity.checkList(DataContainer.categoriesLists, data.id + "." + childId) == false) {
-                    mDrawerLayout.closeDrawers();
-                    relativeProgressProfile.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            relativeProgressProfile.setVisibility(View.VISIBLE);
-                            mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
-                                @Override
-                                public void onResponse(ResponseProducts response) {
-                                    relativeProgressProfile.setVisibility(View.VISIBLE);
-                                    DataContainer.categoriesLists.put(data.id + "." + childId, response.data.results);
-                                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                                    i.putExtra("id", data.id + "." + childId);
-                                    startActivity(i);
-                                    relativeProgressProfile.setVisibility(View.GONE);
-
-
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                                }
-                            });
-
-                            DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
-                        }
-                    }, 200);
-
-                } else {
-                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                    i.putExtra("id", data.id + "." + childId);
-                    startActivity(i);
-                    relativeProgressProfile.setVisibility(View.GONE);
-
-                }
-
-
+                setOnChildClicklistener(mDrawerlist, data, mAdapter, mDrawerLayout, relativeProgressProfile, mSubcategoriesRequest, parent, v, groupPosition, mChildPosition, id);
                 return false;
             }
         });
@@ -468,7 +360,7 @@ public class ProfilActivity extends ActivityWithMessage {
                     } else {
                         DataContainer.login.newsletter = String.valueOf(0);
                     }
-                    DataContainer.login.date_of_birth = daySpinner.getSelectedItem().toString() + "." + monthSpinner.getSelectedItem().toString() + "." + yearSpinner.getSelectedItem().toString();
+                    DataContainer.login.date_of_birth = yearSpinner.getSelectedItem().toString() + "-" + monthSpinner.getSelectedItem().toString() + "-" + daySpinner.getSelectedItem().toString();
                     if (mMale.isChecked()) {
                         DataContainer.login.gender = "muski";
                     } else {
@@ -540,48 +432,52 @@ public class ProfilActivity extends ActivityWithMessage {
     }
 
     public void getProfileData() {
-        mName.setText(DataContainer.login.first_name);
-        mSurname.setText(DataContainer.login.last_name);
-        mEmail.setText(DataContainer.login.email);
-        mMobile.setText(DataContainer.login.cell_phone);
-        mPhone.setText(DataContainer.login.land_line);
-        mFax.setText(DataContainer.login.fax);
-        mStreet.setText(DataContainer.login.address);
-        mNumber.setText(DataContainer.login.street_number);
-        mApartment.setText(DataContainer.login.apartment);
-        mFloor.setText(DataContainer.login.floor);
-        mEntrance.setText(DataContainer.login.entrance);
-        citySpinner.setSelection(addressChangeAcc.getSpinnerIndex(citySpinner, DataContainer.login.city));
-        mPostalCode.setText(DataContainer.login.postal_code);
+        if (DataContainer.login != null) {
+            mName.setText(DataContainer.login.first_name);
+            mSurname.setText(DataContainer.login.last_name);
+            mEmail.setText(DataContainer.login.email);
+            mMobile.setText(DataContainer.login.cell_phone);
+            mPhone.setText(DataContainer.login.land_line);
+            mFax.setText(DataContainer.login.fax);
+            mStreet.setText(DataContainer.login.address);
+            mNumber.setText(DataContainer.login.street_number);
+            mApartment.setText(DataContainer.login.apartment);
+            mFloor.setText(DataContainer.login.floor);
+            mEntrance.setText(DataContainer.login.entrance);
+            citySpinner.setSelection(addressChangeAcc.getSpinnerIndex(citySpinner, DataContainer.login.city));
+            mPostalCode.setText(DataContainer.login.postal_code);
 
-        day = DataContainer.login.date_of_birth.trim().substring(0, 2);
-        daySpinner.setSelection(addressChangeAcc.getSpinnerIndex(daySpinner, day));
-        month = DataContainer.login.date_of_birth.trim().substring(3, 5);
-        monthSpinner.setSelection(addressChangeAcc.getSpinnerIndex(monthSpinner, month));
-        year = DataContainer.login.date_of_birth.trim().substring(7, DataContainer.login.date_of_birth.length());
-        yearSpinner.setSelection(addressChangeAcc.getSpinnerIndex(yearSpinner, year));
-        mEntrance.setText(DataContainer.login.entrance);
-        mCompanyName = (CustomEditTextFont) findViewById(R.id.etCompanyName);
-        mCompanyPib = (CustomEditTextFont) findViewById(R.id.etCompanyPib);
+            day = DataContainer.login.date_of_birth.trim().substring(8, DataContainer.login.date_of_birth.length());
+            daySpinner.setSelection(addressChangeAcc.getSpinnerIndex(daySpinner, day));
+            month = DataContainer.login.date_of_birth.trim().substring(5, 7);
+            monthSpinner.setSelection(addressChangeAcc.getSpinnerIndex(monthSpinner, month));
+            year = DataContainer.login.date_of_birth.trim().substring(0, 4);
+            yearSpinner.setSelection(addressChangeAcc.getSpinnerIndex(yearSpinner, year));
+            mEntrance.setText(DataContainer.login.entrance);
+            mCompanyName = (CustomEditTextFont) findViewById(R.id.etCompanyName);
+            mCompanyPib = (CustomEditTextFont) findViewById(R.id.etCompanyPib);
 
-        if (DataContainer.login.newsletter == String.valueOf("1")) {
-            mCheckBox.setChecked(true);
-        } else {
-            mCheckBox.setChecked(false);
-        }
-        if (DataContainer.login.gender.equalsIgnoreCase("muski")) {
-            mMale.setChecked(true);
-        } else {
-            mFemale.setChecked(true);
-        }
+            if (DataContainer.login.newsletter == String.valueOf("1")) {
+                mCheckBox.setChecked(true);
+            } else {
+                mCheckBox.setChecked(false);
+            }
+            if (DataContainer.login.gender.equalsIgnoreCase("muski")) {
+                mMale.setChecked(true);
+            } else {
+                mFemale.setChecked(true);
+            }
 
-        if (!DataContainer.login.company_name.equalsIgnoreCase("")) {
-            mSwitch.setChecked(true);
-            mRelativeCompany.setVisibility(View.VISIBLE);
-            mCompanyName.setText(DataContainer.login.company_name);
-            mCompanyPib.setText(DataContainer.login.pib);
+            if (!DataContainer.login.company_name.equalsIgnoreCase("")) {
+                mSwitch.setChecked(true);
+                mRelativeCompany.setVisibility(View.VISIBLE);
+                mCompanyName.setText(DataContainer.login.company_name);
+                mCompanyPib.setText(DataContainer.login.pib);
 
-        } else {
+            } else {
+
+            }
+        }else {
 
         }
     }
@@ -619,5 +515,11 @@ public class ProfilActivity extends ActivityWithMessage {
 
 
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        DataLoader.cancelRequest(getApplicationContext(), REQUEST_TAG);
     }
 }

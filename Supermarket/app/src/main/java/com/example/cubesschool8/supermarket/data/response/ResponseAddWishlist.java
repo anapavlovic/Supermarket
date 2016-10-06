@@ -16,6 +16,6 @@ public class ResponseAddWishlist {
         public String status;
         public String message;
         public String error;
-        public ArrayList<DataAddWishlist> results;
+        public String results;
     }
 }

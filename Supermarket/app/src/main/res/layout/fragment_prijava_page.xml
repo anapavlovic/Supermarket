@@ -124,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/tvSkip"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/margin_prijava"
+        android:layout_marginBottom="@dimen/margin10"
         android:text="@string/pass_forgot"
         android:textColor="@color/text_color"
         android:textSize="@dimen/text_size" />

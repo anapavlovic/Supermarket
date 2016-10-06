@@ -15,7 +15,7 @@
         >
 
         <ImageView
-            android:id="@+id/drawerMenuProfil"
+            android:id="@+id/statisticsback"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_alignParentLeft="true"
@@ -26,125 +26,173 @@
             />
 
         <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
-            android:id="@+id/Profil"
+            android:id="@+id/statistics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_prijava"
-            android:layout_toRightOf="@+id/drawerMenuProfil"
+            android:layout_toRightOf="@+id/statisticsback"
             android:text="Statistika"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
 
     </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relativeBarStatistics">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
     <ImageView
         android:id="@+id/userPhoto"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_below="@+id/relativeBarStatistics"
         android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/margin_prijava"
+        android:layout_marginTop="@dimen/margin_prijava"
+        android:layout_marginBottom="50dp"
         android:background="@drawable/personicon"
         android:scaleType="centerCrop" />
 
-    <RelativeLayout
-        android:id="@+id/relativeTotalAmount"
-        android:layout_width="434dp"
-        android:layout_height="227dp"
-        android:layout_below="@+id/userPhoto"
-        android:layout_margin="@dimen/margin_prijava"
-        android:background="#666">
-
-        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvUkupanIznos"
-            android:textSize="53dp"
-            android:textColor="@color/text_color"
-            android:text="$ 3500.00"
-            android:layout_margin="@dimen/margin_prijava"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="66dp"
-            android:background="#50d2c2"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true">
 
 
-            <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size"
-                android:textColor="@color/text_color"
-                android:text="UUKUPAN IZNOS"
-                android:layout_margin="@dimen/margin_prijava"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_top_et"
-                android:background="@drawable/ic_check_circle_white_24dp"
-                android:layout_alignParentRight="true"
-                />
+            <RelativeLayout
+                android:id="@+id/relativeTotalAmount"
+                android:layout_width="434dp"
+                android:layout_height="200dp"
+                android:layout_margin="@dimen/margin10"
+                android:background="@drawable/blue"
+                android:layout_below="@+id/userPhoto">
 
+                <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                    android:id="@+id/tvUkupanIznos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_prijava"
+                    android:text="$ 3500.00"
+                    android:textColor="@color/text_color"
+                    android:textSize="53dp" />
+                <RelativeLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="66dp"
+                     android:background="#50d2c2"
+                     android:layout_alignParentBottom="true"
+                     android:layout_centerHorizontal="true">
+
+
+                     <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:textSize="14dp"
+                         android:textColor="@color/text_color"
+                         android:text="UKUPAN IZNOS"
+                         android:layout_centerVertical="true"
+                         android:layout_margin="@dimen/margin_prijava"/>
+                     <ImageView
+                         android:layout_width="@dimen/icon_size"
+                         android:layout_height="@dimen/icon_size"
+                         android:layout_marginRight="@dimen/margin_top_et"
+                         android:background="@drawable/ic_check_circle_white_24dp"
+                         android:layout_alignParentRight="true"
+                         android:layout_centerVertical="true"
+                         />
+
+                 </RelativeLayout>
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_below="@+id/relativeTotalAmount"
+                android:layout_margin="@dimen/margin10"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin5"
+                    android:layout_weight="1"
+                    android:background="@drawable/orange">
+                    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                        android:id="@+id/tvKupovina"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_prijava"
+                        android:text="12"
+                        android:textColor="@color/text_color"
+                        android:textSize="53dp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:background="#fcab53"
+                        android:layout_alignParentBottom="true">
+
+                        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_prijava"
+                            android:text="KUPOVINE"
+                            android:textColor="@color/text_color"
+                            android:textSize="14dp"
+                            android:layout_centerVertical="true"/>
+                        <ImageView
+                            android:layout_width="@dimen/icon_size"
+                            android:layout_height="@dimen/icon_size"
+                            android:layout_marginRight="@dimen/margin_top_et"
+                            android:background="@drawable/ic_access_time_white_24dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin5"
+                    android:layout_weight="1"
+                    android:background="@drawable/pink">
+                    <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                        android:id="@+id/tvWishList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_prijava"
+                        android:text="1"
+                        android:textColor="@color/text_color"
+                        android:textSize="53dp" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="55dp"
+                        android:background="@color/pink_navigation"
+                        android:layout_alignParentBottom="true">
+
+                        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tvwl"
+                            android:layout_margin="@dimen/margin_prijava"
+                            android:text="WISHLIST"
+                            android:textColor="@color/text_color"
+                            android:textSize="14dp" />
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size"
+                            android:layout_height="@dimen/icon_size"
+                            android:layout_marginRight="@dimen/margin_top_et"
+                            android:background="@drawable/yellowstar"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+            </LinearLayout>
         </RelativeLayout>
-
-
-
-
-    </RelativeLayout>
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="227dp"
-    android:orientation="horizontal"
-    android:layout_below="@+id/relativeTotalAmount"
-    android:layout_margin="@dimen/margin_prijava">
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="#666"
-        android:layout_margin="@dimen/margin5">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="67dp"
-            android:background="#fcab53">
-            <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size"
-                android:textColor="@color/text_color"
-                android:text="KUPOVINE"
-                android:layout_margin="@dimen/margin_prijava"/>
-        </RelativeLayout>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="#666"
-        android:layout_margin="@dimen/margin5">
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="67dp"
-            android:background="#ff3366">
-            <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size"
-                android:textColor="@color/text_color"
-                android:text="WISHLIST"
-                android:layout_margin="@dimen/margin_prijava"/>
-        </RelativeLayout>
-    </RelativeLayout>
-
-
-
-</LinearLayout>
-
+    </ScrollView>
 </RelativeLayout>

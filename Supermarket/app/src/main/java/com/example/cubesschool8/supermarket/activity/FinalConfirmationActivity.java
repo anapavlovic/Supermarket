@@ -179,4 +179,9 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
         return articles;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        DataLoader.cancelRequest(getApplicationContext(), REQUEST_TAG);
+    }
 }

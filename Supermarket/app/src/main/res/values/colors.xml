@@ -13,5 +13,7 @@
     <color name="transparent_error">#d2000000</color>
     <color name="white_transparent">#80ffffff</color>
     <color name="pink_navigation">#ff3366</color>
+    <color name="orange_statistics">#ff3366</color>
+
 
 </resources>

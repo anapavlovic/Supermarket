@@ -60,6 +60,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
         this.mList = object;
         inflater = LayoutInflater.from(mContex);
         mComponentEnabled = true;
+
     }
 
     @Override
@@ -79,19 +80,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
 
 
 ///check wishList
-        if (DataContainer.wishList != null && !DataContainer.wishList.isEmpty()) {
-            for (int j = 0; j < DataContainer.wishList.size(); j++) {
+        if (DataContainer.login != null) {
+            if (DataContainer.login.wish_list != null && !DataContainer.login.wish_list.isEmpty()) {
+                for (int j = 0; j < DataContainer.login.wish_list.size(); j++) {
 
-                if (mList.get(position).id.equalsIgnoreCase(DataContainer.wishList.get(j))) {
-                    holder.star.setTag(R.drawable.yellowstar);
-                    holder.star.setImageResource(R.drawable.yellowstar);
-                    break;
-                } else {
-                    holder.star.setTag(R.drawable.emptystar);
-                    holder.star.setImageResource(R.drawable.emptystar);
+                    if (mList.get(position).id.equalsIgnoreCase(DataContainer.login.wish_list.get(j))) {
+                        holder.star.setTag(R.drawable.yellowstar);
+                        holder.star.setImageResource(R.drawable.yellowstar);
+                        break;
+                    } else {
+                        holder.star.setTag(R.drawable.emptystar);
+                        holder.star.setImageResource(R.drawable.emptystar);
+
+                    }
 
                 }
-
+            } else {
+                holder.star.setTag(R.drawable.emptystar);
+                holder.star.setImageResource(R.drawable.emptystar);
             }
         } else {
             holder.star.setTag(R.drawable.emptystar);
@@ -221,7 +227,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.i("Error", error.toString());
-                            BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                            BusProvider.getInstance().post(new MessageObject(error.toString(), 3000, MessageObject.MESSAGE_ERROR));
                         }
                     }) {
                         @Override

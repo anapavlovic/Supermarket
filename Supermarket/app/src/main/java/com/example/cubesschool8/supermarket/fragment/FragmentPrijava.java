@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.cubesschool8.supermarket.activity.HomeActivity;
 import com.example.cubesschool8.supermarket.R;
+import com.example.cubesschool8.supermarket.activity.IntroActivity;
 import com.example.cubesschool8.supermarket.activity.LogInActivity;
 import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
@@ -57,11 +58,12 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
 
     private Button mProceedButton;
     private CustomEditTextFont mUsername, mPass;
-    private CustomTextViewFont mpasswordForgot,mSkip;
+    private CustomTextViewFont mpasswordForgot, mSkip;
     private CheckBox mCheckSaveUserDAata;
     private Dialog mDialog;
     private final String REQUEST_TAG = "Start_activity";
     private GsonRequest<ResponseLogIn> mRequestLogIn;
+    private SharedPreferences prefs;
 
     private GsonRequest<ResponseForgotPassword> mRequestForgotPassword;
 
@@ -87,7 +89,7 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
         mPass = (CustomEditTextFont) getView().findViewById(R.id.tvPass);
         mpasswordForgot = (CustomTextViewFont) getView().findViewById(R.id.tvpassforgot);
         mCheckSaveUserDAata = (CheckBox) getView().findViewById(R.id.checkboxSaveUserData);
-        mSkip = (CustomTextViewFont)getView().findViewById(R.id.tvSkip);
+        mSkip = (CustomTextViewFont) getView().findViewById(R.id.tvSkip);
     }
 
     private void addListener() {
@@ -95,7 +97,16 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
         mSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(),HomeActivity.class));
+
+                prefs = getActivity().getSharedPreferences("PrefsIntro", 0);
+                boolean b = prefs.getBoolean("firstRun", false);
+                if (b == false) {
+                    startActivity(new Intent(getActivity(), IntroActivity.class));
+                    getActivity().finish();
+                } else {
+                    startActivity(new Intent(getActivity(), HomeActivity.class));
+                    getActivity().finish();
+                }
             }
         });
         mProceedButton.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +123,7 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                             Log.i("Response", response.toString());
                             DataContainer.login = response.data.results;
                             DataContainer.LOGIN_TOKEN = response.data.login_token;
-                            DataContainer.wishList = response.data.results.wish_list;
+
 
                             if (response.data.error != "") {
                                 BusProvider.getInstance().post(new MessageObject(R.string.login_incorrect, 3000, MessageObject.MESSAGE_ERROR));
@@ -121,17 +132,25 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                                 if (mCheckSaveUserDAata.isChecked()) {
                                     // String md5Username = encryptIt(mUsername.getText().toString());
                                     //  String md5Password= encryptIt(mPass.getText().toString());
-                                    SharedPreferences prefs = getActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+                                     prefs = getActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = prefs.edit();
                                     editor.putBoolean("checked", true);
                                     editor.putString("username", mUsername.getText().toString());
                                     editor.putString("password", mPass.getText().toString());
                                     editor.commit();
-                                    startActivity(new Intent(getActivity(), HomeActivity.class));
-                                    getActivity().finish();
+
+                                    prefs = getActivity().getSharedPreferences("PrefsIntro", 0);
+                                    boolean b = prefs.getBoolean("firstRun", false);
+                                    if (b == false) {
+                                        startActivity(new Intent(getActivity(), IntroActivity.class));
+                                        getActivity().finish();
+                                    } else {
+                                        startActivity(new Intent(getActivity(), HomeActivity.class));
+                                        getActivity().finish();
+                                    }
 
                                 } else {
-                                    startActivity(new Intent(getActivity(), HomeActivity.class));
+                                    startActivity(new Intent(getActivity(), IntroActivity.class));
                                     getActivity().finish();
                                 }
                             }

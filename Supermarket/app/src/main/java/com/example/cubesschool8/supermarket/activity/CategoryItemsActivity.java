@@ -63,7 +63,8 @@ public class CategoryItemsActivity extends ActivityWithMessage {
     private String childId;
     private GsonRequest<ResponseProducts> mSubcategoriesRequest;
     private Animation animation;
-
+    private HomeActivity mHomeactivity;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class CategoryItemsActivity extends ActivityWithMessage {
         setContentView(R.layout.activity_category_items);
         inicComp();
         addListener();
-
+        context = this.getApplicationContext();
 
     }
 
@@ -86,7 +87,7 @@ public class CategoryItemsActivity extends ActivityWithMessage {
         mDrawerlist = (ExpandableListView) findViewById(R.id.drawerList);
         tvEmptyCategory = (CustomTextViewFont) findViewById(R.id.tvEmptyCategory);
         tvEmptyCategory2 = (CustomTextViewFont) findViewById(R.id.tvEmpty);
-
+        mHomeactivity = new HomeActivity();
         mRelativeProgress = (RelativeLayout) findViewById(R.id.relativeProgressHome);
         progressBar = (ProgressBar) findViewById(R.id.progressCategory);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#feea00"), PorterDuff.Mode.SRC_IN);
@@ -171,67 +172,7 @@ public class CategoryItemsActivity extends ActivityWithMessage {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
-
-                categoryPosition = groupPosition;
-                if (groupPosition > 1 && groupPosition < DataContainer.categories.size() + 2) {
-                    data = (DataCategory) mAdapterNavigation.getGroup(groupPosition - 2);
-                    if (mAdapterNavigation.getChildrenCount(groupPosition) == 0) {
-                        if (checkList(DataContainer.categoriesLists, data.id) == false) {
-                            mDrawerLayout.closeDrawers();
-                            mRelativeProgress.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mRelativeProgress.setVisibility(View.VISIBLE);
-                                    mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
-                                        @Override
-                                        public void onResponse(ResponseProducts response) {
-                                            DataContainer.categoriesLists.put(data.id, response.data.results);
-                                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                                            i.putExtra("id", data.id);
-                                            startActivity(i);
-                                            mRelativeProgress.setVisibility(View.GONE);
-
-                                        }
-                                    }, new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                                        }
-                                    });
-
-                                    DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
-                                }
-                            }, 200);
-
-
-                        } else {
-                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                            i.putExtra("id", data.id);
-                            startActivity(i);
-                            mRelativeProgress.setVisibility(View.GONE);
-                        }
-                    } else {
-
-                    }
-                } else if (groupPosition == DataContainer.categories.size() + 3) {
-                    startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
-                } else if (groupPosition == DataContainer.categories.size() + 4) {
-
-                    startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
-
-
-
-                } else if (groupPosition == DataContainer.categories.size() + 5) {
-
-                    startActivity(new Intent(getApplicationContext(), LogInActivity.class));
-
-                    SharedPreferences settings = getSharedPreferences("MyPreferences", 0);
-                    settings.edit().remove("checked").commit();
-                    settings.edit().remove("username").commit();
-                    settings.edit().remove("password").commit();
-                    finish();
-
-                }
+                setGroupClickListener(mDrawerlist, data, mAdapterNavigation, mDrawerLayout, mRelativeProgress, mSubcategoriesRequest, parent, v, groupPosition, id, progressBar);
                 return false;
             }
         });
@@ -239,46 +180,7 @@ public class CategoryItemsActivity extends ActivityWithMessage {
         mDrawerlist.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                data = (DataCategory) mAdapterNavigation.getGroup(groupPosition - 2);
-                categoryPosition = groupPosition;
-                mChildPosition = childPosition;
-                childId = String.valueOf(id);
-                if (checkList(DataContainer.categoriesLists, data.id + "." + childId) == false) {
-                    mDrawerLayout.closeDrawers();
-                    mRelativeProgress.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mRelativeProgress.setVisibility(View.VISIBLE);
-                            mSubcategoriesRequest = new GsonRequest<ResponseProducts>(Constant.SUBCATEGORIES_URL + data.id, Request.Method.GET, ResponseProducts.class, new Response.Listener<ResponseProducts>() {
-                                @Override
-                                public void onResponse(ResponseProducts response) {
-                                    mRelativeProgress.setVisibility(View.VISIBLE);
-                                    DataContainer.categoriesLists.put(data.id + "." + childId, response.data.results);
-                                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                                    i.putExtra("id", data.id + "." + childId);
-                                    startActivity(i);
-                                    mRelativeProgress.setVisibility(View.GONE);
-
-
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                                }
-                            });
-
-                            DataLoader.addRequest(getApplicationContext(), mSubcategoriesRequest, REQUEST_TAG);
-                        }
-                    }, 200);
-
-                } else {
-                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                    i.putExtra("id", data.id + "." + childId);
-                    startActivity(i);
-                    mRelativeProgress.setVisibility(View.GONE);
-
-                }
+                setOnChildClicklistener(mDrawerlist, data, mAdapterNavigation, mDrawerLayout, mRelativeProgress, mSubcategoriesRequest, parent, v, groupPosition, mChildPosition, id);
 
 
                 return false;
@@ -314,5 +216,6 @@ public class CategoryItemsActivity extends ActivityWithMessage {
         }
         return isIntheList;
     }
+
 
 }
