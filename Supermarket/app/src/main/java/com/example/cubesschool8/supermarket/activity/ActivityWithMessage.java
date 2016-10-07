@@ -151,7 +151,7 @@ public class ActivityWithMessage extends AppCompatActivity {
         SubcategoriesRequest = mSubcategoriesRequest;
         Drawerlist = mDrawerlist;
         mcategoryPosition = groupPosition;
-        progressBar=mprogressbar;
+        progressBar = mprogressbar;
         if (groupPosition > 1 && groupPosition < DataContainer.categories.size() + 2) {
             mdata = (DataCategory) Adapter.getGroup(groupPosition - 2);
             if (Adapter.getChildrenCount(groupPosition) == 0) {
@@ -201,6 +201,7 @@ public class ActivityWithMessage extends AppCompatActivity {
 
                     startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
 
+
                 }
             }, 300);
         } else if (groupPosition == DataContainer.categories.size() + 4) {
@@ -210,11 +211,11 @@ public class ActivityWithMessage extends AppCompatActivity {
                 public void run() {
                     if (DataContainer.login != null) {
                         startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
+
                     } else {
 
-                        Toast.makeText(getApplicationContext(), R.string.no_profile, Toast.LENGTH_SHORT).show();
-                      /*  mRelativeProgress.setVisibility(View.VISIBLE);
-                        HomeActivity.recyclerView.setFocusable(false);
+                        mRelativeProgress.setVisibility(View.VISIBLE);
+                        mRelativeProgress.setClickable(true);
                         progressBar.setVisibility(View.INVISIBLE);
                         BusProvider.getInstance().post(new MessageObject(R.string.no_profile, 3000, MessageObject.MESSAGE_INFO));
                         handler.postDelayed(new Runnable() {
@@ -223,20 +224,33 @@ public class ActivityWithMessage extends AppCompatActivity {
                                 mRelativeProgress.setVisibility(View.GONE);
                                 progressBar.setVisibility(View.VISIBLE);
                             }
-                        },5000);*/
+                        }, 5000);
 
                     }
 
                 }
-            }, 300);
+            }, 500);
 
         } else if (groupPosition == DataContainer.categories.size() + 5) {
             DrawerLayout.closeDrawers();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
-                    startActivity(new Intent(getApplicationContext(), StatisticsActivity.class));
+                    if (DataContainer.login != null) {
+                        startActivity(new Intent(getApplicationContext(), StatisticsActivity.class));
+                    } else {
+                        mRelativeProgress.setVisibility(View.VISIBLE);
+                        mRelativeProgress.setClickable(true);
+                        progressBar.setVisibility(View.INVISIBLE);
+                        BusProvider.getInstance().post(new MessageObject(R.string.no_profile, 3000, MessageObject.MESSAGE_INFO));
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mRelativeProgress.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.VISIBLE);
+                            }
+                        }, 5000);
+                    }
 
                 }
             }, 300);
@@ -250,6 +264,7 @@ public class ActivityWithMessage extends AppCompatActivity {
             finish();
 
         }
+
 
     }
 

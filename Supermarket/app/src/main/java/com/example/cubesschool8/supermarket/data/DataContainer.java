@@ -28,7 +28,9 @@ public class DataContainer {
     public static ArrayList<DataProducts> basketList = new ArrayList<>();
     public static DataLogIn addressChange = new DataLogIn();
     public static ArrayList<DataProducts> wishList;
-    public static String addWishlist;
+    public static ArrayList<String> addWishlist;
+    public static ArrayList<DataProducts> myPurchasesList;
+
 
     public static String changeProfileDataList;
 

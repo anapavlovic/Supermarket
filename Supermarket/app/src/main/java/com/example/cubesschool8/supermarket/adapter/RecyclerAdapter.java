@@ -28,6 +28,7 @@ import com.example.cubesschool8.supermarket.activity.ProductItemActivity;
 import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataContainer;
+import com.example.cubesschool8.supermarket.data.DataLogIn;
 import com.example.cubesschool8.supermarket.data.DataProducts;
 
 import com.example.cubesschool8.supermarket.data.response.ResponseAddWishlist;
@@ -214,40 +215,80 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
             } else if (v == star) {
 
                 Object tag = star.getTag();
+                if (DataContainer.login != null) {
 
-                if (tag.equals(R.drawable.emptystar)) {
+                    if (tag.equals(R.drawable.emptystar)) {
 
-                    mRequestAddWishlist = new GsonRequest<ResponseAddWishlist>(Constant.URL_FAVOURITES_ADD, Request.Method.POST, ResponseAddWishlist.class, new Response.Listener<ResponseAddWishlist>() {
-                        @Override
-                        public void onResponse(ResponseAddWishlist response) {
-                            DataContainer.addWishlist = response.data.results;
-                            star.setImageResource(R.drawable.yellowstar);
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.i("Error", error.toString());
-                            BusProvider.getInstance().post(new MessageObject(error.toString(), 3000, MessageObject.MESSAGE_ERROR));
-                        }
-                    }) {
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String, String> params = new HashMap<String, String>();
+////ADD
+                        mRequestAddWishlist = new GsonRequest<ResponseAddWishlist>(Constant.URL_FAVOURITES_ADD, Request.Method.POST, ResponseAddWishlist.class, new Response.Listener<ResponseAddWishlist>() {
+                            @Override
+                            public void onResponse(ResponseAddWishlist response) {
+                                DataContainer.addWishlist = response.data.results;
+                                DataContainer.login.wish_list.add(mList.get(getAdapterPosition()).id);
+                                star.setImageResource(R.drawable.yellowstar);
 
-                            params.put("token", DataContainer.TOKEN);
-                            params.put("user_id", DataContainer.login.id);
-                            params.put("article_id", mList.get(getAdapterPosition()).id);
-                            return params;
-                        }
-                    };
 
-                    DataLoader.addRequest(mContex, mRequestAddWishlist, REQUEST_TAG);
-                } else if (tag.equals(R.drawable.yellowstar)) {
-                    star.setEnabled(false);
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.i("Error", error.toString());
+                                BusProvider.getInstance().post(new MessageObject(error.toString(), 3000, MessageObject.MESSAGE_ERROR));
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError {
+                                Map<String, String> params = new HashMap<String, String>();
+
+                                params.put("token", DataContainer.TOKEN);
+                                params.put("user_id", DataContainer.login.id);
+                                params.put("item_id", mList.get(getAdapterPosition()).id);
+                                return params;
+                            }
+                        };
+                        DataLoader.addRequest(mContex, mRequestAddWishlist, REQUEST_TAG);
+
+
+                    } else if (tag.equals(R.drawable.yellowstar)) {
+//// REMOVE WISH
+                        mRequestAddWishlist = new GsonRequest<ResponseAddWishlist>(Constant.URL_FAVOURITES_ADD, Request.Method.POST, ResponseAddWishlist.class, new Response.Listener<ResponseAddWishlist>() {
+                            @Override
+                            public void onResponse(ResponseAddWishlist response) {
+                                DataContainer.addWishlist = response.data.results;
+                                DataContainer.login.wish_list.remove(mList.get(getAdapterPosition()).id);
+                                star.setImageResource(R.drawable.emptystar);
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.i("Error", error.toString());
+                                BusProvider.getInstance().post(new MessageObject(error.toString(), 3000, MessageObject.MESSAGE_ERROR));
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError {
+                                Map<String, String> params = new HashMap<String, String>();
+
+                                params.put("token", DataContainer.TOKEN);
+                                params.put("user_id", DataContainer.login.id);
+                                params.put("item_id", mList.get(getAdapterPosition()).id);
+                                return params;
+                            }
+                        };
+
+                        DataLoader.addRequest(mContex, mRequestAddWishlist, REQUEST_TAG);
+
+                    }
+                } else {
+                    Toast.makeText(mContex, "Ulogujte se", Toast.LENGTH_SHORT).show();
                 }
+
             }
         }
     }
+
+
 }
 
 

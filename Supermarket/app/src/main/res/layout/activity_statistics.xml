@@ -134,6 +134,7 @@
                         <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/purchase"
                             android:layout_margin="@dimen/margin_prijava"
                             android:text="KUPOVINE"
                             android:textColor="@color/text_color"

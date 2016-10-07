@@ -17,6 +17,7 @@ import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.DataProducts;
+import com.example.cubesschool8.supermarket.data.response.ResponseMyPurchases;
 import com.example.cubesschool8.supermarket.data.response.ResponseWishlist;
 import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
@@ -30,9 +31,10 @@ import java.util.Map;
 public class StatisticsActivity extends AppCompatActivity {
     private final String REQUEST_TAG = "Start_activity";
     private ImageView mBack;
-    private CustomTextViewFont totalAmount, purchase, wishListCount, wishlist;
+    private CustomTextViewFont totalAmount, purchaseCount, wishListCount, wishlist, purchase;
 
     private GsonRequest<ResponseWishlist> mRequestWishList;
+    private GsonRequest<ResponseMyPurchases> mRequestMyPurchases;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class StatisticsActivity extends AppCompatActivity {
         @Override
         protected ArrayList<DataProducts> doInBackground(GsonRequest... params) {
             getWishlist();
+            getPurchases();
             return null;
         }
 
@@ -58,18 +61,29 @@ public class StatisticsActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<DataProducts> dataProductses) {
             super.onPostExecute(dataProductses);
             setWishListCount();
+            setMyPurchasescount();
+
         }
     }
 
     public void setWishListCount() {
-        super.onResume();
-        if (DataContainer.wishList != null) {
-            wishListCount.setText(String.valueOf(DataContainer.wishList.size()));
+        if (DataContainer.login.wish_list != null) {
+            wishListCount.setText(String.valueOf(DataContainer.login.wish_list.size()));
         } else {
             wishListCount.setText(String.valueOf(0));
         }
     }
 
+
+    public void setMyPurchasescount(){
+        if(DataContainer.myPurchasesList!=null){
+            purchaseCount.setText(String.valueOf(DataContainer.myPurchasesList.size()));
+
+        }else {
+            purchaseCount.setText(String.valueOf(0));
+        }
+
+    }
 
     private void addListener() {
 
@@ -88,12 +102,23 @@ public class StatisticsActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+
+        purchase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                i.putExtra("wishlist", HomeActivity.MY_PURCHASE_LIST);
+                startActivity(i);
+            }
+        });
     }
 
     private void inicComp() {
         mBack = (ImageView) findViewById(R.id.statisticsback);
         totalAmount = (CustomTextViewFont) findViewById(R.id.tvUkupanIznos);
-        purchase = (CustomTextViewFont) findViewById(R.id.tvKupovina);
+        purchaseCount = (CustomTextViewFont) findViewById(R.id.tvKupovina);
+        purchase = (CustomTextViewFont) findViewById(R.id.purchase);
         wishListCount = (CustomTextViewFont) findViewById(R.id.tvWishList);
         wishlist = (CustomTextViewFont) findViewById(R.id.tvwl);
     }
@@ -130,10 +155,47 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
 
+    public void getPurchases() {
+        mRequestMyPurchases = new GsonRequest<ResponseMyPurchases>(Constant.MY_PURCHASES, Request.Method.POST, ResponseMyPurchases.class, new Response.Listener<ResponseMyPurchases>() {
+            @Override
+            public void onResponse(ResponseMyPurchases response) {
+
+                DataContainer.myPurchasesList = response.data.results;
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("mRequestMyPurchases", "onErrorResponse:" + error.toString());
+                BusProvider.getInstance().post(new MessageObject(error.toString(), 3000, MessageObject.MESSAGE_ERROR));
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("token", DataContainer.TOKEN);
+                params.put("login_token", DataContainer.LOGIN_TOKEN);
+                params.put("id", DataContainer.login.id);
+                return params;
+            }
+        };
+
+        DataLoader.addRequest(getApplicationContext(), mRequestMyPurchases, REQUEST_TAG);
+
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         DataLoader.cancelRequest(getApplicationContext(), REQUEST_TAG);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }
 

@@ -19,14 +19,16 @@
         </activity>
         <activity
             android:name=".activity.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode= "singleInstance" />
         <activity
             android:name=".activity.LogInActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.TermsOfUseActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode= "singleInstance" />
         <activity
             android:name=".activity.ActivityWithMessage"
             android:screenOrientation="portrait" />
@@ -36,7 +38,8 @@
         <activity
             android:name=".activity.BasketActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode= "singleInstance" />
         <activity
             android:name=".activity.AddressChangeActivity"
             android:screenOrientation="portrait" />
@@ -52,9 +55,11 @@
         <activity
             android:name=".activity.ProfilActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode= "singleInstance" />
         <activity android:name=".activity.SettingsActivity" />
-        <activity android:name=".activity.StatisticsActivity"></activity>
+        <activity android:name=".activity.StatisticsActivity"
+            android:launchMode= "singleInstance" ></activity>
     </application>
 
 </manifest>

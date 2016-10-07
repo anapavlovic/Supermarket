@@ -51,7 +51,7 @@ import java.util.Map;
 
 public class HomeActivity extends ActivityWithMessage {
 
-    public static final int WISHLIST = 0;
+    public static final int WISHLIST = 0, MY_PURCHASE_LIST = 1;
 
     private final String REQUEST_TAG = "Start_activity";
     private ImageView mDrawerMenu, mSearch, mShoppingCart;
@@ -93,6 +93,9 @@ public class HomeActivity extends ActivityWithMessage {
         if (extras != null) {
             if (extras.getInt("wishlist") == WISHLIST) {
                 mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.wishList);
+                recyclerView.setAdapter(mrecyclerAdapter);
+            } else if (extras.getInt("wishlist") == MY_PURCHASE_LIST) {
+                mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.myPurchasesList);
                 recyclerView.setAdapter(mrecyclerAdapter);
             } else {
                 mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.products);

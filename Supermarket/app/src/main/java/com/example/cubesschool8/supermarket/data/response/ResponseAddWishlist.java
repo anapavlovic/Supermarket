@@ -2,6 +2,7 @@ package com.example.cubesschool8.supermarket.data.response;
 
 import com.example.cubesschool8.supermarket.data.DataAddWishlist;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +17,6 @@ public class ResponseAddWishlist {
         public String status;
         public String message;
         public String error;
-        public String results;
+        public ArrayList<String> results;
     }
 }
