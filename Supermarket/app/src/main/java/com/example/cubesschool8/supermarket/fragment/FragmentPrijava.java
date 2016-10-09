@@ -27,6 +27,7 @@ import com.example.cubesschool8.supermarket.activity.HomeActivity;
 import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.activity.IntroActivity;
 import com.example.cubesschool8.supermarket.activity.LogInActivity;
+import com.example.cubesschool8.supermarket.adapter.NavigationAdapter;
 import com.example.cubesschool8.supermarket.constant.Constant;
 import com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont;
 import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
@@ -104,7 +105,9 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                     startActivity(new Intent(getActivity(), IntroActivity.class));
                     getActivity().finish();
                 } else {
-                    startActivity(new Intent(getActivity(), HomeActivity.class));
+                    Intent i = new Intent(getActivity(), HomeActivity.class);
+                    i.putExtra("skip", NavigationAdapter.SKIP);
+                    startActivity(i);
                     getActivity().finish();
                 }
             }

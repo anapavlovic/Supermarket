@@ -16,7 +16,7 @@
     <string name="days_months">Izabrani mesec nema taj broj dana.</string>
     <string name="invalid_emal">Invalid Email Address</string>
     <string name="required_fields">Niste popunili sva polja.</string>
-    <string name="server_error">Greška na serveru. Pokušajte kasnije.</string>
+    <string name="server_error">Proverite internet konekciju i pokušajte ponovo.</string>
     <string name="phone_length">Proverite uneti broj telefona</string>
     <string name="radiogroup_check">Izaberite pol</string>
     <string name="pass_match">Lozinke se ne podudaraju.</string>

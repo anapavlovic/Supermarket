@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -57,6 +58,7 @@ public class SettingsActivity extends ActivityWithMessage {
     private GsonRequest<ResponseProducts> mSubcategoriesRequest;
     private ArrayList<DataCategory> subCategories;
     public ViewGroup mRootView;
+    private Handler handler = new Handler();
 
     private HashMap<DataCategory, List<DataCategory>> childList = new HashMap<>();
 
@@ -77,6 +79,8 @@ public class SettingsActivity extends ActivityWithMessage {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), TermsOfUseActivity.class));
+
+
             }
         });
 
@@ -85,6 +89,8 @@ public class SettingsActivity extends ActivityWithMessage {
             public void onClick(View v) {
                 if (DataContainer.login != null) {
                     startActivity(new Intent(getApplicationContext(), ProfilActivity.class));
+                    finish();
+
                 } else {
                     BusProvider.getInstance().post(new MessageObject(R.string.no_profile, 3000, MessageObject.MESSAGE_INFO));
                 }
@@ -123,7 +129,7 @@ public class SettingsActivity extends ActivityWithMessage {
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
 
-                setGroupClickListener(mDrawerlist, data, mAdapter, mDrawerLayout, mRelativeProgress, mSubcategoriesRequest, parent, v, groupPosition, id,progressBar);
+                setGroupClickListener(mDrawerlist, data, mAdapter, mDrawerLayout, mRelativeProgress, mSubcategoriesRequest, parent, v, groupPosition, id, progressBar);
                 return false;
             }
         });
@@ -132,9 +138,8 @@ public class SettingsActivity extends ActivityWithMessage {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 setOnChildClicklistener(mDrawerlist, data, mAdapter, mDrawerLayout, mRelativeProgress, mSubcategoriesRequest, parent, v, groupPosition, mChildPosition, id);
-
-
                 return false;
+
             }
         });
 

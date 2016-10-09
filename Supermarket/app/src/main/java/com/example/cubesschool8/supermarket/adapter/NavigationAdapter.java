@@ -1,9 +1,11 @@
 package com.example.cubesschool8.supermarket.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
@@ -28,6 +30,8 @@ import java.util.List;
  * Created by cubesschool8 on 9/28/16.
  */
 public class NavigationAdapter extends BaseExpandableListAdapter {
+
+    public static final int SKIP = 0;
     private Context context;
     private int resource;
     private ArrayList<DataCategory> list;
@@ -91,7 +95,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(int groupPosition, boolean isExpanded, final View convertView, ViewGroup parent) {
         View row = convertView;
         Holder holder = null;
 
@@ -108,21 +112,29 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
             } else {
                 holder = (Holder) row.getTag(R.layout.drawer_adapter_layout);
             }
+            Bundle extras = ((Activity) context).getIntent().getExtras();
+
             if (DataContainer.login != null) {
-                Glide.with(context).load(DataContainer.login.userImage).asBitmap().centerCrop().into(new BitmapImageViewTarget(holder.image) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(context.getResources(), resource);
-                        circularBitmapDrawable.setCircular(true);
-                        new Holder().image.setImageDrawable(circularBitmapDrawable);
-
+                if (extras != null) {
+                    if (extras.getInt("skip") == SKIP) {
                     }
-                });
+                } else {
+                    Glide.with(context).load(DataContainer.login.userImage).asBitmap().centerCrop().into(new BitmapImageViewTarget(holder.image) {
+                        @Override
+                        protected void setResource(Bitmap resource) {
+                            RoundedBitmapDrawable circularBitmapDrawable =
+                                    RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                            circularBitmapDrawable.setCircular(true);
+                            new Holder().image.setImageDrawable(circularBitmapDrawable);
+
+                        }
+                    });
 
 
-                holder.name.setText(DataContainer.login.first_name + " " + DataContainer.login.last_name);
-                holder.email.setText(DataContainer.login.email);
+                    holder.name.setText(DataContainer.login.first_name + " " + DataContainer.login.last_name);
+                    holder.email.setText(DataContainer.login.email);
+                }
+            } else {
             }
 
         } else if (groupPosition == 1) {
@@ -138,17 +150,11 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
             }
             holder.iconImage.setVisibility(View.VISIBLE);
-
+            holder.category.setVisibility(View.VISIBLE);
             holder.iconImage.setImageResource(R.drawable.home);
             holder.underline.setVisibility(View.VISIBLE);
             holder.category.setText("Home");
             holder.category.setTextColor(Color.parseColor("#ff3366"));
-            row.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.startActivity(new Intent(context.getApplicationContext(), HomeActivity.class));
-                }
-            });
 
 
         }
@@ -185,12 +191,12 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
             } else {
                 holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
             }
-
+            holder.category.setVisibility(View.VISIBLE);
+            holder.iconImage.setVisibility(View.VISIBLE);
             holder.category.setText(R.string.settings);
             holder.iconImage.setImageResource(R.drawable.ic_settings_black_24dp);
 
-            holder.category.setVisibility(View.VISIBLE);
-            holder.iconImage.setVisibility(View.VISIBLE);
+
             holder.underline.setVisibility(View.GONE);
 
 
@@ -206,10 +212,8 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
             } else {
                 holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
             }
-
-            holder.category.setText(R.string.profil);
-
             holder.category.setVisibility(View.VISIBLE);
+            holder.category.setText(R.string.profil);
             holder.iconImage.setVisibility(View.VISIBLE);
             holder.underline.setVisibility(View.GONE);
             holder.iconImage.setImageResource(R.drawable.usernamegray);
@@ -227,16 +231,14 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
             } else {
                 holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
             }
-
-            holder.category.setText(R.string.statistics);
-
             holder.category.setVisibility(View.VISIBLE);
+            holder.category.setText(R.string.statistics);
             holder.iconImage.setVisibility(View.VISIBLE);
             holder.underline.setVisibility(View.GONE);
-            holder.iconImage.setImageResource(R.drawable.usernamegray);
+            holder.iconImage.setImageResource(R.drawable.ststc);
 
 
-        }else if (groupPosition == list.size() + 6) {
+        } else if (groupPosition == list.size() + 6) {
             if (row == null) {
                 row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
                 holder = new Holder();
@@ -249,9 +251,8 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
             }
 
-            holder.category.setText(R.string.logout);
-
             holder.category.setVisibility(View.VISIBLE);
+            holder.category.setText(R.string.logout);
 
             holder.underline.setVisibility(View.GONE);
             holder.iconImage.setVisibility(View.VISIBLE);
@@ -282,6 +283,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
                 holder.iconImage.setImageResource(R.drawable.menuicon);
                 if (isExpanded) {
                     holder.category.setTextColor(context.getResources().getColor(R.color.pink_navigation));
+
                 } else {
                     holder.category.setTextColor(Color.BLACK);
                 }

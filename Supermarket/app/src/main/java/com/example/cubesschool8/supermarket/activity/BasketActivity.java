@@ -82,6 +82,7 @@ public class BasketActivity extends ActivityWithMessage implements BasketAdapter
                         Intent i = new Intent(getApplicationContext(), AddressChangeActivity.class);
                         i.putExtra("total", mTotalSum.getText().toString());
                         startActivity(i);
+                        finish();
                     }
                 } else {
                     mBuyButton.setClickable(false);

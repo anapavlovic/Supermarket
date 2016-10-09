@@ -152,7 +152,21 @@ public class ActivityWithMessage extends AppCompatActivity {
         Drawerlist = mDrawerlist;
         mcategoryPosition = groupPosition;
         progressBar = mprogressbar;
-        if (groupPosition > 1 && groupPosition < DataContainer.categories.size() + 2) {
+
+        if (groupPosition == 1) {
+            DrawerLayout.closeDrawers();
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+
+
+                }
+            }, 400);
+
+        } else if (groupPosition > 1 && groupPosition < DataContainer.categories.size() + 2) {
             mdata = (DataCategory) Adapter.getGroup(groupPosition - 2);
             if (Adapter.getChildrenCount(groupPosition) == 0) {
                 if (HomeActivity.checkList(DataContainer.categoriesLists, mdata.id) == false) {
@@ -180,14 +194,22 @@ public class ActivityWithMessage extends AppCompatActivity {
 
                             DataLoader.addRequest(getApplicationContext(), SubcategoriesRequest, REQUEST_TAG);
                         }
-                    }, 200);
+                    }, 300);
 
 
                 } else {
-                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-                    i.putExtra("id", mdata.id);
-                    startActivity(i);
-                    RelativeProgress.setVisibility(View.GONE);
+                    DrawerLayout.closeDrawers();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            RelativeProgress.setVisibility(View.GONE);
+                            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                            i.putExtra("id", mdata.id);
+                            startActivity(i);
+                        }
+                    },300);
+
+
                 }
             } else {
 
@@ -203,7 +225,7 @@ public class ActivityWithMessage extends AppCompatActivity {
 
 
                 }
-            }, 300);
+            }, 400);
         } else if (groupPosition == DataContainer.categories.size() + 4) {
             DrawerLayout.closeDrawers();
             handler.postDelayed(new Runnable() {
@@ -229,7 +251,7 @@ public class ActivityWithMessage extends AppCompatActivity {
                     }
 
                 }
-            }, 500);
+            }, 400);
 
         } else if (groupPosition == DataContainer.categories.size() + 5) {
             DrawerLayout.closeDrawers();
@@ -238,6 +260,7 @@ public class ActivityWithMessage extends AppCompatActivity {
                 public void run() {
                     if (DataContainer.login != null) {
                         startActivity(new Intent(getApplicationContext(), StatisticsActivity.class));
+
                     } else {
                         mRelativeProgress.setVisibility(View.VISIBLE);
                         mRelativeProgress.setClickable(true);
@@ -253,7 +276,7 @@ public class ActivityWithMessage extends AppCompatActivity {
                     }
 
                 }
-            }, 300);
+            }, 400);
         } else if (groupPosition == DataContainer.categories.size() + 6) {
             startActivity(new Intent(getApplicationContext(), LogInActivity.class));
 
@@ -310,13 +333,20 @@ public class ActivityWithMessage extends AppCompatActivity {
 
                     DataLoader.addRequest(getApplicationContext(), SubcategoriesRequest, REQUEST_TAG);
                 }
-            }, 200);
+            }, 300);
 
         } else {
-            Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
-            i.putExtra("id", mdata.id + "." + childId);
-            startActivity(i);
-            RelativeProgress.setVisibility(View.GONE);
+            DrawerLayout.closeDrawers();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(getApplicationContext(), CategoryItemsActivity.class);
+                    i.putExtra("id", mdata.id + "." + childId);
+                    startActivity(i);
+                    RelativeProgress.setVisibility(View.GONE);
+                }
+            },300);
+
 
         }
 

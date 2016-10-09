@@ -2,11 +2,14 @@ package com.example.cubesschool8.supermarket.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -28,10 +31,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StatisticsActivity extends AppCompatActivity {
+
+public class StatisticsActivity extends ActivityWithMessage {
     private final String REQUEST_TAG = "Start_activity";
     private ImageView mBack;
     private CustomTextViewFont totalAmount, purchaseCount, wishListCount, wishlist, purchase;
+    private RelativeLayout mRelativeProgress;
+    private ProgressBar progressBar;
+    private Handler handler = new Handler();
 
     private GsonRequest<ResponseWishlist> mRequestWishList;
     private GsonRequest<ResponseMyPurchases> mRequestMyPurchases;
@@ -53,7 +60,8 @@ public class StatisticsActivity extends AppCompatActivity {
         @Override
         protected ArrayList<DataProducts> doInBackground(GsonRequest... params) {
             getWishlist();
-            getPurchases();
+
+
             return null;
         }
 
@@ -62,6 +70,7 @@ public class StatisticsActivity extends AppCompatActivity {
             super.onPostExecute(dataProductses);
             setWishListCount();
             setMyPurchasescount();
+            setTotalPurchasesAmount();
 
         }
     }
@@ -75,14 +84,18 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
 
-    public void setMyPurchasescount(){
-        if(DataContainer.myPurchasesList!=null){
+    public void setMyPurchasescount() {
+        if (DataContainer.myPurchasesList != null) {
             purchaseCount.setText(String.valueOf(DataContainer.myPurchasesList.size()));
 
-        }else {
+        } else {
             purchaseCount.setText(String.valueOf(0));
         }
 
+    }
+
+    public void setTotalPurchasesAmount() {
+        totalAmount.setText(String.valueOf(countTotalPurchasesAmount()));
     }
 
     private void addListener() {
@@ -97,9 +110,10 @@ public class StatisticsActivity extends AppCompatActivity {
         wishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-                i.putExtra("wishlist", HomeActivity.WISHLIST);
+                Intent i = new Intent(getApplicationContext(), WishListActivity.class);
+                //i.putExtra("wishlist", HomeActivity.WISHLIST);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -107,9 +121,10 @@ public class StatisticsActivity extends AppCompatActivity {
         purchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-                i.putExtra("wishlist", HomeActivity.MY_PURCHASE_LIST);
+                Intent i = new Intent(getApplicationContext(), MyPurchasesActivity.class);
+               // i.putExtra("wishlist", HomeActivity.MY_PURCHASE_LIST);
                 startActivity(i);
+                finish();
             }
         });
     }
@@ -121,6 +136,8 @@ public class StatisticsActivity extends AppCompatActivity {
         purchase = (CustomTextViewFont) findViewById(R.id.purchase);
         wishListCount = (CustomTextViewFont) findViewById(R.id.tvWishList);
         wishlist = (CustomTextViewFont) findViewById(R.id.tvwl);
+        mRelativeProgress = (RelativeLayout) findViewById(R.id.relativeProgressHome);
+        progressBar = (ProgressBar) findViewById(R.id.progressHome);
     }
 
     public void getWishlist() {
@@ -131,14 +148,26 @@ public class StatisticsActivity extends AppCompatActivity {
             public void onResponse(ResponseWishlist response) {
 
                 DataContainer.wishList = response.data.results;
-
+                getPurchases();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i("Error", error.toString());
+                mRelativeProgress.setVisibility(View.VISIBLE);
+                mRelativeProgress.setClickable(true);
+                progressBar.setVisibility(View.INVISIBLE);
                 BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        mRelativeProgress.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
+                }, 4000);
+
             }
         }) {
             @Override
@@ -162,12 +191,24 @@ public class StatisticsActivity extends AppCompatActivity {
 
                 DataContainer.myPurchasesList = response.data.results;
 
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i("mRequestMyPurchases", "onErrorResponse:" + error.toString());
-                BusProvider.getInstance().post(new MessageObject(error.toString(), 3000, MessageObject.MESSAGE_ERROR));
+                mRelativeProgress.setVisibility(View.VISIBLE);
+                mRelativeProgress.setClickable(true);
+                progressBar.setVisibility(View.INVISIBLE);
+                BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        mRelativeProgress.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
+                }, 4000);
 
             }
         }) {
@@ -196,6 +237,19 @@ public class StatisticsActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+
+    public float countTotalPurchasesAmount() {
+        float total = 0;
+        if (DataContainer.myPurchasesList != null) {
+            for (int i = 0; i < DataContainer.myPurchasesList.size(); i++) {
+                total += Float.parseFloat(DataContainer.myPurchasesList.get(i).first_price);
+
+            }
+        } else {
+        }
+        return total;
     }
 }
 

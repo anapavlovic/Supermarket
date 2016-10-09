@@ -4,9 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 
 import android.util.Log;
@@ -42,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
  * Created by Ana on 9/16/2016.
  */
@@ -54,6 +54,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
     public boolean mComponentEnabled;
     private GsonRequest<ResponseAddWishlist> mRequestAddWishlist;
     private final String REQUEST_TAG = "Start_activity";
+    private Handler handler = new Handler();
 
 
     public RecyclerAdapter(Context context, ArrayList<DataProducts> object) {
@@ -78,6 +79,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
         Glide.with(mContex).load(mList.get(position).thumb330).centerCrop().into(holder.productImage);
 
         holder.yellowBasket.setEnabled(mComponentEnabled);
+        holder.star.setEnabled(mComponentEnabled);
 
 
 ///check wishList
@@ -110,7 +112,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
 
     @Override
     public int getItemCount() {
-        return mList.size();
+            return mList.size();
     }
 
     public DataProducts getItem(int position) {
@@ -221,6 +223,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
 
 ////ADD
                         mRequestAddWishlist = new GsonRequest<ResponseAddWishlist>(Constant.URL_FAVOURITES_ADD, Request.Method.POST, ResponseAddWishlist.class, new Response.Listener<ResponseAddWishlist>() {
+
                             @Override
                             public void onResponse(ResponseAddWishlist response) {
                                 DataContainer.addWishlist = response.data.results;
@@ -233,7 +236,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.i("Error", error.toString());
-                                BusProvider.getInstance().post(new MessageObject(error.toString(), 3000, MessageObject.MESSAGE_ERROR));
+                                // BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                                Toast.makeText(mContex, R.string.server_error, Toast.LENGTH_SHORT).show();
+
                             }
                         }) {
                             @Override
@@ -263,7 +268,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.i("Error", error.toString());
-                                BusProvider.getInstance().post(new MessageObject(error.toString(), 3000, MessageObject.MESSAGE_ERROR));
+                                Toast.makeText(mContex, R.string.server_error, Toast.LENGTH_SHORT).show();
                             }
                         }) {
                             @Override
