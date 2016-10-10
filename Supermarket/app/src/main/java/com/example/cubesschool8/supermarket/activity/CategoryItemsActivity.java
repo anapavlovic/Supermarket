@@ -154,6 +154,13 @@ public class CategoryItemsActivity extends ActivityWithMessage {
 
     public void addListener() {
 
+        mSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+            }
+        });
+
         mMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

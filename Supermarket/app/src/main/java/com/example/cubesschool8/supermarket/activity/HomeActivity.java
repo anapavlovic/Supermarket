@@ -112,6 +112,13 @@ public class HomeActivity extends ActivityWithMessage {
 
 
     public void addListener() {
+
+        mSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+            }
+        });
         mDrawerMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -47,6 +47,7 @@
     <string name="pass_switch">Da li želite da promenite lozinku?</string>
     <string name="no_profile">Molimo vas kreirajte profil</string>
     <string name="no_profile_buy">Molimo vas kreirajte profil da biste ucestvovali u kupovini.</string>
+    <string name="error">Doslo je do greske.</string>
 
 
     <string-array name="paymentOptions">

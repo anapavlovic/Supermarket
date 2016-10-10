@@ -101,17 +101,14 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
 
 
         if (groupPosition == 0) {
-            if (row == null) {
-                row = inflater.inflate(R.layout.drawer_adapter_layout, parent, false);
-                holder = new Holder();
-                holder.name = (CustomTextViewFont) row.findViewById(R.id.drawerName);
-                holder.email = (CustomTextViewFont) row.findViewById(R.id.emailDrawer);
-                holder.image = (ImageView) row.findViewById(R.id.drawerImage);
-                row.setTag(R.layout.drawer_adapter_layout, holder);
+            row = inflater.inflate(R.layout.drawer_adapter_layout, parent, false);
+            holder = new Holder();
+            holder.name = (CustomTextViewFont) row.findViewById(R.id.drawerName);
+            holder.email = (CustomTextViewFont) row.findViewById(R.id.emailDrawer);
+            holder.image = (ImageView) row.findViewById(R.id.drawerImage);
+            row.setTag(R.layout.drawer_adapter_layout, holder);
 
-            } else {
-                holder = (Holder) row.getTag(R.layout.drawer_adapter_layout);
-            }
+
             Bundle extras = ((Activity) context).getIntent().getExtras();
 
             if (DataContainer.login != null) {
@@ -138,40 +135,36 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
             }
 
         } else if (groupPosition == 1) {
-            if (row == null) {
-                row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
-                holder = new Holder();
-                holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
-                holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
-                holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(R.layout.drawer_adapter_category, holder);
 
-            } else {
-                holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
+            row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
+            holder = new Holder();
+            holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
+            holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
+            holder.underline = (ImageView) row.findViewById(R.id.underline);
+            row.setTag(R.layout.drawer_adapter_category, holder);
+
+
+            if (holder.iconImage != null) {
+                holder.iconImage.setVisibility(View.VISIBLE);
+                holder.category.setVisibility(View.VISIBLE);
+                holder.iconImage.setImageResource(R.drawable.home);
+                holder.underline.setVisibility(View.VISIBLE);
+                holder.category.setText("Home");
+                holder.category.setTextColor(Color.parseColor("#ff3366"));
             }
-            holder.iconImage.setVisibility(View.VISIBLE);
-            holder.category.setVisibility(View.VISIBLE);
-            holder.iconImage.setImageResource(R.drawable.home);
-            holder.underline.setVisibility(View.VISIBLE);
-            holder.category.setText("Home");
-            holder.category.setTextColor(Color.parseColor("#ff3366"));
-
 
         }
 
         //LINIJA
         else if (groupPosition == list.size() + 2) {
-            if (row == null) {
-                row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
-                holder = new Holder();
-                holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
-                holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
-                holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(R.layout.drawer_adapter_category, holder);
 
-            } else {
-                holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
-            }
+            row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
+            holder = new Holder();
+            holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
+            holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
+            holder.underline = (ImageView) row.findViewById(R.id.underline);
+            row.setTag(R.layout.drawer_adapter_category, holder);
+
 
             holder.category.setText("");
             holder.category.setVisibility(View.GONE);
@@ -180,17 +173,15 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
 
 
         } else if (groupPosition == list.size() + 3) {
-            if (row == null) {
-                row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
-                holder = new Holder();
-                holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
-                holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
-                holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(R.layout.drawer_adapter_category, holder);
 
-            } else {
-                holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
-            }
+            row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
+            holder = new Holder();
+            holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
+            holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
+            holder.underline = (ImageView) row.findViewById(R.id.underline);
+            row.setTag(R.layout.drawer_adapter_category, holder);
+
+
             holder.category.setVisibility(View.VISIBLE);
             holder.iconImage.setVisibility(View.VISIBLE);
             holder.category.setText(R.string.settings);
@@ -201,17 +192,15 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
 
 
         } else if (groupPosition == list.size() + 4) {
-            if (row == null) {
-                row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
-                holder = new Holder();
-                holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
-                holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
-                holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(R.layout.drawer_adapter_category, holder);
 
-            } else {
-                holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
-            }
+            row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
+            holder = new Holder();
+            holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
+            holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
+            holder.underline = (ImageView) row.findViewById(R.id.underline);
+            row.setTag(R.layout.drawer_adapter_category, holder);
+
+
             holder.category.setVisibility(View.VISIBLE);
             holder.category.setText(R.string.profil);
             holder.iconImage.setVisibility(View.VISIBLE);
@@ -220,17 +209,14 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
 
 
         } else if (groupPosition == list.size() + 5) {
-            if (row == null) {
-                row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
-                holder = new Holder();
-                holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
-                holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
-                holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(R.layout.drawer_adapter_category, holder);
 
-            } else {
-                holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
-            }
+            row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
+            holder = new Holder();
+            holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
+            holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
+            holder.underline = (ImageView) row.findViewById(R.id.underline);
+            row.setTag(R.layout.drawer_adapter_category, holder);
+
             holder.category.setVisibility(View.VISIBLE);
             holder.category.setText(R.string.statistics);
             holder.iconImage.setVisibility(View.VISIBLE);
@@ -239,39 +225,35 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
 
 
         } else if (groupPosition == list.size() + 6) {
-            if (row == null) {
-                row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
-                holder = new Holder();
-                holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
-                holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
-                holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(R.layout.drawer_adapter_category, holder);
 
-            } else {
-                holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
+            row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
+            holder = new Holder();
+            holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
+            holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
+            holder.underline = (ImageView) row.findViewById(R.id.underline);
+            row.setTag(R.layout.drawer_adapter_category, holder);
+
+
+            if (holder.category != null) {
+                holder.category.setVisibility(View.VISIBLE);
+                holder.category.setText(R.string.logout);
+
+                holder.underline.setVisibility(View.GONE);
+                holder.iconImage.setVisibility(View.VISIBLE);
+                holder.iconImage.setImageResource(R.drawable.profil);
             }
-
-            holder.category.setVisibility(View.VISIBLE);
-            holder.category.setText(R.string.logout);
-
-            holder.underline.setVisibility(View.GONE);
-            holder.iconImage.setVisibility(View.VISIBLE);
-            holder.iconImage.setImageResource(R.drawable.profil);
-
 
         } else {
 
-            if (row == null) {
-                row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
-                holder = new Holder();
-                holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
-                holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
-                holder.underline = (ImageView) row.findViewById(R.id.underline);
-                row.setTag(R.layout.drawer_adapter_category, holder);
 
-            } else {
-                holder = (Holder) row.getTag(R.layout.drawer_adapter_category);
-            }
+            row = inflater.inflate(R.layout.drawer_adapter_category, parent, false);
+            holder = new Holder();
+            holder.category = (CustomTextViewFont) row.findViewById(R.id.categoryString);
+            holder.iconImage = (ImageView) row.findViewById(R.id.drawerIcon);
+            holder.underline = (ImageView) row.findViewById(R.id.underline);
+            row.setTag(R.layout.drawer_adapter_category, holder);
+
+
             holder.category.setText(list.get(groupPosition - 2).toString());
 
             holder.category.setVisibility(View.VISIBLE);

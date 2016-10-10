@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -66,6 +67,8 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
     private GsonRequest<ResponseLogIn> mRequestLogIn;
     private SharedPreferences prefs;
 
+    private RelativeLayout mUser;
+
     private GsonRequest<ResponseForgotPassword> mRequestForgotPassword;
 
 
@@ -91,6 +94,7 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
         mpasswordForgot = (CustomTextViewFont) getView().findViewById(R.id.tvpassforgot);
         mCheckSaveUserDAata = (CheckBox) getView().findViewById(R.id.checkboxSaveUserData);
         mSkip = (CustomTextViewFont) getView().findViewById(R.id.tvSkip);
+
     }
 
     private void addListener() {
@@ -135,7 +139,7 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                                 if (mCheckSaveUserDAata.isChecked()) {
                                     // String md5Username = encryptIt(mUsername.getText().toString());
                                     //  String md5Password= encryptIt(mPass.getText().toString());
-                                     prefs = getActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+                                    prefs = getActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = prefs.edit();
                                     editor.putBoolean("checked", true);
                                     editor.putString("username", mUsername.getText().toString());
@@ -162,6 +166,7 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.i("error", error.toString());
+                            Toast.makeText(getActivity(),R.string.error, Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -195,6 +200,7 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
                                         Log.i("error", error.toString());
+                                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
 

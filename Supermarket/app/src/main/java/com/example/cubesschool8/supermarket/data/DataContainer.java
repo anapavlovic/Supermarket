@@ -30,7 +30,7 @@ public class DataContainer {
     public static ArrayList<DataProducts> wishList;
     public static ArrayList<String> addWishlist;
     public static ArrayList<DataProducts> myPurchasesList;
-
+    public static ArrayList<DataProducts> mySearchList;
 
     public static String changeProfileDataList;
 

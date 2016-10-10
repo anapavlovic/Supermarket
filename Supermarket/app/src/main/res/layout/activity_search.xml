@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/rootView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg"
+            tools:context=".activity.HomeActivity">
+
+            <RelativeLayout
+                android:id="@+id/relativeBar"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:background="@color/underlineopacity"
+                android:padding="@dimen/margin5"
+
+                >
+
+                <ImageView
+                    android:id="@+id/drawerMenu"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin5"
+                    android:background="@drawable/menu"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/logoW"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin10"
+                    android:layout_toRightOf="@+id/drawerMenu"
+                    android:background="@drawable/logo_white" />
+
+                <ImageView
+                    android:id="@+id/shopingCart"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin5"
+                   android:layout_alignParentRight="true"
+                    android:background="@drawable/ic_shopping_cart_white_24dp" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeBar">
+
+                <com.example.cubesschool8.supermarket.customComponents.CustomEditTextFont
+                    android:id="@+id/editTextSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_prijava"
+                    android:background="@color/underlineopacity"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/text_size"
+                    android:hint="search"
+                    android:padding="@dimen/margin_prijava"
+                    android:layout_centerVertical="true"
+                   />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/iks"
+                    android:background="@drawable/back"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/margin_prijava"
+                   />
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/progressIks"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/margin_prijava"
+                    android:visibility="gone"
+                    />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/relativeSearch"
+                android:layout_margin="@dimen/margin10">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+            <RelativeLayout
+                android:id="@+id/relativeProgressHome"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent_error"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/progressHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:indeterminate="true" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <ExpandableListView
+        android:id="@+id/drawerList"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/text_color"
+        android:choiceMode="singleChoice"></ExpandableListView>
+
+
+</android.support.v4.widget.DrawerLayout>
