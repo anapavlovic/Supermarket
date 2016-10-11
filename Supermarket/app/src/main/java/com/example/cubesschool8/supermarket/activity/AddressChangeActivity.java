@@ -2,6 +2,7 @@ package com.example.cubesschool8.supermarket.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -36,6 +37,7 @@ public class AddressChangeActivity extends ActivityWithMessage {
     private SpinnerAdapter mAdapter;
     private CitySpinnerAdapter cityAdapter;
     private String total;
+    private Handler handler = new Handler();
 
 
     @Override
@@ -73,7 +75,7 @@ public class AddressChangeActivity extends ActivityWithMessage {
 
     }
 
-    public  int getSpinnerIndex(Spinner spinner, String myString) {
+    public int getSpinnerIndex(Spinner spinner, String myString) {
         int index = 0;
 
         for (int i = 0; i < spinner.getCount(); i++) {
@@ -100,8 +102,14 @@ public class AddressChangeActivity extends ActivityWithMessage {
                 if (mStreet.getText().toString().equalsIgnoreCase("") || mNumber.getText().toString().equalsIgnoreCase("") || mFloor.getText().toString().equalsIgnoreCase("") ||
                         mPostalCode.getText().toString().equalsIgnoreCase("") || mApartment.getText().toString().equalsIgnoreCase("") || mEntrance.getText().toString().equalsIgnoreCase("")
                         || mCity.getSelectedItem().toString().equalsIgnoreCase("")) {
-                    BusProvider.getInstance().post(new MessageObject(R.string.proceed, 3000, MessageObject.MESSAGE_INFO));
-                    ;
+                    mChangeAddressConfirm.setEnabled(false);
+                    BusProvider.getInstance().post(new MessageObject(R.string.empty_fields, 3000, MessageObject.MESSAGE_INFO));
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mChangeAddressConfirm.setEnabled(true);
+                        }
+                    }, 5000);
                 } else {
 
                     if (mStreet.getText().toString() != DataContainer.login.address || mNumber.getText().toString() != DataContainer.login.street_number ||
@@ -118,12 +126,13 @@ public class AddressChangeActivity extends ActivityWithMessage {
                         Intent i = new Intent(getApplicationContext(), FinalConfirmationActivity.class);
                         i.putExtra("total", total);
                         startActivity(i);
-                        finish();
+
+
                     } else {
                         Intent i = new Intent(getApplicationContext(), FinalConfirmationActivity.class);
                         i.putExtra("total", total);
                         startActivity(i);
-                        finish();
+
                     }
                 }
             }

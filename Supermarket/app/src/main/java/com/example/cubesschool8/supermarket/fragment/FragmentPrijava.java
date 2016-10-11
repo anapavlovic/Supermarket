@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 
 
@@ -18,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -39,6 +43,7 @@ import com.example.cubesschool8.supermarket.networking.DataLoader;
 import com.example.cubesschool8.supermarket.networking.GsonRequest;
 import com.example.cubesschool8.supermarket.tool.BusProvider;
 import com.example.cubesschool8.supermarket.tool.MessageObject;
+import com.google.gson.JsonSyntaxException;
 
 
 import java.security.InvalidKeyException;
@@ -66,9 +71,9 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
     private final String REQUEST_TAG = "Start_activity";
     private GsonRequest<ResponseLogIn> mRequestLogIn;
     private SharedPreferences prefs;
-
-    private RelativeLayout mUser;
-
+    private ProgressBar progressBar;
+    private RelativeLayout mUser, mRelativeProgress;
+    private Handler handler = new Handler();
     private GsonRequest<ResponseForgotPassword> mRequestForgotPassword;
 
 
@@ -94,6 +99,8 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
         mpasswordForgot = (CustomTextViewFont) getView().findViewById(R.id.tvpassforgot);
         mCheckSaveUserDAata = (CheckBox) getView().findViewById(R.id.checkboxSaveUserData);
         mSkip = (CustomTextViewFont) getView().findViewById(R.id.tvSkip);
+        progressBar = (ProgressBar) getView().findViewById(R.id.progressLogIn);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_IN);
 
     }
 
@@ -120,9 +127,19 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 if (mUsername.getText().toString().equalsIgnoreCase("") || mPass.getText().toString().equalsIgnoreCase("")) {
-                    BusProvider.getInstance().post(new MessageObject(R.string.proceed, 3000, MessageObject.MESSAGE_ERROR));
+                    mProceedButton.setEnabled(false);
+                    BusProvider.getInstance().post(new MessageObject(R.string.empty_fields, 3000, MessageObject.MESSAGE_ERROR));
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mProceedButton.setEnabled(true);
+                        }
+                    }, 5000);
+
 
                 } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    mProceedButton.setText("");
                     mRequestLogIn = new GsonRequest<ResponseLogIn>(Constant.LOGIN_URL + "?token=" + DataContainer.TOKEN + "&email=" + mUsername.getText().toString() + "&password=" + mPass.getText().toString(),
                             Request.Method.GET, ResponseLogIn.class, new Response.Listener<ResponseLogIn>() {
                         @Override
@@ -131,42 +148,60 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                             DataContainer.login = response.data.results;
                             DataContainer.LOGIN_TOKEN = response.data.login_token;
 
+                            progressBar.setVisibility(View.GONE);
+                            mProceedButton.setText(R.string.Nastavi);
+                            if (mCheckSaveUserDAata.isChecked()) {
+                                // String md5Username = encryptIt(mUsername.getText().toString());
+                                //  String md5Password= encryptIt(mPass.getText().toString());
+                                prefs = getActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putBoolean("checked", true);
+                                editor.putString("username", mUsername.getText().toString());
+                                editor.putString("password", mPass.getText().toString());
+                                editor.commit();
 
-                            if (response.data.error != "") {
-                                BusProvider.getInstance().post(new MessageObject(R.string.login_incorrect, 3000, MessageObject.MESSAGE_ERROR));
-
-                            } else {
-                                if (mCheckSaveUserDAata.isChecked()) {
-                                    // String md5Username = encryptIt(mUsername.getText().toString());
-                                    //  String md5Password= encryptIt(mPass.getText().toString());
-                                    prefs = getActivity().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = prefs.edit();
-                                    editor.putBoolean("checked", true);
-                                    editor.putString("username", mUsername.getText().toString());
-                                    editor.putString("password", mPass.getText().toString());
-                                    editor.commit();
-
-                                    prefs = getActivity().getSharedPreferences("PrefsIntro", 0);
-                                    boolean b = prefs.getBoolean("firstRun", false);
-                                    if (b == false) {
-                                        startActivity(new Intent(getActivity(), IntroActivity.class));
-                                        getActivity().finish();
-                                    } else {
-                                        startActivity(new Intent(getActivity(), HomeActivity.class));
-                                        getActivity().finish();
-                                    }
-
-                                } else {
+                                prefs = getActivity().getSharedPreferences("PrefsIntro", 0);
+                                boolean b = prefs.getBoolean("firstRun", false);
+                                if (b == false) {
                                     startActivity(new Intent(getActivity(), IntroActivity.class));
                                     getActivity().finish();
+                                } else {
+                                    startActivity(new Intent(getActivity(), HomeActivity.class));
+                                    getActivity().finish();
                                 }
+
+                            } else {
+                                startActivity(new Intent(getActivity(), IntroActivity.class));
+                                getActivity().finish();
                             }
+
                         }
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.i("error", error.toString());
-                            Toast.makeText(getActivity(),R.string.error, Toast.LENGTH_SHORT).show();
+                            try {
+                                Log.i("error", error.toString());
+                                mProceedButton.setEnabled(false);
+                                progressBar.setVisibility(View.GONE);
+                                mProceedButton.setText(R.string.Nastavi);
+                                if (error.toString().equals("com.android.volley.NoConnectionError: java.net.UnknownHostException: Unable to resolve host \"shop.cubes.rs\": No address associated with hostname")) {
+                                    BusProvider.getInstance().post(new MessageObject(R.string.net_error, 3000, MessageObject.MESSAGE_ERROR));
+                                } else if (error.toString().equals("com.android.volley.VolleyError: com.google.gson.JsonSyntaxException: java.lang.IllegalStateException: Expected BEGIN_OBJECT but was BEGIN_ARRAY at line 1 column 87 path $.data.results")) {
+                                    BusProvider.getInstance().post(new MessageObject(R.string.login_incorrect, 3000, MessageObject.MESSAGE_ERROR));
+                                }else {
+                                    BusProvider.getInstance().post(new MessageObject(R.string.error, 3000, MessageObject.MESSAGE_ERROR));
+                                }
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mProceedButton.setEnabled(true);
+
+                                    }
+                                }, 5000);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
 
                         }
                     });
@@ -193,14 +228,15 @@ public class FragmentPrijava extends android.support.v4.app.Fragment {
                                     @Override
                                     public void onResponse(ResponseForgotPassword response) {
                                         DataContainer.forgotPassword = response.data.results;
-                                        BusProvider.getInstance().post(new MessageObject(R.string.email_pass_forgot, 3000, MessageObject.MESSAGE_ERROR));
+                                        BusProvider.getInstance().post(new MessageObject(R.string.email_pass_forgot, 3000, MessageObject.MESSAGE_INFO));
 
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
                                         Log.i("error", error.toString());
-                                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                                        BusProvider.getInstance().post(new MessageObject(R.string.error, 3000, MessageObject.MESSAGE_ERROR));
+
                                     }
                                 });
 

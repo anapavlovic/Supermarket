@@ -1,5 +1,6 @@
 package com.example.cubesschool8.supermarket.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
@@ -45,7 +46,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SearchActivity extends ActivityWithMessage implements CustomEditTextFont.OnActionTimeListener {
+public class SearchActivity extends ActivityWithMessage {
 
 
     private final String REQUEST_TAG = "Start_activity";
@@ -64,7 +65,7 @@ public class SearchActivity extends ActivityWithMessage implements CustomEditTex
     private RelativeLayout mRelativeProgress;
     private ProgressBar progressBar, progressIks;
     private String childId;
-
+    private Editable s1;
     private ArrayList<DataCategory> subCategories;
 
     private HashMap<DataCategory, List<DataCategory>> childList = new HashMap<>();
@@ -95,17 +96,10 @@ public class SearchActivity extends ActivityWithMessage implements CustomEditTex
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerlist = (ExpandableListView) findViewById(R.id.drawerList);
         mShoppingCart = (ImageView) findViewById(R.id.shopingCart);
-        mRelativeProgress = (RelativeLayout) findViewById(R.id.relativeProgressHome);
+        //  mRelativeProgress = (RelativeLayout) findViewById(R.id.relativeProgressHome);
         progressIks = (ProgressBar) findViewById(R.id.progressIks);
-        progressBar = (ProgressBar) findViewById(R.id.progressHome);
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#feea00"), PorterDuff.Mode.SRC_IN);
-        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-
-        recyclerView.setLayoutManager(mLayoutManager);
-//        if (DataContainer.mySearchList != null) {
-//            mrecyclerAdapter = new RecyclerAdapter(getApplicationContext(), DataContainer.mySearchList);
-//            recyclerView.setAdapter(mrecyclerAdapter);
-//        }
+        //  progressBar = (ProgressBar) findViewById(R.id.progressHome);
+        //  progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#feea00"), PorterDuff.Mode.SRC_IN);
         if (DataContainer.categories != null) {
             for (int i = 0; i < DataContainer.categories.size(); i++) {
                 subCategories = DataContainer.categories.get(i).subcategories;
@@ -129,6 +123,19 @@ public class SearchActivity extends ActivityWithMessage implements CustomEditTex
             }
         });
 
+        mShoppingCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), BasketActivity.class));
+                finish();
+            }
+        });
+        mDrawerMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(mDrawerlist);
+            }
+        });
         mDrawerlist.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
@@ -152,74 +159,54 @@ public class SearchActivity extends ActivityWithMessage implements CustomEditTex
 
     public void search() {
 
-        editTextSearch.addTextChangedListener(new TextWatcher() {
+        editTextSearch.onActionTime(2000);
+        editTextSearch.setOnActionTimeListener(new CustomEditTextFont.OnActionTimeListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onAction() {
 
-            }
+                iks.setVisibility(View.GONE);
+                progressIks.setVisibility(View.VISIBLE);
+                mRequestSearch = new GsonRequest<ResponseSearch>(Constant.PRODUCTS_URL, Request.Method.POST, ResponseSearch.class, new Response.Listener<ResponseSearch>() {
+                    @Override
+                    public void onResponse(ResponseSearch response) {
+                        DataContainer.mySearchList = response.data.results;
+                        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                        recyclerView.setLayoutManager(mLayoutManager);
+                        mrecyclerAdapter = new RecyclerAdapter(getApplicationContext(), DataContainer.mySearchList);
+                        recyclerView.setAdapter(mrecyclerAdapter);
+                        mrecyclerAdapter.notifyDataSetChanged();
+                        iks.setVisibility(View.VISIBLE);
+                        progressIks.setVisibility(View.GONE);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("mRequestMyPurchases", "onErrorResponse:" + error.toString());
 
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() >= 3) {
-                    iks.setVisibility(View.GONE);
-                    progressIks.setVisibility(View.VISIBLE);
-                    mRequestSearch = new GsonRequest<ResponseSearch>(Constant.PRODUCTS_URL, Request.Method.POST, ResponseSearch.class, new Response.Listener<ResponseSearch>() {
-                        @Override
-                        public void onResponse(ResponseSearch response) {
-                            if (DataContainer.mySearchList != null) {
-                                DataContainer.mySearchList.clear();
-                                mrecyclerAdapter.notifyDataSetChanged();
-                            }
-                            DataContainer.mySearchList = response.data.results;
-                            mrecyclerAdapter = new RecyclerAdapter(getApplicationContext(), DataContainer.mySearchList);
-                            recyclerView.setAdapter(mrecyclerAdapter);
-                            mrecyclerAdapter.notifyDataSetChanged();
-
-                            iks.setVisibility(View.VISIBLE);
-                            progressIks.setVisibility(View.GONE);
-
+                        iks.setVisibility(View.VISIBLE);
+                        progressIks.setVisibility(View.GONE);
+                        if (error.toString().equals("com.android.volley.NoConnectionError: java.net.UnknownHostException: Unable to resolve host \"shop.cubes.rs\": No address associated with hostname")) {
+                            BusProvider.getInstance().post(new MessageObject(R.string.net_error, 3000, MessageObject.MESSAGE_ERROR));
+                        } else {
+                            BusProvider.getInstance().post(new MessageObject(R.string.error, 3000, MessageObject.MESSAGE_ERROR));
                         }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.i("mRequestMyPurchases", "onErrorResponse:" + error.toString());
-                            mRelativeProgress.setVisibility(View.VISIBLE);
-                            mRelativeProgress.setClickable(true);
-                            progressBar.setVisibility(View.INVISIBLE);
-                            BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
 
-                                    mRelativeProgress.setVisibility(View.GONE);
-                                    progressBar.setVisibility(View.VISIBLE);
-                                }
-                            }, 4000);
-                        }
-                    }) {
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String, String> params = new HashMap<String, String>();
-                            params.put("search", "1");
-                            params.put("token", DataContainer.TOKEN);
-                            params.put("mlimit", "500");
-                            params.put("start", "0");
-                            params.put("term", editTextSearch.getText().toString());
-                            return params;
-                        }
-                    };
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("search", "1");
+                        params.put("token", DataContainer.TOKEN);
+                        params.put("mlimit", "500");
+                        params.put("start", "0");
+                        params.put("term", editTextSearch.getText().toString());
+                        return params;
+                    }
+                };
 
-                    DataLoader.addRequest(getApplicationContext(), mRequestSearch, REQUEST_TAG);
-
-                } else {
-                    //editTextSearch.onActionTime(3000);
-                }
+                DataLoader.addRequest(getApplicationContext(), mRequestSearch, REQUEST_TAG);
 
 
             }
@@ -227,11 +214,5 @@ public class SearchActivity extends ActivityWithMessage implements CustomEditTex
 
     }
 
-    @Override
-    public void onAction() {
 
-        Toast.makeText(getApplicationContext(), "niste kucali 3 sec.", Toast.LENGTH_SHORT).show();
-
-
-    }
 }

@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.widget.DrawerLayout;
@@ -96,6 +97,7 @@ public class ProfilActivity extends ActivityWithMessage {
     private int categoryPosition;
     private int mChildPosition;
     private String childId;
+    private Handler handler = new Handler();
 
     private GsonRequest<ResponseProducts> mSubcategoriesRequest;
     private ArrayList<DataCategory> subCategories;
@@ -138,7 +140,14 @@ public class ProfilActivity extends ActivityWithMessage {
         mIzmeniButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mIzmeniButton.setEnabled(false);
                 changeProfileData();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mIzmeniButton.setEnabled(true);
+                    }
+                }, 5000);
 
             }
 
@@ -273,10 +282,18 @@ public class ProfilActivity extends ActivityWithMessage {
             }
 
         } else {
+            if (mName.getText().toString().equalsIgnoreCase("") || mSurname.getText().toString().equalsIgnoreCase("") || mMobile.getText().toString().equalsIgnoreCase("")
+                    || mPhone.getText().toString().equalsIgnoreCase("") || mFax.getText().toString().equalsIgnoreCase("") || mStreet.getText().toString().equalsIgnoreCase("") ||
+                    mNumber.getText().toString().equalsIgnoreCase("") || mApartment.getText().toString().equalsIgnoreCase("") || mFloor.getText().toString().equalsIgnoreCase("") || mEntrance.getText().toString().equalsIgnoreCase("") ||
+                    citySpinner.getSelectedItem().toString().equalsIgnoreCase("Izaberite grad:")) {
 
-            relativeProgressProfile.setVisibility(View.VISIBLE);
-            sendChangeDataRequest();
+                BusProvider.getInstance().post(new MessageObject(R.string.required_fields, 3000, MessageObject.MESSAGE_ERROR));
+            } else {
 
+                relativeProgressProfile.setVisibility(View.VISIBLE);
+                sendChangeDataRequest();
+
+            }
         }
 
 
@@ -308,6 +325,11 @@ public class ProfilActivity extends ActivityWithMessage {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i("error", error.toString());
+                if (error.toString().equals("com.android.volley.NoConnectionError: java.net.UnknownHostException: Unable to resolve host \"shop.cubes.rs\": No address associated with hostname")) {
+                    BusProvider.getInstance().post(new MessageObject(R.string.net_error, 3000, MessageObject.MESSAGE_ERROR));
+                } else {
+                    BusProvider.getInstance().post(new MessageObject(R.string.error, 3000, MessageObject.MESSAGE_ERROR));
+                }
                 mIzmeniButton.setText(R.string.profile_data_change);
                 relativeProgressProfile.setVisibility(View.GONE);
 
@@ -336,10 +358,10 @@ public class ProfilActivity extends ActivityWithMessage {
                 Log.i("Response", response.toString());
                 DataContainer.changeProfileDataList = response.data.results;
 
-                if (response.data.error.equalsIgnoreCase("")) {
                     BusProvider.getInstance().post(new MessageObject(R.string.changes_saved, 3000, MessageObject.MESSAGE_SUCCESS));
                     mIzmeniButton.setText(R.string.profile_data_change);
                     relativeProgressProfile.setVisibility(View.GONE);
+
                     DataContainer.login.first_name = mName.getText().toString();
                     DataContainer.login.last_name = mSurname.getText().toString();
                     DataContainer.login.email = mEmail.getText().toString();
@@ -366,18 +388,17 @@ public class ProfilActivity extends ActivityWithMessage {
                     } else {
                         DataContainer.login.gender = "zenski";
                     }
-                } else {
-                    BusProvider.getInstance().post(new MessageObject(R.string.empty_fields, 3000, MessageObject.MESSAGE_INFO));
-                    relativeProgressProfile.setVisibility(View.GONE);
-                    mIzmeniButton.setText(R.string.profile_data_change);
 
-
-                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i("error", error.toString());
+                if (error.toString().equals("com.android.volley.NoConnectionError: java.net.UnknownHostException: Unable to resolve host \"shop.cubes.rs\": No address associated with hostname")) {
+                    BusProvider.getInstance().post(new MessageObject(R.string.net_error, 3000, MessageObject.MESSAGE_ERROR));
+                } else {
+                    BusProvider.getInstance().post(new MessageObject(R.string.error, 3000, MessageObject.MESSAGE_ERROR));
+                }
                 mIzmeniButton.setText(R.string.profile_data_change);
                 relativeProgressProfile.setVisibility(View.GONE);
             }
@@ -477,7 +498,7 @@ public class ProfilActivity extends ActivityWithMessage {
             } else {
 
             }
-        }else {
+        } else {
 
         }
     }

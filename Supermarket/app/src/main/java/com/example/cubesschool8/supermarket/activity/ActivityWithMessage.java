@@ -86,7 +86,7 @@ public class ActivityWithMessage extends AppCompatActivity {
                     mTextView = (CustomTextViewFont) mMessageView.findViewById(R.id.errorPopup);
                 }
 
-                mTextView.setText(messageObject.stringResource);  /// chekirati tip poruke i setovati color texta
+                mTextView.setText(messageObject.stringResource); /// chekirati tip poruke i setovati color texta
 
 
                 switch (messageObject.type) {
@@ -188,6 +188,7 @@ public class ActivityWithMessage extends AppCompatActivity {
                             }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
+                                    RelativeProgress.setVisibility(View.GONE);
                                     BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
                                 }
                             });
@@ -327,6 +328,7 @@ public class ActivityWithMessage extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            RelativeProgress.setVisibility(View.GONE);
                             BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
                         }
                     });

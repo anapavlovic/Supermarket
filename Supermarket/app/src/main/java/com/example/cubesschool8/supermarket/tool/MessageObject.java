@@ -25,6 +25,7 @@ public class MessageObject {
     public int colorYellow;
 
 
+
     public interface OnMessageClickListener {
         void onClick();
 
@@ -47,7 +48,6 @@ public class MessageObject {
         listener=null;
 
     }
-
 
 
     public MessageObject(int stringResource, int time, int type, OnMessageClickListener listener) {

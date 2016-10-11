@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
@@ -74,13 +75,12 @@ public class FragmentReg extends android.support.v4.app.Fragment {
     private LogInActivity logInAcc;
     private String s;
     private ProgressBar mProgressBar;
-
+    private Handler handler = new Handler();
 
     private SharedPreferences sharedPreferences;
 
     private GsonRequest<ResponseSignUp> mRequestSignUp;
     private Map<String, String> params;
-
 
 
     @Override
@@ -180,6 +180,7 @@ public class FragmentReg extends android.support.v4.app.Fragment {
         mRegButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mRegButton.setEnabled(false);
                 if (daySpinner.getSelectedItem().toString().equalsIgnoreCase("31") && (monthSpinner.getSelectedItem().toString().equalsIgnoreCase("02") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("04") ||
                         monthSpinner.getSelectedItem().toString().equalsIgnoreCase("06") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("09") || monthSpinner.getSelectedItem().toString().equalsIgnoreCase("11"))) {
                     BusProvider.getInstance().post(new MessageObject(R.string.days_months, 3000, MessageObject.MESSAGE_ERROR));
@@ -209,6 +210,12 @@ public class FragmentReg extends android.support.v4.app.Fragment {
                     signUpRequest();
 
                 }
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRegButton.setEnabled(true);
+                    }
+                }, 5000);
             }
         });
 
@@ -251,7 +258,18 @@ public class FragmentReg extends android.support.v4.app.Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i("error", error.toString());
-                Toast.makeText(getContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                if (error.toString().equals("com.android.volley.NoConnectionError: java.net.UnknownHostException: Unable to resolve host \"shop.cubes.rs\": No address associated with hostname")) {
+                    BusProvider.getInstance().post(new MessageObject(R.string.net_error, 3000, MessageObject.MESSAGE_ERROR));
+                }else {
+                    BusProvider.getInstance().post(new MessageObject(R.string.error, 3000, MessageObject.MESSAGE_ERROR));
+                }
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mRegButton.setEnabled(true);
+//
+//                    }
+//                }, 5000);
                 mRegButton.setText(R.string.registration);
                 mProgressBar.setVisibility(View.GONE);
             }
@@ -286,7 +304,7 @@ public class FragmentReg extends android.support.v4.app.Fragment {
                 params.put("floor", mFloor.getText().toString());
                 params.put("entrance", mEntrance.getText().toString());
 
-                params.put("city",  citySpinner.getSelectedItem().toString());
+                params.put("city", citySpinner.getSelectedItem().toString());
                 params.put("postal_code", mPostalCode.getText().toString());
 
                 params.put("newsletter", mCheckBox.isChecked() ? "1" : "0");

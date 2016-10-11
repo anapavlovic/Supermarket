@@ -33,7 +33,7 @@
     <string name="proizvod_u_korpi">Proizvod se već nalazi u korpi.</string>
     <string name="profile_data_change">Izmeni</string>
     <string name="changes_saved">Promene su sačuvane.</string>
-    <string name="empty_fields">Molimo Vas popunite sva obavezna polja</string>
+    <string name="empty_fields">Molimo Vas popunite sva polja</string>
     <string name="logout">Odjavi se</string>
     <string name="profil">Profil</string>
     <string name="settings">Podesavanja</string>
@@ -48,6 +48,7 @@
     <string name="no_profile">Molimo vas kreirajte profil</string>
     <string name="no_profile_buy">Molimo vas kreirajte profil da biste ucestvovali u kupovini.</string>
     <string name="error">Doslo je do greske.</string>
+    <string name="net_error">Proverite internet konekciju.</string>
 
 
     <string-array name="paymentOptions">

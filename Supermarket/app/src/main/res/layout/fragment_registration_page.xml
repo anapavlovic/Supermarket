@@ -4,10 +4,9 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/relativeRegistrationLaout"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/relativename"
@@ -635,7 +634,7 @@
 
         <RelativeLayout
             android:id="@+id/relativeDay"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/relativeCheckbox">
 
@@ -649,105 +648,115 @@
                 android:background="@drawable/birthday" />
 
             <LinearLayout
+                android:id="@+id/linearDatum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/dayimg"
-                android:id="@+id/linearDatum"
                 android:orientation="horizontal">
 
                 <Spinner
                     android:id="@+id/spinnerDay"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="@dimen/margin_top_relative"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginTop="@dimen/margin_top_relative"></Spinner>
+                    android:layout_marginTop="@dimen/margin_top_relative"
+                    android:layout_weight="1"></Spinner>
 
                 <Spinner
                     android:id="@+id/spinnerMonth"
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_top_relative"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="@dimen/margin_top_relative"
-                    android:layout_toRightOf="@+id/spinnerDay"></Spinner>
+                    android:layout_toRightOf="@+id/spinnerDay"
+                    android:layout_weight="1"></Spinner>
 
                 <Spinner
                     android:id="@+id/spinnerYear"
                     android:layout_width="wrap_content"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_top_relative"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="@dimen/margin_top_relative"
-                    android:layout_toRightOf="@+id/spinnerMonth"></Spinner>
+                    android:layout_toRightOf="@+id/spinnerMonth"
+                    android:layout_weight="1"></Spinner>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_below="@+id/linearDatum"
-                android:layout_marginRight="@dimen/margin_prijava"
                 android:layout_marginLeft="@dimen/margin_prijava"
+                android:layout_marginRight="@dimen/margin_prijava"
                 android:background="@color/underlineopacity"
 
                 />
         </RelativeLayout>
 
-
-        <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
-            android:id="@+id/tvPol"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/relativeGender"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/relativeDay"
-            android:layout_marginLeft="@dimen/margin_prijava"
-            android:layout_marginTop="@dimen/margin_top_relative"
-            android:text="Pol:"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size" />
+            android:layout_marginTop="@dimen/margin_top_et">
 
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvPol"
-            android:layout_marginLeft="15dp"
-            android:orientation="vertical">
-
-            <RadioButton
-                android:id="@+id/radioFemale"
+            <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                android:id="@+id/tvPol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="zenski" />
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_prijava"
+                android:layout_marginTop="@dimen/margin_top_relative"
+                android:text="Pol:"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size" />
 
-            <RadioButton
-                android:id="@+id/radioMale"
+            <RadioGroup
+                android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="muski" />
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/tvPol"
+                android:orientation="horizontal"
+
+                >
+
+                <RadioButton
+                    android:id="@+id/radioFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="zenski" />
+
+                <RadioButton
+                    android:id="@+id/radioMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin10"
+                    android:text="muski" />
 
 
-        </RadioGroup>
+            </RadioGroup>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@+id/radioGroup"
-            android:layout_marginLeft="@dimen/margin_prijava"
-            android:layout_marginRight="@dimen/margin_prijava"
-            android:background="@color/underlineopacity"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/radioGroup"
+                android:layout_marginLeft="@dimen/margin_prijava"
+                android:layout_marginRight="@dimen/margin_prijava"
+                android:background="@color/underlineopacity"
 
-            />
-
+                />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/relativeSwitch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/radioGroup">
+            android:layout_below="@+id/relativeGender">
 
             <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
                 android:id="@+id/tvPravnoLice"
@@ -787,13 +796,14 @@
                 android:textColor="@color/text_color"
                 android:textColorHint="@color/text_color"
                 android:textSize="@dimen/text_size" />
+
             <View
+                android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:id="@+id/view"
                 android:layout_below="@+id/etCompanyName"
-                android:layout_marginRight="@dimen/margin_prijava"
                 android:layout_marginLeft="@dimen/margin_prijava"
+                android:layout_marginRight="@dimen/margin_prijava"
                 android:background="@color/underlineopacity"
 
                 />
@@ -812,43 +822,47 @@
                 android:textColor="@color/text_color"
                 android:textColorHint="@color/text_color"
                 android:textSize="@dimen/text_size" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_below="@+id/etCompanyPib"
-                android:layout_marginRight="@dimen/margin_prijava"
                 android:layout_marginLeft="@dimen/margin_prijava"
+                android:layout_marginRight="@dimen/margin_prijava"
                 android:background="@color/underlineopacity"
 
                 />
 
 
         </RelativeLayout>
-<RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/relativeCompany"
-    android:id="@+id/relativeButton">
-        <Button
-            android:id="@+id/regButt"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
 
-            android:layout_margin="@dimen/margin_prijava"
-            android:background="@color/yellow"
-            android:text="@string/registration"
-            android:textColor="@color/text_color_black" />
-
-        <ProgressBar
+        <RelativeLayout
+            android:id="@+id/relativeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:indeterminate="true"
-            android:translationZ="2dp"
-            android:id="@+id/progressSignUp"
-            android:visibility="gone"/>
-</RelativeLayout>
+            android:layout_below="@+id/relativeCompany">
+
+            <Button
+                android:id="@+id/regButt"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+
+                android:layout_margin="@dimen/margin_prijava"
+                android:background="@color/yellow"
+                android:text="@string/registration"
+                android:textColor="@color/text_color_black" />
+
+            <ProgressBar
+                android:id="@+id/progressSignUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:indeterminate="true"
+                android:translationZ="2dp"
+                android:visibility="gone" />
+        </RelativeLayout>
+
         <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
             android:id="@+id/uslovikoriscenja"
             android:layout_width="wrap_content"

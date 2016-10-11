@@ -3,6 +3,7 @@ package com.example.cubesschool8.supermarket.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,6 +52,7 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
     private String articles;
     private final String REQUEST_TAG = "Start_activity";
     private ImageView mBack;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
                     BusProvider.getInstance().post(new MessageObject(R.string.praznakorpa, 3000, MessageObject.MESSAGE_INFO));
                 } else {
                     relativeProgress.setVisibility(View.VISIBLE);
+                    buy.setEnabled(false);
 
                     mRequestOrder = new GsonRequest<ResponseOrder>(Constant.SEND_ORDER_URL, Request.Method.POST, ResponseOrder.class, new Response.Listener<ResponseOrder>() {
                         @Override
@@ -95,6 +98,8 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
 
                                 }
                                 DataContainer.basketList.clear();
+                                buy.setEnabled(true);
+                                relativeProgress.setVisibility(View.GONE);
                                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                 DataContainer.addressChange.address.equalsIgnoreCase("");
                                 finish();
@@ -106,9 +111,21 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.i("error", error.toString());
-                            BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+                            if (error.toString().equals("com.android.volley.NoConnectionError: java.net.UnknownHostException: Unable to resolve host \"shop.cubes.rs\": No address associated with hostname")) {
+                                BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
+
+                            } else {
+                                BusProvider.getInstance().post(new MessageObject(R.string.error, 3000, MessageObject.MESSAGE_ERROR));
+                            }
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    buy.setEnabled(true);
+                                }
+                            }, 5000);
                             progressBar.setVisibility(View.GONE);
                             relativeProgress.setVisibility(View.GONE);
+
 
                         }
                     }) {

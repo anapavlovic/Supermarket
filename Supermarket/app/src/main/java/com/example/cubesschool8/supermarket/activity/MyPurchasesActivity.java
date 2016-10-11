@@ -90,7 +90,7 @@ public class MyPurchasesActivity extends ActivityWithMessage {
         mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
 
-        if (!DataContainer.myPurchasesList.isEmpty()) {
+        if (DataContainer.myPurchasesList !=null) {
             mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.myPurchasesList);
             recyclerView.setAdapter(mrecyclerAdapter);
         } else {

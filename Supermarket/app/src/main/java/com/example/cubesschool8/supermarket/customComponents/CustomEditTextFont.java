@@ -16,8 +16,8 @@ import java.util.Timer;
 public class CustomEditTextFont extends EditText {
 
     private OnActionTimeListener mOnActionTimeListener;
+    private int time;
 
-    private CountDownTimer timer;
 
     public interface OnActionTimeListener {
         void onAction();
@@ -33,23 +33,7 @@ public class CustomEditTextFont extends EditText {
         super(context);
         init(context);
 
-        this.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                onActionTime(3000);
-
-            }
-        });
     }
 
     public CustomEditTextFont(Context context, AttributeSet attrs) {
@@ -69,25 +53,47 @@ public class CustomEditTextFont extends EditText {
     }
 
 
+    public void onActionTime(final int time) {
+        this.time = time;
 
+        this.addTextChangedListener(new TextWatcher() {
+            CountDownTimer timer = null;
 
-
-
-
-    public void onActionTime(int time) {
-
-        timer = new CountDownTimer(time, 1000) {
-            public void onTick(long millisUntilFinished) {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
-            public void onFinish() {
-                if (mOnActionTimeListener != null) {
-                    mOnActionTimeListener.onAction();
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length()>=3){
+                if (timer != null) {
+                    timer.cancel();
                 }
-            }
-        }.start();
+                timer = new CountDownTimer(time, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
 
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        if (mOnActionTimeListener != null) {
+                            mOnActionTimeListener.onAction();
+                        }
+                    }
+                }.start();
+            }}
+        });
 
     }
 }

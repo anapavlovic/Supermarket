@@ -1,6 +1,7 @@
 package com.example.cubesschool8.supermarket.activity;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,6 +34,7 @@ public class BasketActivity extends ActivityWithMessage implements BasketAdapter
     private CustomTextViewFont mTotalSum;
     private DataLogIn person = new DataLogIn();
     private RelativeLayout rootView;
+    private Handler handler= new Handler();
 
 
     @Override
@@ -77,7 +79,14 @@ public class BasketActivity extends ActivityWithMessage implements BasketAdapter
             public void onClick(View v) {
                 if (DataContainer.login != null) {
                     if (DataContainer.basketList.isEmpty()) {
+                        mBuyButton.setEnabled(false);
                         BusProvider.getInstance().post(new MessageObject(R.string.praznakorpa, 3000, MessageObject.MESSAGE_INFO));
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mBuyButton.setEnabled(true);
+                            }
+                        },5000);
                     } else {
                         Intent i = new Intent(getApplicationContext(), AddressChangeActivity.class);
                         i.putExtra("total", mTotalSum.getText().toString());

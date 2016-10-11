@@ -57,7 +57,7 @@ public class HomeActivity extends ActivityWithMessage {
     private ImageView mDrawerMenu, mSearch, mShoppingCart;
 
     private RecyclerAdapter mrecyclerAdapter;
-    public  RecyclerView recyclerView;
+    public RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager, drawerLayoutManager;
 
     private DrawerLayout mDrawerLayout;
@@ -101,11 +101,9 @@ public class HomeActivity extends ActivityWithMessage {
 //                recyclerView.setAdapter(mrecyclerAdapter);
 //            }
 //        } else {
-            mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.products);
-            recyclerView.setAdapter(mrecyclerAdapter);
-      //  }
-
-
+        mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.products);
+        recyclerView.setAdapter(mrecyclerAdapter);
+        //  }
 
 
     }
@@ -175,8 +173,10 @@ public class HomeActivity extends ActivityWithMessage {
 
             }
         }
-        mAdapter = new NavigationAdapter(this, DataContainer.categories, childList);
-        mDrawerlist.setAdapter(mAdapter);
+        if (DataContainer.categories != null) {
+            mAdapter = new NavigationAdapter(this, DataContainer.categories, childList);
+            mDrawerlist.setAdapter(mAdapter);
+        }
 
     }
 

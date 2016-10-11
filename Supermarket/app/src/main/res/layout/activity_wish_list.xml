@@ -93,6 +93,27 @@
                     android:indeterminate="true"
                     android:id="@+id/progressHome" />
             </RelativeLayout>
+            <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                android:id="@+id/tvEmptyCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_top_et"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                />
+            <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                android:id="@+id/tvEmpty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_top_et"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/tvEmptyCategory"
+                android:visibility="gone"
+                />
         </RelativeLayout>
 
     </FrameLayout>

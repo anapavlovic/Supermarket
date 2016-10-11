@@ -112,7 +112,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
 
     @Override
     public int getItemCount() {
-            return mList.size();
+        return mList.size();
     }
 
     public DataProducts getItem(int position) {
@@ -229,15 +229,27 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
                                 DataContainer.addWishlist = response.data.results;
                                 DataContainer.login.wish_list.add(mList.get(getAdapterPosition()).id);
                                 star.setImageResource(R.drawable.yellowstar);
-
+                                notifyDataSetChanged();
 
                             }
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.i("Error", error.toString());
-                                // BusProvider.getInstance().post(new MessageObject(R.string.server_error, 3000, MessageObject.MESSAGE_ERROR));
-                                Toast.makeText(mContex, R.string.server_error, Toast.LENGTH_SHORT).show();
+                                star.setEnabled(false);
+                                yellowBasket.setEnabled(false);
+                                if (error.toString().equals("com.android.volley.NoConnectionError: java.net.UnknownHostException: Unable to resolve host \"shop.cubes.rs\": No address associated with hostname")) {
+                                    BusProvider.getInstance().post(new MessageObject(R.string.net_error, 3000, MessageObject.MESSAGE_ERROR));
+                                } else {
+                                    BusProvider.getInstance().post(new MessageObject(R.string.error, 3000, MessageObject.MESSAGE_ERROR));
+                                }
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        star.setEnabled(true);
+                                        yellowBasket.setEnabled(true);
+                                    }
+                                }, 5000);
 
                             }
                         }) {
@@ -262,13 +274,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
                                 DataContainer.addWishlist = response.data.results;
                                 DataContainer.login.wish_list.remove(mList.get(getAdapterPosition()).id);
                                 star.setImageResource(R.drawable.emptystar);
-
+                                notifyDataSetChanged();
                             }
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.i("Error", error.toString());
-                                Toast.makeText(mContex, R.string.server_error, Toast.LENGTH_SHORT).show();
+                                if (error.toString().equals("com.android.volley.NoConnectionError: java.net.UnknownHostException: Unable to resolve host \"shop.cubes.rs\": No address associated with hostname")) {
+                                    BusProvider.getInstance().post(new MessageObject(R.string.net_error, 3000, MessageObject.MESSAGE_ERROR));
+                                } else {
+                                    BusProvider.getInstance().post(new MessageObject(R.string.error, 3000, MessageObject.MESSAGE_ERROR));
+                                }
                             }
                         }) {
                             @Override
@@ -292,6 +308,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
             }
         }
     }
+
+
 
 
 }

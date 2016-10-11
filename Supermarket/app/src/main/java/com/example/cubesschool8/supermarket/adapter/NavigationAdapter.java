@@ -50,7 +50,9 @@ public class NavigationAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return list.size() + 7;
+
+            return list.size() + 7;
+
     }
 
     @Override

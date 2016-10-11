@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -23,6 +25,7 @@ import com.example.cubesschool8.supermarket.R;
 import com.example.cubesschool8.supermarket.adapter.NavigationAdapter;
 import com.example.cubesschool8.supermarket.adapter.RecyclerAdapter;
 import com.example.cubesschool8.supermarket.constant.Constant;
+import com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont;
 import com.example.cubesschool8.supermarket.data.DataCategory;
 import com.example.cubesschool8.supermarket.data.DataContainer;
 import com.example.cubesschool8.supermarket.data.response.ResponseProducts;
@@ -43,7 +46,7 @@ public class WishListActivity extends ActivityWithMessage {
     private RecyclerAdapter mrecyclerAdapter;
     public RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager, drawerLayoutManager;
-
+    private CustomTextViewFont tvEmptyCategory, tvEmptyCategory2;
     private DrawerLayout mDrawerLayout;
     private ExpandableListView mDrawerlist;
     public static NavigationAdapter mAdapter;
@@ -53,6 +56,7 @@ public class WishListActivity extends ActivityWithMessage {
     private RelativeLayout mRelativeProgress;
     private ProgressBar progressBar;
     private String childId;
+    private Animation animation;
 
     private GsonRequest<ResponseProducts> mSubcategoriesRequest;
     private GsonRequest<ResponseWishlist> mRequestWishList;
@@ -71,8 +75,39 @@ public class WishListActivity extends ActivityWithMessage {
 
         mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
-        mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.wishList);
-        recyclerView.setAdapter(mrecyclerAdapter);
+        if (DataContainer.wishList != null) {
+            mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.wishList);
+            recyclerView.setAdapter(mrecyclerAdapter);
+        } else {
+
+            tvEmptyCategory.setVisibility(View.VISIBLE);
+            tvEmptyCategory.setText(R.string.empty_category);
+            animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_empty_category);
+            animation.setFillAfter(true);
+            tvEmptyCategory.setAnimation(animation);
+
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    tvEmptyCategory2.setVisibility(View.VISIBLE);
+                    tvEmptyCategory2.setText(R.string.empty);
+                    animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_empty_category);
+                    tvEmptyCategory2.setAnimation(animation);
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
+        }
 
     }
 
@@ -85,6 +120,8 @@ public class WishListActivity extends ActivityWithMessage {
         mDrawerlist = (ExpandableListView) findViewById(R.id.drawerList);
         mShoppingCart = (ImageView) findViewById(R.id.shopingCart);
         mRelativeProgress = (RelativeLayout) findViewById(R.id.relativeProgressHome);
+        tvEmptyCategory = (CustomTextViewFont) findViewById(R.id.tvEmptyCategory);
+        tvEmptyCategory2 = (CustomTextViewFont) findViewById(R.id.tvEmpty);
         progressBar = (ProgressBar) findViewById(R.id.progressHome);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#feea00"), PorterDuff.Mode.SRC_IN);
 
@@ -95,6 +132,8 @@ public class WishListActivity extends ActivityWithMessage {
 
             }
         }
+
+
         mAdapter = new NavigationAdapter(this, DataContainer.categories, childList);
         mDrawerlist.setAdapter(mAdapter);
 
