@@ -29,7 +29,7 @@ public class DataContainer {
     public static DataLogIn addressChange = new DataLogIn();
     public static ArrayList<DataProducts> wishList;
     public static ArrayList<String> addWishlist;
-    public static ArrayList<DataProducts> myPurchasesList;
+    public static ArrayList<DataMyPurchases> myPurchasesList;
     public static ArrayList<DataProducts> mySearchList;
 
     public static String changeProfileDataList;

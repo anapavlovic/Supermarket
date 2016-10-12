@@ -95,7 +95,7 @@ public class StatisticsActivity extends ActivityWithMessage {
     }
 
     public void setTotalPurchasesAmount() {
-        totalAmount.setText(String.valueOf(countTotalPurchasesAmount()));
+       // totalAmount.setText(String.valueOf(countTotalPurchasesAmount()));
     }
 
     private void addListener() {
@@ -239,18 +239,18 @@ public class StatisticsActivity extends ActivityWithMessage {
         finish();
     }
 
-
-    public float countTotalPurchasesAmount() {
-        float total = 0;
-        if (DataContainer.myPurchasesList != null) {
-            for (int i = 0; i < DataContainer.myPurchasesList.size(); i++) {
-                total += Float.parseFloat(DataContainer.myPurchasesList.get(i).first_price);
-
-            }
-        } else {
-        }
-        return total;
-    }
+//
+//    public float countTotalPurchasesAmount() {
+//        float total = 0;
+//        if (DataContainer.myPurchasesList != null) {
+//            for (int i = 0; i < DataContainer.myPurchasesList.size(); i++) {
+//                total += Float.parseFloat(DataContainer.myPurchasesList.get(i).orders);
+//
+//            }
+//        } else {
+//        }
+//        return total;
+//    }
 }
 
 

@@ -214,5 +214,9 @@ public class SearchActivity extends ActivityWithMessage {
 
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        DataLoader.cancelRequest(getApplicationContext(), REQUEST_TAG);
+    }
 }

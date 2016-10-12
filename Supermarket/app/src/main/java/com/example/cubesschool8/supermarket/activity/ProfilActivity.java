@@ -358,36 +358,36 @@ public class ProfilActivity extends ActivityWithMessage {
                 Log.i("Response", response.toString());
                 DataContainer.changeProfileDataList = response.data.results;
 
-                    BusProvider.getInstance().post(new MessageObject(R.string.changes_saved, 3000, MessageObject.MESSAGE_SUCCESS));
-                    mIzmeniButton.setText(R.string.profile_data_change);
-                    relativeProgressProfile.setVisibility(View.GONE);
+                BusProvider.getInstance().post(new MessageObject(R.string.changes_saved, 3000, MessageObject.MESSAGE_SUCCESS));
+                mIzmeniButton.setText(R.string.profile_data_change);
+                relativeProgressProfile.setVisibility(View.GONE);
 
-                    DataContainer.login.first_name = mName.getText().toString();
-                    DataContainer.login.last_name = mSurname.getText().toString();
-                    DataContainer.login.email = mEmail.getText().toString();
-                    DataContainer.login.cell_phone = mMobile.getText().toString();
-                    DataContainer.login.land_line = mPhone.getText().toString();
-                    DataContainer.login.fax = mFax.getText().toString();
-                    DataContainer.login.street_number = mNumber.getText().toString();
-                    DataContainer.login.address = mStreet.getText().toString();
-                    DataContainer.login.floor = mFloor.getText().toString();
+                DataContainer.login.first_name = mName.getText().toString();
+                DataContainer.login.last_name = mSurname.getText().toString();
+                DataContainer.login.email = mEmail.getText().toString();
+                DataContainer.login.cell_phone = mMobile.getText().toString();
+                DataContainer.login.land_line = mPhone.getText().toString();
+                DataContainer.login.fax = mFax.getText().toString();
+                DataContainer.login.street_number = mNumber.getText().toString();
+                DataContainer.login.address = mStreet.getText().toString();
+                DataContainer.login.floor = mFloor.getText().toString();
 
-                    DataContainer.login.apartment = mApartment.getText().toString();
-                    DataContainer.login.entrance = mEntrance.getText().toString();
-                    DataContainer.login.city = citySpinner.getSelectedItem().toString();
-                    DataContainer.login.postal_code = mPostalCode.getText().toString();
-                    DataContainer.login.floor = mFloor.getText().toString();
-                    if (mCheckBox.isChecked()) {
-                        DataContainer.login.newsletter = String.valueOf(1);
-                    } else {
-                        DataContainer.login.newsletter = String.valueOf(0);
-                    }
-                    DataContainer.login.date_of_birth = yearSpinner.getSelectedItem().toString() + "-" + monthSpinner.getSelectedItem().toString() + "-" + daySpinner.getSelectedItem().toString();
-                    if (mMale.isChecked()) {
-                        DataContainer.login.gender = "muski";
-                    } else {
-                        DataContainer.login.gender = "zenski";
-                    }
+                DataContainer.login.apartment = mApartment.getText().toString();
+                DataContainer.login.entrance = mEntrance.getText().toString();
+                DataContainer.login.city = citySpinner.getSelectedItem().toString();
+                DataContainer.login.postal_code = mPostalCode.getText().toString();
+                DataContainer.login.floor = mFloor.getText().toString();
+                if (mCheckBox.isChecked()) {
+                    DataContainer.login.newsletter = String.valueOf(1);
+                } else {
+                    DataContainer.login.newsletter = String.valueOf(0);
+                }
+                DataContainer.login.date_of_birth = yearSpinner.getSelectedItem().toString() + "-" + monthSpinner.getSelectedItem().toString() + "-" + daySpinner.getSelectedItem().toString();
+                if (mMale.isChecked()) {
+                    DataContainer.login.gender = "muski";
+                } else {
+                    DataContainer.login.gender = "zenski";
+                }
 
             }
         }, new Response.ErrorListener() {
@@ -488,18 +488,19 @@ public class ProfilActivity extends ActivityWithMessage {
             } else {
                 mFemale.setChecked(true);
             }
+            if (DataContainer.login.company_name != null) {
+                if (!DataContainer.login.company_name.equalsIgnoreCase("")) {
+                    mSwitch.setChecked(true);
+                    mRelativeCompany.setVisibility(View.VISIBLE);
+                    mCompanyName.setText(DataContainer.login.company_name);
+                    mCompanyPib.setText(DataContainer.login.pib);
 
-            if (!DataContainer.login.company_name.equalsIgnoreCase("")) {
-                mSwitch.setChecked(true);
-                mRelativeCompany.setVisibility(View.VISIBLE);
-                mCompanyName.setText(DataContainer.login.company_name);
-                mCompanyPib.setText(DataContainer.login.pib);
+                } else {
 
+                }
             } else {
 
             }
-        } else {
-
         }
     }
 

@@ -91,8 +91,8 @@ public class MyPurchasesActivity extends ActivityWithMessage {
         recyclerView.setLayoutManager(mLayoutManager);
 
         if (DataContainer.myPurchasesList !=null) {
-            mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.myPurchasesList);
-            recyclerView.setAdapter(mrecyclerAdapter);
+          //  mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.myPurchasesList);
+          //  recyclerView.setAdapter(mrecyclerAdapter);
         } else {
 
             tvEmptyCategory.setVisibility(View.VISIBLE);

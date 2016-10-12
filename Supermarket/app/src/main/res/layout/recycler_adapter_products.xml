@@ -58,7 +58,9 @@
                     android:layout_marginLeft="@dimen/margin5"
                     android:layout_marginTop="@dimen/margin5"
                     android:text="Product Title"
+                    android:singleLine="true"
                     android:textColor="@color/text_color_black"
+
                     android:textSize="@dimen/text_size_12" />
 
                 <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
@@ -69,6 +71,7 @@
                     android:layout_marginLeft="@dimen/margin5"
                     android:text="Price"
                     android:textColor="@color/text_color_black"
+                    android:singleLine="true"
                     android:textSize="@dimen/text_size_12" />
             </LinearLayout>
 

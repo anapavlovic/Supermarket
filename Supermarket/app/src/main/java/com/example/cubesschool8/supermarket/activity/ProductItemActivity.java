@@ -54,9 +54,22 @@ public class ProductItemActivity extends ActivityWithMessage {
     public void getData() {
         data = DataContainer.products.get(getIntent().getIntExtra("position", 0));
         mProductName.setText(data.name);
-        mProductPrice.setText(data.first_price);
-        mProductSize.setText("Veličine: " + data.sizes);
-        mProductColor.setText("Boja: " + data.color);
+        if (mProductPrice != null) {
+            mProductPrice.setText(data.first_price);
+        } else {
+            mProductPrice.setText("");
+
+        }
+        if (mProductSize != null) {
+            mProductSize.setText("Veličine: " + data.sizes);
+        } else {
+            mProductSize.setText("");
+        }
+
+        if(mProductColor!=null){
+        mProductColor.setText("Boja: " + data.color);}else{
+            mProductColor.setText("");
+        }
         Glide.with(getApplicationContext()).load(data.thumb330).into(mProductImage);
     }
 

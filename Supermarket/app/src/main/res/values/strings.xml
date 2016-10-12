@@ -49,6 +49,7 @@
     <string name="no_profile_buy">Molimo vas kreirajte profil da biste ucestvovali u kupovini.</string>
     <string name="error">Doslo je do greske.</string>
     <string name="net_error">Proverite internet konekciju.</string>
+    <string name="porudzbina">Uspesno ste porucili proizvode.</string>
 
 
     <string-array name="paymentOptions">

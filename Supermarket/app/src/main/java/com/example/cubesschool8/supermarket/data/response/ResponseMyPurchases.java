@@ -1,5 +1,6 @@
 package com.example.cubesschool8.supermarket.data.response;
 
+import com.example.cubesschool8.supermarket.data.DataMyPurchases;
 import com.example.cubesschool8.supermarket.data.DataProducts;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class ResponseMyPurchases {
         public String status;
         public String message;
         public String error;
-        public ArrayList<DataProducts> results;
+        public ArrayList<DataMyPurchases> results;
     }
 }
 

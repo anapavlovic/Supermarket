@@ -85,8 +85,10 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
                     mRequestOrder = new GsonRequest<ResponseOrder>(Constant.SEND_ORDER_URL, Request.Method.POST, ResponseOrder.class, new Response.Listener<ResponseOrder>() {
                         @Override
                         public void onResponse(ResponseOrder response) {
-                            Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+
                             DataContainer.orderResponse = response.data.results;
+                            Toast.makeText(getApplicationContext(), R.string.porudzbina, Toast.LENGTH_SHORT).show();
+
 
                             for (int i = 0; i < DataContainer.basketList.size(); i++) {
                                 DataContainer.basketList.get(i).count = 0;
@@ -102,7 +104,14 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
                                 relativeProgress.setVisibility(View.GONE);
                                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                 DataContainer.addressChange.address.equalsIgnoreCase("");
-                                finish();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        finish();
+                                    }
+                                },5000);
+
 
                             }
 
@@ -188,6 +197,7 @@ public class FinalConfirmationActivity extends ActivityWithMessage {
     }
 
     private String setArticlesString() {
+        articles= "";
         for (int i = 0; i < DataContainer.basketList.size(); i++) {
             articles += (DataContainer.basketList.get(i).id + "," + DataContainer.basketList.get(i).count + ", 0 |");
 
