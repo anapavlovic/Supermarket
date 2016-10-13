@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.cubesschool8.supermarket.R;
+import com.example.cubesschool8.supermarket.adapter.MyPurchasesAdapter;
 import com.example.cubesschool8.supermarket.adapter.NavigationAdapter;
 import com.example.cubesschool8.supermarket.adapter.RecyclerAdapter;
 import com.example.cubesschool8.supermarket.constant.Constant;
@@ -43,7 +45,7 @@ public class MyPurchasesActivity extends ActivityWithMessage {
     private ImageView mDrawerMenu, mSearch, mShoppingCart;
     private final String REQUEST_TAG = "Start_activity";
     private CustomTextViewFont tvEmptyCategory, tvEmptyCategory2;
-    private RecyclerAdapter mrecyclerAdapter;
+    private MyPurchasesAdapter mrecyclerAdapter;
     public RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager, drawerLayoutManager;
 
@@ -87,12 +89,12 @@ public class MyPurchasesActivity extends ActivityWithMessage {
         progressBar = (ProgressBar) findViewById(R.id.progressHome);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#feea00"), PorterDuff.Mode.SRC_IN);
 
-        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
 
         if (DataContainer.myPurchasesList !=null) {
-          //  mrecyclerAdapter = new RecyclerAdapter(this, DataContainer.myPurchasesList);
-          //  recyclerView.setAdapter(mrecyclerAdapter);
+           mrecyclerAdapter = new MyPurchasesAdapter(this, DataContainer.myPurchasesList);
+           recyclerView.setAdapter(mrecyclerAdapter);
         } else {
 
             tvEmptyCategory.setVisibility(View.VISIBLE);
@@ -138,6 +140,22 @@ public class MyPurchasesActivity extends ActivityWithMessage {
     }
 
     public void addListener() {
+        mSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+                finish();
+            }
+        });
+        mShoppingCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), BasketActivity.class));
+                finish();
+            }
+        });
+
+
         mDrawerlist.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {

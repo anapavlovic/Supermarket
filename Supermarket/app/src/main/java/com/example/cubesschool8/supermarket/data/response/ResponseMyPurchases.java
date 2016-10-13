@@ -17,6 +17,7 @@ public class ResponseMyPurchases {
         public String status;
         public String message;
         public String error;
+        public String sum;
         public ArrayList<DataMyPurchases> results;
     }
 }

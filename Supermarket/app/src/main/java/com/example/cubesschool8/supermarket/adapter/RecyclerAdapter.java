@@ -75,7 +75,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
     @Override
     public void onBindViewHolder(Holder holder, int position) {
         holder.productTitle.setText(mList.get(position).name);
-        holder.productPrice.setText(mList.get(position).first_price);
+        holder.productPrice.setText(String.format("%.2f", Double.parseDouble(mList.get(position).first_price)));
         Glide.with(mContex).load(mList.get(position).thumb330).centerCrop().into(holder.productImage);
 
         holder.yellowBasket.setEnabled(mComponentEnabled);

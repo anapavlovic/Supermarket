@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent_progressbar"
+        android:layout_marginBottom="@dimen/margin5"
+        android:paddingLeft="@dimen/margin5">
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin5"
+            android:id="@+id/relDate"
+            >
+
+            <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="@string/time"
+                android:textSize="@dimen/text_size" />
+
+            <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                android:id="@+id/dated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/date"
+                android:text="hgjke"
+                android:textSize="@dimen/text_size" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_prijava"
+            android:layout_marginTop="@dimen/margin5"
+            android:layout_below="@+id/relDate">
+
+            <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                android:id="@+id/total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/total"
+                android:textSize="@dimen/text_size" />
+
+            <com.example.cubesschool8.supermarket.customComponents.CustomTextViewFont
+                android:id="@+id/totalamount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/total"
+                android:text="1000"
+                android:textSize="@dimen/text_size" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerPurch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relUp"
+        android:layout_marginLeft="@dimen/margin5"
+        >
+
+    </android.support.v7.widget.RecyclerView>
+
+
+</RelativeLayout>

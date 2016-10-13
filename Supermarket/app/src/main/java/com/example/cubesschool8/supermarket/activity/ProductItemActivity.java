@@ -54,21 +54,16 @@ public class ProductItemActivity extends ActivityWithMessage {
     public void getData() {
         data = DataContainer.products.get(getIntent().getIntExtra("position", 0));
         mProductName.setText(data.name);
-        if (mProductPrice != null) {
-            mProductPrice.setText(data.first_price);
-        } else {
-            mProductPrice.setText("");
-
-        }
-        if (mProductSize != null) {
+        mProductPrice.setText(String.format("%.2f", Double.parseDouble(data.first_price)));
+        if (data.sizes != null) {
             mProductSize.setText("Veličine: " + data.sizes);
         } else {
-            mProductSize.setText("");
+            mProductSize.setText("Veličine: ");
         }
-
-        if(mProductColor!=null){
-        mProductColor.setText("Boja: " + data.color);}else{
-            mProductColor.setText("");
+        if (data.color != null) {
+            mProductColor.setText("Boja: " + data.color);
+        } else {
+            mProductColor.setText("Boja: ");
         }
         Glide.with(getApplicationContext()).load(data.thumb330).into(mProductImage);
     }
@@ -144,11 +139,22 @@ public class ProductItemActivity extends ActivityWithMessage {
                     @Override
                     public void onResponse(ResponseSingleProduct response) {
                         DataContainer.singleProductList = response.data.results;
-                        mProductMaterial.setText("Materijal: " + DataContainer.singleProductList.material);
-                        mSupplier.setText("Brand: " + DataContainer.singleProductList.supplier);
+                        if (DataContainer.singleProductList.material != null) {
+                            mProductMaterial.setText("Materijal: " + DataContainer.singleProductList.material);
+                        } else {
+                            mProductMaterial.setText("Materijal: ");
+                        }
+                        if (DataContainer.singleProductList.supplier != null) {
+                            mSupplier.setText("Brand: " + DataContainer.singleProductList.supplier);
+                        } else {
+                            mSupplier.setText("Brand: ");
+                        }
                         mGender.setText("Pol: " + DataContainer.singleProductList.gender);
-                        if (mProductSize == null) {
-                            mProductSize.setText("Veličine:" + DataContainer.singleProductList.sizes);
+                        if (data.sizes == null) {
+                            if(DataContainer.singleProductList.sizes!=null){
+                            mProductSize.setText("Veličine:" + DataContainer.singleProductList.sizes);}else{
+                                mProductSize.setText("Veličine:");
+                            }
                         }
                     }
                 }, new Response.ErrorListener() {

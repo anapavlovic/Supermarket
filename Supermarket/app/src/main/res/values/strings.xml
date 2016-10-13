@@ -50,6 +50,8 @@
     <string name="error">Doslo je do greske.</string>
     <string name="net_error">Proverite internet konekciju.</string>
     <string name="porudzbina">Uspesno ste porucili proizvode.</string>
+    <string name="time">Vreme porudzbine: </string>
+    <string name="total">Total:  </string>
 
 
     <string-array name="paymentOptions">
